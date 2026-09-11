@@ -17,6 +17,8 @@ final class PanelController {
     private(set) var isVisible: Bool = false
     private var clickMonitor: Any?
     private var mouseMonitor: Any?
+    private var scrollMonitor: Any?
+    private var wheelTranslator = WheelScrollTranslation.Translator()
     private var keyMonitor: Any?
     var onPanelWillHide: (() -> Void)?
     weak var appState: AppState?
@@ -152,6 +154,7 @@ final class PanelController {
         appState.markPanelPresented()
         installClickMonitor()
         installMouseMonitor()
+        installScrollMonitor()
         installKeyMonitor()
     }
 
@@ -198,6 +201,7 @@ final class PanelController {
 
         removeClickMonitor()
         removeMouseMonitor()
+        removeScrollMonitor()
         removeKeyMonitor()
 
         panel.hasShadow = false
@@ -271,6 +275,62 @@ final class PanelController {
             NSEvent.removeMonitor(monitor)
             mouseMonitor = nil
         }
+    }
+
+    // MARK: - Scroll Monitor (mouse wheel over the sideways card rows)
+
+    private func installScrollMonitor() {
+        scrollMonitor = NSEvent.addLocalMonitorForEvents(matching: .scrollWheel) { event in
+            let handled: Bool = MainActor.assumeIsolated { [weak self] in
+                self?.translateWheelToHorizontalScroll(event) ?? false
+            }
+            return handled ? nil : event
+        }
+    }
+
+    private func removeScrollMonitor() {
+        if let monitor = scrollMonitor {
+            NSEvent.removeMonitor(monitor)
+            scrollMonitor = nil
+        }
+    }
+
+    /// Re-sends a mouse wheel as horizontal movement over a sideways card row.
+    private func translateWheelToHorizontalScroll(_ event: NSEvent) -> Bool {
+        guard isVisible,
+              let window = event.window,
+              window === panel || window === quickLookPanel,
+              let scrollView = horizontalScrollView(under: event, in: window) else { return false }
+
+        let clip = scrollView.contentView.bounds.size
+        let document = scrollView.documentView?.frame.size ?? .zero
+        let input = WheelScrollTranslation.Input(
+            deltaX: event.scrollingDeltaX,
+            deltaY: event.scrollingDeltaY,
+            phase: WheelScrollTranslation.phase(of: event),
+            canScrollHorizontally: document.width - clip.width > 0.5,
+            canScrollVertically: document.height - clip.height > 0.5
+        )
+        guard wheelTranslator.shouldTranslate(input) else { return false }
+
+        guard let horizontalEvent = WheelScrollTranslation.horizontalCopy(of: event) else { return false }
+        scrollView.scrollWheel(with: horizontalEvent)
+        return true
+    }
+
+    private func horizontalScrollView(under event: NSEvent, in window: NSWindow) -> NSScrollView? {
+        guard let contentView = window.contentView else { return nil }
+        let point = contentView.convert(event.locationInWindow, from: nil)
+        guard let hit = contentView.hitTest(point) else { return nil }
+
+        var view: NSView? = hit
+        while let current = view {
+            if let scrollView = current as? NSScrollView {
+                return scrollView
+            }
+            view = current.superview
+        }
+        return nil
     }
 
     private func releaseTextFocusIfNeeded(for event: NSEvent) {

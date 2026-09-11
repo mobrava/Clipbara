@@ -14,7 +14,7 @@
 ## Automated checks
 
 ```sh
-bash scripts/test-tab-shortcuts.sh
+bash scripts/test-and-launch.sh
 ```
 
 The script generates the project, runs the 11 unhosted XCTest methods, builds Debug, and relaunches Clipbara. Unit tests do not launch the app or access its data. Relaunching the Debug app uses its normal data store. Logs and an xcresult bundle are written to the printed output directory. A nonzero step stops the script.
@@ -39,6 +39,6 @@ Record pass/fail or unavailable for each case. If testing creates clipboard reco
 
 ## Verification status
 
-- 2026-09-11: `scripts/test-tab-shortcuts.sh` passed end to end. 11 unit tests, 0 failures, Debug build succeeded, Debug app relaunched.
+- 2026-09-11: `scripts/test-and-launch.sh` passed end to end. 11 unit tests, 0 failures, Debug build succeeded, Debug app relaunched.
 - 2026-09-11: tab switching, switching while searching, switching with Quick Look open, and switching with a pinboard dialog open were checked by hand and behaved as specified.
 - Not yet covered: the paste regression case in step 9 and multi-tab scroll-into-view with an overflowing tab strip.

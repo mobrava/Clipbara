@@ -93,6 +93,7 @@ targets:
     sources:
       - path: Tests
       - path: Clipbara/Utilities/PanelTabShortcut.swift
+      - path: Clipbara/Utilities/WheelScrollTranslation.swift
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.minsang.ClipbaraTests
