@@ -28,6 +28,10 @@ struct NavigationBarView: View {
     var body: some View {
         navigationBar
         .frame(height: DesignTokens.Nav.height)
+        .onAppear { appState.orderedPinboardIDs = pinboards.map(\.id) }
+        .onChange(of: pinboards.map(\.id)) { _, ids in
+            appState.orderedPinboardIDs = ids
+        }
         .alert("Create Pinboard", isPresented: $isAddingPinboard) {
             TextField("Name", text: $newPinboardName)
             Button("Cancel", role: .cancel) { newPinboardName = "" }
@@ -98,47 +102,58 @@ struct NavigationBarView: View {
     }
 
     private var tabGroup: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 4) {
-                navTab(
-                    label: "History",
-                    icon: "clock",
-                    isActive: appState.selectedTab == .history
-                ) {
-                    appState.selectedTab = .history
-                }
-
-                if !pinboards.isEmpty {
-                    Divider()
-                        .frame(height: 18)
-                        .padding(.horizontal, 2)
-                }
-
-                ForEach(pinboards) { pinboard in
+        ScrollViewReader { proxy in
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 4) {
                     navTab(
-                        label: pinboard.name,
-                        icon: "folder",
-                        isActive: appState.selectedTab == .pinboard(pinboard.id),
-                        isDropTargeted: targetedPinboardID == pinboard.id
+                        label: "History",
+                        icon: "clock",
+                        isActive: appState.selectedTab == .history
                     ) {
-                        appState.selectedTab = .pinboard(pinboard.id)
+                        appState.panelController.selectTab(.history)
                     }
-                    .onDrop(
-                        of: [.pasteClipClipboardItemID, .text, .url, .fileURL, .image, .data, .item],
-                        isTargeted: dropTargetBinding(for: pinboard.id)
-                    ) { providers in
-                        addDroppedClip(from: providers, to: pinboard.id)
-                    }
-                    .contextMenu {
-                        Button("Rename Pinboard") {
-                            renameText = pinboard.name
-                            renamingPinboard = pinboard
-                        }
+                    .id(PanelTab.history)
+                    .help("History (⌘1)")
+
+                    if !pinboards.isEmpty {
                         Divider()
-                        Button("Delete Pinboard", role: .destructive) {
-                            deletingPinboard = pinboard
+                            .frame(height: 18)
+                            .padding(.horizontal, 2)
+                    }
+
+                    ForEach(Array(pinboards.enumerated()), id: \.element.id) { index, pinboard in
+                        navTab(
+                            label: pinboard.name,
+                            icon: "folder",
+                            isActive: appState.selectedTab == .pinboard(pinboard.id),
+                            isDropTargeted: targetedPinboardID == pinboard.id
+                        ) {
+                            appState.panelController.selectTab(.pinboard(pinboard.id))
+                        }
+                        .id(PanelTab.pinboard(pinboard.id))
+                        .help(PanelTabShortcut.hint(at: index + 1).map { "\(pinboard.name) (\($0))" } ?? pinboard.name)
+                        .onDrop(
+                            of: [.pasteClipClipboardItemID, .text, .url, .fileURL, .image, .data, .item],
+                            isTargeted: dropTargetBinding(for: pinboard.id)
+                        ) { providers in
+                            addDroppedClip(from: providers, to: pinboard.id)
+                        }
+                        .contextMenu {
+                            Button("Rename Pinboard") {
+                                renameText = pinboard.name
+                                renamingPinboard = pinboard
+                            }
+                            Divider()
+                            Button("Delete Pinboard", role: .destructive) {
+                                deletingPinboard = pinboard
+                            }
                         }
                     }
+                }
+            }
+            .onChange(of: appState.selectedTab) { _, tab in
+                withAnimation(.easeOut(duration: 0.15)) {
+                    proxy.scrollTo(tab, anchor: .center)
                 }
             }
         }
@@ -274,11 +289,14 @@ struct NavigationBarView: View {
     private func createPinboard() {
         let trimmed = newPinboardName.trimmingCharacters(in: .whitespaces)
         let name = trimmed.isEmpty ? nextPinboardName() : uniquePinboardName(preferred: trimmed)
-        let pinboard = Pinboard(name: name, displayOrder: pinboards.count)
+        let nextOrder = (pinboards.map(\.displayOrder).max() ?? -1) + 1
+        let pinboard = Pinboard(name: name, displayOrder: nextOrder)
         modelContext.insert(pinboard)
         try? modelContext.save()
         newPinboardName = ""
-        appState.selectedTab = .pinboard(pinboard.id)
+        // Keep shortcut positions current until @Query publishes the insert.
+        appState.orderedPinboardIDs = pinboards.filter { $0.id != pinboard.id }.map(\.id) + [pinboard.id]
+        appState.panelController.selectTab(.pinboard(pinboard.id))
     }
 
     private func clearHistory() {
@@ -366,8 +384,9 @@ struct NavigationBarView: View {
 
     private func deletePinboard(_ pinboard: Pinboard) {
         if appState.selectedTab == .pinboard(pinboard.id) {
-            appState.selectedTab = .history
+            appState.panelController.selectTab(.history)
         }
+        appState.orderedPinboardIDs.removeAll { $0 == pinboard.id }
         modelContext.delete(pinboard)
         try? modelContext.save()
     }

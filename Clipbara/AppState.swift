@@ -2,11 +2,6 @@ import SwiftUI
 import SwiftData
 import KeyboardShortcuts
 
-enum PanelTab: Equatable, Hashable {
-    case history
-    case pinboard(UUID)
-}
-
 struct PanelToast: Identifiable, Equatable {
     let id = UUID()
     let message: String
@@ -22,6 +17,8 @@ final class AppState {
     let searchState = SearchState()
 
     var selectedTab: PanelTab = .history
+    /// Published by NavigationBarView so shortcuts follow its exact display order.
+    var orderedPinboardIDs: [UUID] = []
     var previewItem: ClipboardItem?
     var panelToast: PanelToast?
     var panelPresentationID = 0

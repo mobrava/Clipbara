@@ -85,3 +85,19 @@ targets:
       properties:
         com.apple.security.app-sandbox: true
         com.apple.security.files.user-selected.read-write: true
+
+  # Unhosted unit tests: no app launch, clipboard monitor, or user store access.
+  ClipbaraTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources:
+      - path: Tests
+      - path: Clipbara/Utilities/PanelTabShortcut.swift
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.minsang.ClipbaraTests
+        GENERATE_INFOPLIST_FILE: true
+        SWIFT_STRICT_CONCURRENCY: complete
+    scheme:
+      testTargets:
+        - ClipbaraTests

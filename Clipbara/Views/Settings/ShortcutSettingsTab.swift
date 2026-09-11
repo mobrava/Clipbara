@@ -28,6 +28,13 @@ struct ShortcutSettingsTab: View {
                 Spacer()
                 LocalKeyRecorderView()
             }
+            Section("Tab Navigation") {
+                LabeledContent("History", value: "⌘1")
+                LabeledContent("First 8 Pinboards", value: "⌘2–⌘9")
+                Text("Fixed shortcuts in tab order. Only active while the history panel is open, including while searching.")
+                    .font(.system(size: 11))
+                    .foregroundStyle(.secondary)
+            }
         }
         .formStyle(.grouped)
         .padding()

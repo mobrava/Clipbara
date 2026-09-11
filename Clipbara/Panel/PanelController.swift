@@ -305,7 +305,19 @@ final class PanelController {
         return false
     }
 
-    // MARK: - Key Monitor (arrow keys, space, esc, return)
+    /// Shared by mouse tabs and Cmd+number. Clear the old navigation cache
+    /// synchronously so a fast Return cannot paste an item from the old tab
+    /// while SwiftUI is still rendering the new one.
+    func selectTab(_ tab: PanelTab) {
+        guard let appState, isVisible, appState.selectedTab != tab else { return }
+        if quickLookPanel != nil { hideQuickLook() }
+        appState.selectForPreview(nil)
+        appState.searchState.selectedIndex = nil
+        appState.currentFilteredItems = []
+        appState.selectedTab = tab
+    }
+
+    // MARK: - Key Monitor (tab shortcuts, arrow keys, space, esc, return)
 
     private func installKeyMonitor() {
         keyMonitor = NSEvent.addLocalMonitorForEvents(matching: .keyDown) { event in
@@ -320,6 +332,21 @@ final class PanelController {
                    eventWindowNumber != self.panel?.windowNumber,
                    eventWindowNumber != self.quickLookPanel?.windowNumber {
                     return false
+                }
+
+                // Never navigate behind a create/rename/delete sheet or modal.
+                guard self.panel?.attachedSheet == nil,
+                      self.quickLookPanel?.attachedSheet == nil,
+                      NSApp.modalWindow == nil else { return false }
+
+                // Handle tab shortcuts before the search-field pass-through.
+                // Missing tabs are a no-op, not a shortcut for the frontmost app.
+                if let index = PanelTabShortcut.index(keyCode: keyCode, modifiers: event.modifierFlags) {
+                    if let appState = self.appState,
+                       let tab = PanelTabShortcut.target(at: index, pinboardIDs: appState.orderedPinboardIDs) {
+                        self.selectTab(tab)
+                    }
+                    return true
                 }
 
                 if self.quickLookPanel != nil {
@@ -383,7 +410,7 @@ final class PanelController {
                 return true
             }
             if appState.selectedTab != .history {
-                appState.selectedTab = .history
+                selectTab(.history)
                 return true
             }
             appState.hidePanel()

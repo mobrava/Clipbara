@@ -30,3 +30,14 @@ jobs:
             -configuration Debug \
             CODE_SIGNING_ALLOWED=NO \
             build
+
+      - name: Test panel tab shortcuts
+        run: |
+          xcodebuild \
+            -project Clipbara.xcodeproj \
+            -scheme ClipbaraTests \
+            -configuration Debug \
+            -destination 'platform=macOS' \
+            -parallel-testing-enabled NO \
+            CODE_SIGNING_ALLOWED=NO \
+            test
