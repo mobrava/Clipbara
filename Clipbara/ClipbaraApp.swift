@@ -3,10 +3,16 @@ import SwiftData
 
 @main
 struct ClipbaraApp: App {
-    @State private var appState = AppState()
+    // Not @State: init() starts clipboard monitoring and registers the hotkeys on this
+    // instance, but SwiftUI is free to discard the first @State value and build a new
+    // one. Built with the Xcode 27 SDK it does exactly that, so the started instance
+    // was deallocated right after launch and the UI got one that never started.
+    private let appState = AppState.shared
     @StateObject private var updaterViewModel = CheckForUpdatesViewModel()
 
-    var sharedModelContainer: ModelContainer = {
+    private var sharedModelContainer: ModelContainer { Self.sharedModelContainer }
+
+    private static let sharedModelContainer: ModelContainer = {
         let schema = Schema([
             ClipboardItem.self,
             Pinboard.self,

@@ -11,6 +11,10 @@ struct PanelToast: Identifiable, Equatable {
 @MainActor
 @Observable
 final class AppState {
+    /// The one app-wide instance. Owned here rather than by SwiftUI state so it can
+    /// never be recreated behind the hotkey and clipboard timer that point at it.
+    static let shared = AppState()
+
     let clipboardMonitor = ClipboardMonitor()
     let pasteService = PasteService()
     let panelController = PanelController()
@@ -29,7 +33,12 @@ final class AppState {
     /// Cached filtered items for keyboard navigation (updated by CardGridView)
     var currentFilteredItems: [ClipboardItem] = []
 
+    @ObservationIgnored private var hasStarted = false
+
     func start(modelContext: ModelContext, modelContainer: ModelContainer) {
+        // App.init may run more than once; start the monitor and hotkeys only once.
+        guard !hasStarted else { return }
+        hasStarted = true
         self.modelContainer = modelContainer
         clipboardMonitor.start(modelContext: modelContext)
         panelController.onPanelWillHide = { [weak self] in
