@@ -13,7 +13,7 @@
 </p>
 
 <p align="center">
-  <a href="https://apps.apple.com/app/apple-store/id6803537696?pt=129317403&amp;ct=github_readme&amp;mt=8"><img src="https://img.shields.io/badge/Mac%20App%20Store-Free%20until%20Oct%202-0D96F6?style=flat-square&logo=apple&logoColor=white" alt="Clipbara on the Mac App Store"></a>
+  <a href="https://apps.apple.com/app/apple-store/id6803537696?pt=129317403&amp;ct=github_readme&amp;mt=8"><img src="https://img.shields.io/badge/Mac%20App%20Store-7--day%20free%20trial-0D96F6?style=flat-square&logo=apple&logoColor=white" alt="Clipbara on the Mac App Store"></a>
   <a href="https://github.com/mobrava/Clipbara/releases/latest"><img src="https://img.shields.io/github/v/release/mobrava/Clipbara?style=flat-square" alt="Latest release"></a>
   <a href="https://github.com/mobrava/Clipbara/actions/workflows/build.yml"><img src="https://img.shields.io/github/actions/workflow/status/mobrava/Clipbara/build.yml?branch=main&style=flat-square" alt="Build status"></a>
   <a href="https://github.com/mobrava/Clipbara/releases"><img src="https://img.shields.io/github/downloads/mobrava/Clipbara/total?style=flat-square" alt="Total downloads"></a>
@@ -29,16 +29,12 @@
 </p>
 
 <p align="center">
-  <strong>The Mac App Store build is free until October 2.</strong> Get it this week and it stays yours.
-</p>
-
-<p align="center">
   <img src="docs/assets/pasteclip-demo.gif" width="800" alt="Clipbara demo: press Cmd Shift V, click a clip once, and it is on your clipboard ready to paste">
 </p>
 
 Clipbara keeps a history of what you copy. Press `⌘ ⇧ V` and a panel slides up at the bottom of the screen without pulling focus from the app you are in. Click a clip once and it is back on your clipboard.
 
-It runs on macOS 14 Sonoma or later. The DMG and Homebrew builds are free. The Mac App Store build is a one-time purchase.
+It runs on macOS 14 Sonoma or later. The DMG and Homebrew builds are free. The Mac App Store build is free to try for 7 days, then a one-time purchase.
 
 ## Install
 
@@ -59,7 +55,7 @@ Download the latest `.dmg` from [Releases](https://github.com/mobrava/Clipbara/r
 <details>
 <summary><strong>App Store build or DMG build?</strong></summary>
 
-Both are built from this repository. The App Store build is a one-time purchase, is sandboxed, and updates through the App Store. New releases reach it first. The DMG build is free, updates itself through Sparkle, and gets each release a few weeks later.
+Both are built from this repository. The App Store build is free to try for 7 days and then a one-time purchase, is sandboxed, and updates through the App Store. If you bought it before version 1.4 or got it during the free week, it stays unlocked. New releases reach it first. The DMG build is free, updates itself through Sparkle, and gets each release a few weeks later.
 
 The two use different bundle identifiers, so they keep separate histories. To carry your clips across, open **Settings > General > Backup > Export** in one build and **Import** in the other. Existing clips are kept and duplicates are skipped.
 
@@ -156,7 +152,7 @@ Build and run the `Clipbara` scheme with <kbd>⌘</kbd> <kbd>R</kbd>. The app is
 
 ## Motivation
 
-I wanted the card-style clipboard history that Paste has, without the subscription. The code and the DMG build stay free here. The App Store build is a one-time purchase for anyone who wants updates first and through the App Store, or who wants to support the work.
+I wanted the card-style clipboard history that Paste has, without the subscription. The code and the DMG build stay free here. The App Store build is a one-time purchase, after a 7-day trial, for anyone who wants updates first and through the App Store, or who wants to support the work.
 
 A clipboard manager sees everything you copy, including the things you would rather it did not. That is reason enough to be able to read the code that touches it.
 
