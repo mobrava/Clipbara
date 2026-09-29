@@ -55,7 +55,7 @@ Download the latest `.dmg` from [Releases](https://github.com/mobrava/Clipbara/r
 <details>
 <summary><strong>App Store build or DMG build?</strong></summary>
 
-Both are built from this repository. The App Store build is free to try for 7 days and then a one-time purchase, is sandboxed, and updates through the App Store. If you bought it before version 1.4 or got it during the free week, it stays unlocked. New releases reach it first. The DMG build is free, updates itself through Sparkle, and gets each release a few weeks later.
+Both are built from this repository. The App Store build is free to try for 7 days and then a one-time purchase, is sandboxed, and updates through the App Store. If you bought it before version 1.4 or got it during the free week, it stays unlocked. The DMG build is free and updates itself through Sparkle. Both get each release on the same day.
 
 The two use different bundle identifiers, so they keep separate histories. To carry your clips across, open **Settings > General > Backup > Export** in one build and **Import** in the other. Existing clips are kept and duplicates are skipped.
 
@@ -71,23 +71,35 @@ Run only one of them. Two copies register `⌘ ⇧ V` twice and open two panels.
 4. Click a clip once, or press <kbd>Return</kbd>. The clip goes to your clipboard and the panel closes.
 5. Press <kbd>⌘</kbd> <kbd>V</kbd> in the app you were using.
 
+To skip step 5, turn on **Settings > General > Paste into the Active App**. See the [FAQ](#why-doesnt-clipbara-paste-into-the-app-for-me) for the permission it needs.
+
 Inside the panel:
 
-- <kbd>Space</kbd> opens and closes Quick Look for the selected clip
+- <kbd>Space</kbd> opens and closes Quick Look for the clip under the pointer, or the selected one
+- <kbd>⌘</kbd> <kbd>E</kbd> edits the text of a text clip
+- <kbd>Delete</kbd> removes the selected clip (on a Pinboard tab, from that Pinboard only), and <kbd>⌘</kbd> <kbd>Z</kbd> brings it back
+- <kbd>⌘</kbd> <kbd>1</kbd> to <kbd>⌘</kbd> <kbd>9</kbd> switch between History and Pinboards. Hold <kbd>⌘</kbd> to see the numbers
+- <kbd>⌘</kbd> <kbd>,</kbd> opens Settings
 - <kbd>Esc</kbd> clears the search, steps back, or closes the panel
 - <kbd>⌘</kbd> <kbd>⇧</kbd> <kbd>⌫</kbd> clears unpinned history
 - Holding <kbd>⇧</kbd> while pasting flips plain-text pasting for that one paste
-- Right-clicking a clip lets you rename it, add it to a Pinboard, or delete it
+- Right-clicking a clip lets you rename it, edit its text, add it to or move it between Pinboards, or delete it
+- Dragging a Pinboard tab reorders it
 
 Both global shortcuts and the Quick Look key can be changed in **Settings > Shortcuts**.
 
 ## Features
 
 - Text, rich text, HTML, images, links, files, and colors
-- Search by content, title, or source app, with filters for type and date
-- Pinboards for the clips you keep reusing
-- Quick Look preview without leaving the panel
+- Search by content or title, with filters for type and date
+- Pinboards for the clips you keep reusing, with clips movable between them
+- Quick Look preview without leaving the panel, and text editing inside it
 - Paste as plain text, always or per paste
+- Optional pasting into the active app
+- Clip Queue: copy several things, then paste them back in order with <kbd>⌘</kbd> <kbd>V</kbd>
+- `clipbara://open`, `clipbara://toggle`, and `clipbara://queue` links for launchers such as Raycast, Alfred, or Shortcuts
+- A hideable menu bar icon, and a panel that can open without animation
+- English, Korean, and Simplified Chinese
 - Excluded apps, so a password manager never reaches the history
 - History limit, appearance, and launch at login
 - JSON export and import for moving between machines or builds
@@ -112,11 +124,21 @@ Capture, search, preview, and paste all work offline. The DMG build reaches the 
 
 Add a password manager, or any other app, under **Settings > Exclusions** and nothing copied from it is recorded.
 
+Clipbara needs Accessibility permission only if you turn on pasting into the active app or use Clip Queue. Both need it to press or notice <kbd>⌘</kbd> <kbd>V</kbd> in other apps, and nothing else uses it.
+
 ## FAQ
 
 ### Why doesn't Clipbara paste into the app for me?
 
-Picking a clip puts it on the clipboard and closes the panel, then you press <kbd>⌘</kbd> <kbd>V</kbd> yourself. Pasting on your behalf means synthesizing keystrokes into whatever app is in front, which needs an extra system permission to control other applications. Clipbara neither asks for it nor links against those APIs.
+By default, picking a clip puts it on the clipboard and closes the panel, and you press <kbd>⌘</kbd> <kbd>V</kbd> yourself. Turn on **Settings > General > Paste into the Active App** and Clipbara presses <kbd>⌘</kbd> <kbd>V</kbd> for you.
+
+That needs Accessibility permission in **System Settings > Privacy & Security > Accessibility**. The App Store build cannot add itself to that list, so add it with the <kbd>+</kbd> button. Settings shows whether the permission is on.
+
+### I hid the menu bar icon. How do I get back to Settings?
+
+Open Clipbara again from Applications or Spotlight while it runs, and Settings opens. You can also press <kbd>⌘</kbd> <kbd>,</kbd> in the panel, or choose **Settings…** from its <kbd>…</kbd> menu.
+
+If the icon doesn't reappear after you turn it back on, check the hidden section of your menu bar manager (Bartender, Ice, Thaw, and similar). A returning icon can land there.
 
 ### The shortcut does not open the panel
 
@@ -152,7 +174,7 @@ Build and run the `Clipbara` scheme with <kbd>⌘</kbd> <kbd>R</kbd>. The app is
 
 ## Motivation
 
-I wanted the card-style clipboard history that Paste has, without the subscription. The code and the DMG build stay free here. The App Store build is a one-time purchase, after a 7-day trial, for anyone who wants updates first and through the App Store, or who wants to support the work.
+I wanted the card-style clipboard history that Paste has, without the subscription. The code and the DMG build stay free here. The App Store build is a one-time purchase, after a 7-day trial, for anyone who wants updates through the App Store, or who wants to support the work.
 
 A clipboard manager sees everything you copy, including the things you would rather it did not. That is reason enough to be able to read the code that touches it.
 
