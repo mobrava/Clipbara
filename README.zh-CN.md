@@ -7,7 +7,7 @@
 <p align="center">
   <strong>免费开源的 macOS 原生剪贴板管理器</strong>
   <br>
-  卡片式界面类似付费应用 Paste，数据完全本地存储。
+  卡片式界面类似付费应用 Paste，另有 iPhone 配套应用。
 </p>
 
 <p align="center">
@@ -22,6 +22,7 @@
   <a href="https://github.com/mobrava/Clipbara/stargazers"><img src="https://img.shields.io/github/stars/mobrava/Clipbara?style=flat-square" alt="GitHub stars"></a>
   <a href="LICENSE"><img src="https://img.shields.io/github/license/mobrava/Clipbara?style=flat-square" alt="许可证"></a>
   <img src="https://img.shields.io/badge/macOS-14%2B-blue?style=flat-square" alt="macOS 14+">
+  <img src="https://img.shields.io/badge/iOS-26%2B-blue?style=flat-square" alt="iOS 26+">
   <a href="https://apps.apple.com/app/apple-store/id6803537696?pt=129317403&amp;ct=github_readme_zh&amp;mt=8"><img src="https://img.shields.io/badge/Mac%20App%20Store-7--day%20free%20trial-0D96F6?style=flat-square&logo=apple&logoColor=white" alt="Mac App Store 上的 Clipbara"></a>
 </p>
 
@@ -37,11 +38,12 @@
 
 ## 简介
 
-Clipbara 是一款免费开源（GPL-3.0）的 macOS 剪贴板管理器，用原生 Swift 6 + SwiftUI 编写，卡片式界面类似付费应用 Paste。数据完全本地存储，无账号、无服务器、无遥测。
+Clipbara 是一款免费开源（GPL-3.0）的 macOS 剪贴板管理器，用原生 Swift 6 + SwiftUI 编写，卡片式界面类似付费应用 Paste。历史记录保存在本机，只有在 App Store 版中开启 iCloud 同步后，才会同步到你自己的私有 iCloud 数据库。无账号、无服务器、无遥测。
 
 ## 主要功能
 
 - **卡片式剪贴板历史**：支持文本、富文本、HTML、图片、链接、文件、颜色和代码片段
+- **iCloud 同步与 iPhone 应用**（仅 App Store 版）：开启后，历史记录和收藏夹在 Mac 与 iPhone 之间双向同步；iPhone 上的 Clipbara 键盘可在任何应用中插入剪贴内容
 - **不打断工作流**：`⌘⇧V` 唤出非激活面板，当前应用保持焦点；单击卡片即复制到剪贴板并自动收起面板，回到当前应用直接 `⌘V` 粘贴。也可以在 **设置 → 通用** 中开启「直接粘贴到当前应用」，省去 `⌘V`（需要辅助功能权限）
 - **剪贴队列**：连续复制多项内容，再按 `⌘V` 依次粘贴（需要辅助功能权限）
 - **Pinboards 收藏夹**：把常用内容整理成命名收藏夹，卡片和标签都支持拖拽排序，卡片可在收藏夹之间移动
@@ -50,7 +52,7 @@ Clipbara 是一款免费开源（GPL-3.0）的 macOS 剪贴板管理器，用原
 - **界面语言**：英文、韩文、简体中文
 - **隐私控制**：可排除指定应用（如密码管理器），历史上限可配置、自动清理
 - **对终端友好**：图片以 PNG + file URL 方式写入剪贴板，可以可靠地粘贴到 Ghostty / iTerm2（详见下方[终端中的图片剪贴](#终端中的图片剪贴)）
-- **完全本地**：基于 SwiftData 本地存储，DMG 版唯一的网络请求是 Sparkle 检查更新，App Store 版本不包含更新组件
+- **本地优先**：基于 SwiftData 本地存储，同步默认关闭，除同步外所有功能均可离线使用。DMG 版唯一的网络请求是 Sparkle 检查更新，App Store 版本不包含更新组件
 
 ## 截图
 
@@ -60,13 +62,13 @@ Clipbara 是一款免费开源（GPL-3.0）的 macOS 剪贴板管理器，用原
 
 ## 安装
 
-要求 **macOS 14 Sonoma 或更高版本**。DMG 和 Homebrew 版本免费；Mac App Store 版本可免费试用 7 天，之后一次性买断。在 1.4 版之前购买或在限免期间下载的用户无需再次付费。
+要求 **macOS 14 Sonoma 或更高版本**。DMG 和 Homebrew 版本免费；Mac App Store 版本可免费试用 7 天，之后一次性买断，同时解锁 iPhone 版。在 1.5 版之前购买或在限免期间下载的用户无需再次付费。
 
 ### Mac App Store
 
 [**从 Mac App Store 下载 Clipbara**](https://apps.apple.com/app/apple-store/id6803537696?pt=129317403&ct=github_readme_zh&mt=8)
 
-App Store 版开启了 App Sandbox，由 App Store 推送更新；免费的 DMG 版使用 Sparkle 自动更新。两个版本在同一天发布新版本。两个版本的 bundle ID 不同，历史记录分开存储；迁移时在旧版本中使用 **Settings → General → Backup → Export** 导出 JSON，再在新版本中 Import。两个版本同时运行会重复注册 `⌘⇧V`，请只保留一个。
+App Store 版开启了 App Sandbox，由 App Store 推送更新；免费的 DMG 版使用 Sparkle 自动更新。两个版本在同一天发布新版本。iCloud 同步（以及 iPhone 应用）只属于 App Store 版，DMG 版不包含同步功能。两个版本的 bundle ID 不同，历史记录分开存储；迁移时在旧版本中使用 **Settings → General → Backup → Export** 导出 JSON，再在新版本中 Import。两个版本同时运行会重复注册 `⌘⇧V`，请只保留一个。
 
 ### Homebrew
 
@@ -79,6 +81,14 @@ brew install --cask mobrava/tap/clipbara
 从 [GitHub Releases](https://github.com/mobrava/Clipbara/releases/latest) 下载最新 `.dmg`，拖入「应用程序」文件夹。
 
 DMG 已使用 Apple Developer ID 签名并通过 Apple 公证（自 v1.1.11 起），首次启动不会出现安全提示。
+
+### iPhone
+
+[iPhone 版 Clipbara](https://apps.apple.com/app/apple-store/id6803537696?pt=129317403&ct=github_readme_zh&mt=8) 与 Mac 版是同一次购买，需要 iOS 26 或更高版本。
+
+- **同步**：在 Mac 的「通用」设置和 iPhone 的「同步」设置中都开启 **iCloud Sync**。在列表上下拉即可立即同步。
+- **键盘**：在 **设置 → App → Clipbara → 键盘** 中添加 Clipbara 键盘，用地球键切换后轻点剪贴内容即可插入。键盘没有字母键，不开启「完全访问」也能使用；「完全访问」只用于在应用关闭时从 iCloud 读取你自己的剪贴内容。
+- **在 iPhone 上保存**：iOS 不允许应用在后台读取剪贴板，所以 iPhone 上需要点按 Clipbara 中的粘贴按钮，或在其他应用中通过共享菜单保存。
 
 ## 终端中的图片剪贴
 

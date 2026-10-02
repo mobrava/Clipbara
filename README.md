@@ -5,7 +5,7 @@
 <h1 align="center">Clipbara</h1>
 
 <p align="center">
-  A clipboard manager for macOS. Everything you copy stays on your Mac.
+  A clipboard manager for macOS, with a companion app for iPhone.
 </p>
 
 <p align="center">
@@ -20,6 +20,7 @@
   <a href="https://github.com/mobrava/Clipbara/stargazers"><img src="https://img.shields.io/github/stars/mobrava/Clipbara?style=flat-square" alt="GitHub stars"></a>
   <a href="LICENSE"><img src="https://img.shields.io/github/license/mobrava/Clipbara?style=flat-square" alt="License"></a>
   <img src="https://img.shields.io/badge/macOS-14%2B-blue?style=flat-square" alt="macOS 14 or later">
+  <img src="https://img.shields.io/badge/iOS-26%2B-blue?style=flat-square" alt="iOS 26 or later">
 </p>
 
 <p align="center">
@@ -34,7 +35,7 @@
 
 Clipbara keeps a history of what you copy. Press `⌘ ⇧ V` and a panel slides up at the bottom of the screen without pulling focus from the app you are in. Click a clip once and it is back on your clipboard.
 
-It runs on macOS 14 Sonoma or later. The DMG and Homebrew builds are free. The Mac App Store build is free to try for 7 days, then a one-time purchase.
+It runs on macOS 14 Sonoma or later. The DMG and Homebrew builds are free. The Mac App Store build is free to try for 7 days, then a one-time purchase that also unlocks [Clipbara for iPhone](#iphone). With iCloud sync turned on, your history and Pinboards follow you to the iPhone.
 
 ## Install
 
@@ -55,7 +56,9 @@ Download the latest `.dmg` from [Releases](https://github.com/mobrava/Clipbara/r
 <details>
 <summary><strong>App Store build or DMG build?</strong></summary>
 
-Both are built from this repository. The App Store build is free to try for 7 days and then a one-time purchase, is sandboxed, and updates through the App Store. If you bought it before version 1.4 or got it during the free week, it stays unlocked. The DMG build is free and updates itself through Sparkle. Both get each release on the same day.
+Both are built from this repository. The App Store build is free to try for 7 days and then a one-time purchase, is sandboxed, and updates through the App Store. If you bought it before version 1.5 or got it during the free week, it stays unlocked. The DMG build is free and updates itself through Sparkle. Both get each release on the same day.
+
+iCloud sync, and with it the iPhone app, is part of the App Store build only. The DMG build doesn't include it.
 
 The two use different bundle identifiers, so they keep separate histories. To carry your clips across, open **Settings > General > Backup > Export** in one build and **Import** in the other. Existing clips are kept and duplicates are skipped.
 
@@ -88,9 +91,18 @@ Inside the panel:
 
 Both global shortcuts and the Quick Look key can be changed in **Settings > Shortcuts**.
 
+## iPhone
+
+[Clipbara for iPhone](https://apps.apple.com/app/apple-store/id6803537696?pt=129317403&ct=github_readme&mt=8) is the same App Store purchase as the Mac app. It needs iOS 26 or later.
+
+- **Sync.** Turn on **iCloud Sync** in Settings on both: under **General** on the Mac, and in the **Sync** section on the iPhone. Clips, titles, and Pinboards sync both ways through your own iCloud. Pull the list down to sync right away.
+- **Keyboard.** Add the Clipbara keyboard in **Settings > Apps > Clipbara > Keyboards**, then switch to it with the globe key and tap a clip to insert it in any app. It has no letter keys. It works without Full Access, which it uses only to fetch the newest clips from iCloud while the app is closed.
+- **Saving on the iPhone.** iOS does not let apps read the clipboard in the background, so the iPhone saves a clip when you tap the Paste button in Clipbara, or when you share something to Clipbara from another app.
+
 ## Features
 
 - Text, rich text, HTML, images, links, files, and colors
+- Optional iCloud sync with Clipbara for iPhone (App Store build)
 - Search by content or title, with filters for type and date
 - Pinboards for the clips you keep reusing, with clips movable between them
 - Quick Look preview without leaving the panel, and text editing inside it
@@ -118,9 +130,9 @@ Both global shortcuts and the Quick Look key can be changed in **Settings > Shor
 
 ## Privacy
 
-History is stored on your Mac with SwiftData and stays there. No account, no server, no analytics.
+History is stored on your Mac with SwiftData. It leaves the Mac only if you turn on iCloud sync in the App Store build, and then it goes to your own private iCloud database, not to a server of ours. Sync is off until you turn it on. No account, no server, no analytics.
 
-Capture, search, preview, and paste all work offline. The DMG build reaches the network for one thing, Sparkle update checks, and the App Store build ships without an updater.
+Everything except sync works offline. The DMG build reaches the network for one thing, Sparkle update checks, and the App Store build ships without an updater.
 
 Add a password manager, or any other app, under **Settings > Exclusions** and nothing copied from it is recorded.
 
@@ -140,6 +152,14 @@ Open Clipbara again from Applications or Spotlight while it runs, and Settings o
 
 If the icon doesn't reappear after you turn it back on, check the hidden section of your menu bar manager (Bartender, Ice, Thaw, and similar). A returning icon can land there.
 
+### Can I sync with the DMG build?
+
+No. Sync is part of the App Store build only. To move your history from the DMG build into the App Store build, use **Settings > General > Backup > Export** and **Import**.
+
+### Why does iOS warn about Full Access for the keyboard?
+
+iOS shows the same warning for every keyboard that asks for Full Access, because a keyboard with it could send what you type somewhere. The Clipbara keyboard has no letter keys, so you never type with it. Full Access only lets it read your own clips from iCloud while the app is closed, and the keyboard works without it.
+
 ### The shortcut does not open the panel
 
 Another app may already hold <kbd>⌘</kbd> <kbd>⇧</kbd> <kbd>V</kbd>. Record a different combination in **Settings > Shortcuts**.
@@ -150,7 +170,7 @@ Selecting an image clip puts the image back on the macOS clipboard, but a shell 
 
 ### Where does the history live, and how do I remove it?
 
-The DMG build stores it in `~/Library/Application Support/com.minsang.PasteClip`. The App Store build is sandboxed, so it stores it in `~/Library/Containers/com.minsang.Clipbara`. Deleting that folder deletes the history.
+The DMG build stores it in `~/Library/Application Support/com.minsang.PasteClip`. The App Store build is sandboxed, so it stores it in `~/Library/Containers/com.minsang.Clipbara`. Deleting that folder deletes the history. If sync is on, **Delete iCloud Data…** in the Sync settings removes the copy in iCloud as well.
 
 To uninstall, drag the app to the Trash, or run `brew uninstall --cask mobrava/tap/clipbara` if you installed it with Homebrew.
 
@@ -170,11 +190,11 @@ xcodegen generate
 open Clipbara.xcodeproj
 ```
 
-Build and run the `Clipbara` scheme with <kbd>⌘</kbd> <kbd>R</kbd>. The app is Swift 6 with strict concurrency on, SwiftUI hosted inside an AppKit `NSPanel`, and SwiftData for storage. Global shortcuts come from [KeyboardShortcuts](https://github.com/sindresorhus/KeyboardShortcuts), and DMG updates from [Sparkle](https://github.com/sparkle-project/Sparkle).
+Build and run the `Clipbara` scheme with <kbd>⌘</kbd> <kbd>R</kbd>. The iPhone app is the `ClipbaraiOS` scheme and needs Xcode 26. The app is Swift 6 with strict concurrency on, SwiftUI hosted inside an AppKit `NSPanel`, and SwiftData for storage. Global shortcuts come from [KeyboardShortcuts](https://github.com/sindresorhus/KeyboardShortcuts), and DMG updates from [Sparkle](https://github.com/sparkle-project/Sparkle).
 
 ## Motivation
 
-I wanted the card-style clipboard history that Paste has, without the subscription. The code and the DMG build stay free here. The App Store build is a one-time purchase, after a 7-day trial, for anyone who wants updates through the App Store, or who wants to support the work.
+I wanted the card-style clipboard history that Paste has, without the subscription. The code and the DMG build stay free here. The App Store build is a one-time purchase, after a 7-day trial, for anyone who wants iPhone sync and updates through the App Store, or who wants to support the work.
 
 A clipboard manager sees everything you copy, including the things you would rather it did not. That is reason enough to be able to read the code that touches it.
 
