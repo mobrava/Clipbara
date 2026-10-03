@@ -44,11 +44,11 @@ Clipbara 是一款免费开源（GPL-3.0）的 macOS 剪贴板管理器，用原
 
 - **卡片式剪贴板历史**：支持文本、富文本、HTML、图片、链接、文件、颜色和代码片段
 - **iCloud 同步与 iPhone 应用**（仅 App Store 版）：开启后，历史记录和收藏夹在 Mac 与 iPhone 之间双向同步；iPhone 上的 Clipbara 键盘可在任何应用中插入剪贴内容
-- **不打断工作流**：`⌘⇧V` 唤出非激活面板，当前应用保持焦点；单击卡片即复制到剪贴板并自动收起面板，回到当前应用直接 `⌘V` 粘贴。也可以在 **设置 → 通用** 中开启「直接粘贴到当前应用」，省去 `⌘V`（需要辅助功能权限）
-- **剪贴队列**：连续复制多项内容，再按 `⌘V` 依次粘贴（需要辅助功能权限）
+- **不打断工作流**：`⌘⇧V` 唤出非激活面板，当前应用保持焦点；单击卡片即复制到剪贴板并自动收起面板，回到当前应用直接 `⌘V` 粘贴。DMG 版还可以在 **设置 → 通用** 中开启「直接粘贴到当前应用」，省去 `⌘V`（需要辅助功能权限）
+- **剪贴队列**（仅 DMG 版）：连续复制多项内容，再按 `⌘V` 依次粘贴（需要辅助功能权限）
 - **Pinboards 收藏夹**：把常用内容整理成命名收藏夹，卡片和标签都支持拖拽排序，卡片可在收藏夹之间移动
 - **快速预览与编辑**：按 `空格` 进行 Quick Look 预览，按 `⌘E` 直接编辑纯文本内容；`Delete` 删除后可用 `⌘Z` 撤销
-- **快捷链接**：可在 Raycast、Alfred、快捷指令等工具中通过 `clipbara://open`、`clipbara://toggle`、`clipbara://queue` 调用
+- **快捷链接**：可在 Raycast、Alfred、快捷指令等工具中通过 `clipbara://open`、`clipbara://toggle` 调用（`clipbara://queue` 仅 DMG 版）
 - **界面语言**：英文、韩文、简体中文
 - **隐私控制**：可排除指定应用（如密码管理器），历史上限可配置、自动清理
 - **对终端友好**：图片以 PNG + file URL 方式写入剪贴板，可以可靠地粘贴到 Ghostty / iTerm2（详见下方[终端中的图片剪贴](#终端中的图片剪贴)）
@@ -68,7 +68,7 @@ Clipbara 是一款免费开源（GPL-3.0）的 macOS 剪贴板管理器，用原
 
 [**从 Mac App Store 下载 Clipbara**](https://apps.apple.com/app/apple-store/id6803537696?pt=129317403&ct=github_readme_zh&mt=8)
 
-App Store 版开启了 App Sandbox，由 App Store 推送更新；免费的 DMG 版使用 Sparkle 自动更新。两个版本在同一天发布新版本。iCloud 同步（以及 iPhone 应用）只属于 App Store 版，DMG 版不包含同步功能。两个版本的 bundle ID 不同，历史记录分开存储；迁移时在旧版本中使用 **Settings → General → Backup → Export** 导出 JSON，再在新版本中 Import。两个版本同时运行会重复注册 `⌘⇧V`，请只保留一个。
+App Store 版开启了 App Sandbox，由 App Store 推送更新；免费的 DMG 版使用 Sparkle 自动更新。两个版本在同一天发布新版本。iCloud 同步（以及 iPhone 应用）只属于 App Store 版；「直接粘贴到当前应用」和剪贴队列只属于 DMG 版，因为它们需要辅助功能权限，而 App Store 不允许应用把该权限用于辅助功能以外的用途。两个版本的 bundle ID 不同，历史记录分开存储；迁移时在旧版本中使用 **Settings → General → Backup → Export** 导出 JSON，再在新版本中 Import。两个版本同时运行会重复注册 `⌘⇧V`，请只保留一个。
 
 ### Homebrew
 

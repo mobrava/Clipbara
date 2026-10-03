@@ -58,7 +58,10 @@ Download the latest `.dmg` from [Releases](https://github.com/mobrava/Clipbara/r
 
 Both are built from this repository. The App Store build is free to try for 7 days and then a one-time purchase, is sandboxed, and updates through the App Store. If you bought it before version 1.5 or got it during the free week, it stays unlocked. The DMG build is free and updates itself through Sparkle. Both get each release on the same day.
 
-iCloud sync, and with it the iPhone app, is part of the App Store build only. The DMG build doesn't include it.
+The two differ in a few features:
+
+- iCloud sync, and with it the iPhone app, is in the App Store build only.
+- Pasting into the active app and Clip Queue are in the DMG build only. Both need Accessibility permission, which Apple does not allow App Store apps to use for this.
 
 The two use different bundle identifiers, so they keep separate histories. To carry your clips across, open **Settings > General > Backup > Export** in one build and **Import** in the other. Existing clips are kept and duplicates are skipped.
 
@@ -74,7 +77,7 @@ Run only one of them. Two copies register `⌘ ⇧ V` twice and open two panels.
 4. Click a clip once, or press <kbd>Return</kbd>. The clip goes to your clipboard and the panel closes.
 5. Press <kbd>⌘</kbd> <kbd>V</kbd> in the app you were using.
 
-To skip step 5, turn on **Settings > General > Paste into the Active App**. See the [FAQ](#why-doesnt-clipbara-paste-into-the-app-for-me) for the permission it needs.
+In the DMG build you can skip step 5: turn on **Settings > General > Paste into the Active App**. See the [FAQ](#why-doesnt-clipbara-paste-into-the-app-for-me) for the permission it needs.
 
 Inside the panel:
 
@@ -107,9 +110,9 @@ Both global shortcuts and the Quick Look key can be changed in **Settings > Shor
 - Pinboards for the clips you keep reusing, with clips movable between them
 - Quick Look preview without leaving the panel, and text editing inside it
 - Paste as plain text, always or per paste
-- Optional pasting into the active app
-- Clip Queue: copy several things, then paste them back in order with <kbd>⌘</kbd> <kbd>V</kbd>
-- `clipbara://open`, `clipbara://toggle`, and `clipbara://queue` links for launchers such as Raycast, Alfred, or Shortcuts
+- Optional pasting into the active app (DMG build)
+- Clip Queue: copy several things, then paste them back in order with <kbd>⌘</kbd> <kbd>V</kbd> (DMG build)
+- `clipbara://open` and `clipbara://toggle` links (and `clipbara://queue` in the DMG build) for launchers such as Raycast, Alfred, or Shortcuts
 - A hideable menu bar icon, and a panel that can open without animation
 - English, Korean, and Simplified Chinese
 - Excluded apps, so a password manager never reaches the history
@@ -136,15 +139,15 @@ Everything except sync works offline. The DMG build reaches the network for one 
 
 Add a password manager, or any other app, under **Settings > Exclusions** and nothing copied from it is recorded.
 
-Clipbara needs Accessibility permission only if you turn on pasting into the active app or use Clip Queue. Both need it to press or notice <kbd>⌘</kbd> <kbd>V</kbd> in other apps, and nothing else uses it.
+The DMG build needs Accessibility permission only if you turn on pasting into the active app or use Clip Queue. Both need it to press or notice <kbd>⌘</kbd> <kbd>V</kbd> in other apps, and nothing else uses it.
 
 ## FAQ
 
 ### Why doesn't Clipbara paste into the app for me?
 
-By default, picking a clip puts it on the clipboard and closes the panel, and you press <kbd>⌘</kbd> <kbd>V</kbd> yourself. Turn on **Settings > General > Paste into the Active App** and Clipbara presses <kbd>⌘</kbd> <kbd>V</kbd> for you.
+By default, picking a clip puts it on the clipboard and closes the panel, and you press <kbd>⌘</kbd> <kbd>V</kbd> yourself. In the DMG build, turn on **Settings > General > Paste into the Active App** and Clipbara presses <kbd>⌘</kbd> <kbd>V</kbd> for you. That needs Accessibility permission in **System Settings > Privacy & Security > Accessibility**, and Settings shows whether it is on.
 
-That needs Accessibility permission in **System Settings > Privacy & Security > Accessibility**. The App Store build cannot add itself to that list, so add it with the <kbd>+</kbd> button. Settings shows whether the permission is on.
+The App Store build doesn't have this option. Pressing a key in another app needs Accessibility permission, and App Review does not allow App Store apps to use it for anything other than accessibility.
 
 ### I hid the menu bar icon. How do I get back to Settings?
 
