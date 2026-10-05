@@ -6,6 +6,27 @@
     <description>Most recent changes with links to updates.</description>
     <language>en</language>
     <item>
+      <title>Version 1.5</title>
+      <sparkle:version>36</sparkle:version>
+      <sparkle:shortVersionString>1.5</sparkle:shortVersionString>
+      <description><![CDATA[
+        <ul>
+          <li><strong>Paste into the active app.</strong> Turn it on in Settings &gt; General and the clip you pick is pasted for you, no Command-V. It needs Accessibility permission.</li>
+          <li><strong>Clip Queue.</strong> Start it from the menu bar, copy several things, then paste them back in order with Command-V.</li>
+          <li><strong>Edit and organize.</strong> Edit a clip's text with Command-E, move clips between pinboards, drag pinboard tabs to reorder them, and delete with the Delete key and bring clips back with Command-Z.</li>
+          <li><strong>Smaller things.</strong> Space previews the card under the pointer, holding Command shows tab numbers, and options hide the menu bar icon or open the panel without animation. Korean and Simplified Chinese are now in this build too.</li>
+          <li><strong>Fixed:</strong> the panel content could be narrower than the panel, and Settings could open behind other windows.</li>
+        </ul>
+      ]]></description>
+      <pubDate>Mon, 05 Oct 2026 23:50:18 +0000</pubDate>
+      <enclosure
+        url="https://github.com/mobrava/Clipbara/releases/download/v1.5/Clipbara-v1.5.dmg"
+        type="application/octet-stream"
+        sparkle:edSignature="03/C5LB2dppBD3xxuqkpV29GO987bmpyHbIkEPyJseXl0dy3WDbX5BB5dlKFWA82lrdAFI9vbHwdpymMnxQ5Cg=="
+        length="3329994"
+      />
+    </item>
+    <item>
       <title>Version 1.3.2</title>
       <sparkle:version>27</sparkle:version>
       <sparkle:shortVersionString>1.3.2</sparkle:shortVersionString>
