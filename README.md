@@ -59,7 +59,7 @@ Both are built from this repository. The App Store build is free to try for 7 da
 The two differ in a few features:
 
 - iCloud sync, and with it the iPhone app, is in the App Store build only.
-- Pasting into the active app and Clip Queue are in the DMG build only. Both need Accessibility permission, which Apple does not allow App Store apps to use for this.
+- Pasting into the active app is in the DMG build only. It needs Accessibility permission, which Apple does not allow App Store apps to use for this.
 
 The two use different bundle identifiers, so they keep separate histories. To carry your clips across, open **Settings > General > Backup > Export** in one build and **Import** in the other. Existing clips are kept and duplicates are skipped.
 
@@ -109,8 +109,8 @@ Both global shortcuts and the Quick Look key can be changed in **Settings > Shor
 - Quick Look preview without leaving the panel, and text editing inside it
 - Paste as plain text, always or per paste
 - Optional pasting into the active app (DMG build)
-- Clip Queue: copy several things, then paste them back in order with <kbd>⌘</kbd> <kbd>V</kbd> (DMG build)
-- `clipbara://open` and `clipbara://toggle` links (and `clipbara://queue` in the DMG build) for launchers such as Raycast, Alfred, or Shortcuts
+- Clip Queue: copy several things, then paste them back in order with <kbd>⌘</kbd> <kbd>V</kbd>
+- `clipbara://open`, `clipbara://toggle`, and `clipbara://queue` links for launchers such as Raycast, Alfred, or Shortcuts
 - A hideable menu bar icon, and a panel that can open without animation
 - English, Korean, and Simplified Chinese
 - Excluded apps, so a password manager never reaches the history
@@ -137,7 +137,7 @@ Everything except sync works offline. The DMG build reaches the network for one 
 
 Add a password manager, or any other app, under **Settings > Exclusions** and nothing copied from it is recorded.
 
-The DMG build needs Accessibility permission only if you turn on pasting into the active app or use Clip Queue. Both need it to press or notice <kbd>⌘</kbd> <kbd>V</kbd> in other apps, and nothing else uses it.
+The DMG build needs Accessibility permission only if you turn on pasting into the active app, which presses <kbd>⌘</kbd> <kbd>V</kbd> in other apps. Nothing else uses it. Clip Queue needs no permission: it notices a paste when the other app reads the clipboard.
 
 ## FAQ
 
