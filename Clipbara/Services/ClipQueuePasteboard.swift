@@ -6,7 +6,9 @@ import AppKit
 /// Tested on macOS 26 (2026-10-10): Spotlight's clipboard history reads every
 /// change right away, which would look like a paste. It leaves items with the
 /// nspasteboard.org markers alone, and so did Chrome and other Chromium apps,
-/// which otherwise read the clipboard when they come to the front.
+/// which otherwise read the clipboard when they come to the front. Universal
+/// Clipboard fetched the file URL of an image item at once until the item was
+/// marked as this Mac only.
 @MainActor
 final class ClipQueuePasteboard: NSObject, NSPasteboardItemDataProvider {
     nonisolated static let markerTypes: [NSPasteboard.PasteboardType] = [
@@ -52,7 +54,9 @@ final class ClipQueuePasteboard: NSObject, NSPasteboardItemDataProvider {
         for type in Self.markerTypes {
             item.setData(Data(), forType: type)
         }
-        pasteboard.clearContents()
+        // This Mac only: Universal Clipboard otherwise fetches file URLs (the
+        // path that comes with an image) right away, which looks like a paste.
+        pasteboard.prepareForNewContents(with: .currentHostOnly)
         pasteboard.writeObjects([item])
         changeCount = pasteboard.changeCount
     }
