@@ -568,10 +568,48 @@ final class PanelController {
                     return self.editTargetClip()
                 }
 
+                if self.startSearch(with: event) {
+                    return true
+                }
+
                 return self.processKey(keyCode)
             }
             return handled ? nil : event
         }
+    }
+
+    /// Keys that keep their panel meaning instead of starting a search: Return, Tab,
+    /// Space, Delete, Escape, Forward Delete, the arrows, and keypad Enter.
+    private static let navigationKeyCodes: Set<UInt16> = [36, 48, 49, 51, 53, 117, 123, 124, 125, 126, 76]
+
+    /// Typing a character with the panel open moves to the search field and types it
+    /// there, so a search needs no click or Tab first (#74).
+    private func startSearch(with event: NSEvent) -> Bool {
+        guard event.modifierFlags.intersection([.command, .option, .control]).isEmpty,
+              !Self.navigationKeyCodes.contains(event.keyCode),
+              event.keyCode != QuickLookKeySetting.keyCode,
+              let characters = event.characters, !characters.isEmpty,
+              characters.unicodeScalars.allSatisfy({ scalar in
+                  // Function keys arrive as private-use characters.
+                  !CharacterSet.controlCharacters.contains(scalar) && !(0xF700...0xF8FF).contains(scalar.value)
+              }),
+              let panel, let field = Self.searchField(in: panel.contentView),
+              panel.makeFirstResponder(field) else { return false }
+        // Deliver the key again on the next pass, once the field has focus, so it
+        // takes the same path as typing into the field (input method included).
+        NSApp.postEvent(event, atStart: true)
+        return true
+    }
+
+    private static func searchField(in view: NSView?) -> NSTextField? {
+        guard let view else { return nil }
+        if let field = view as? NSTextField, field.isEditable, !field.isHidden {
+            return field
+        }
+        for subview in view.subviews {
+            if let field = searchField(in: subview) { return field }
+        }
+        return nil
     }
 
     private func anchorKeyboard() {
