@@ -554,6 +554,14 @@ final class PanelController {
                     if isEditing, !isComposing, isPlain, keyCode == 123 || keyCode == 124 || keyCode == 36 {
                         return self.processKey(keyCode)
                     }
+                    // Tab leaves the search for the results, which stay filtered,
+                    // so Space previews and the arrows move as usual. Typing a
+                    // character or Tab goes back to the field.
+                    if isEditing, !isComposing, keyCode == 48,
+                       event.modifierFlags.intersection([.command, .option, .control]).isEmpty {
+                        self.focusResults()
+                        return true
+                    }
                     return false
                 }
 
@@ -568,6 +576,10 @@ final class PanelController {
                     return self.editTargetClip()
                 }
 
+                if keyCode == 48, !modifiers.contains(.command), !modifiers.contains(.option),
+                   !modifiers.contains(.control), self.focusSearchField() {
+                    return true
+                }
                 if self.startSearch(with: event) {
                     return true
                 }
@@ -593,12 +605,30 @@ final class PanelController {
                   // Function keys arrive as private-use characters.
                   !CharacterSet.controlCharacters.contains(scalar) && !(0xF700...0xF8FF).contains(scalar.value)
               }),
-              let panel, let field = Self.searchField(in: panel.contentView),
-              panel.makeFirstResponder(field) else { return false }
+              focusSearchField() else { return false }
+        // Focusing a field selects its text; keep what is there and type after it.
+        if let panel, let editor = Self.searchField(in: panel.contentView)?.currentEditor() {
+            editor.selectedRange = NSRange(location: (editor.string as NSString).length, length: 0)
+        }
         // Deliver the key again on the next pass, once the field has focus, so it
         // takes the same path as typing into the field (input method included).
         NSApp.postEvent(event, atStart: true)
         return true
+    }
+
+    @discardableResult
+    private func focusSearchField() -> Bool {
+        guard let panel, let field = Self.searchField(in: panel.contentView) else { return false }
+        return panel.makeFirstResponder(field)
+    }
+
+    /// Moves the keyboard from the search field to the results, keeping the search.
+    private func focusResults() {
+        guard let panel, let appState else { return }
+        panel.makeFirstResponder(nil)
+        if appState.searchState.selectedIndex == nil, !appState.currentFilteredItems.isEmpty {
+            appState.searchState.selectedIndex = 0
+        }
     }
 
     private static func searchField(in view: NSView?) -> NSTextField? {
@@ -921,4 +951,3 @@ final class PanelController {
         return min(max(minWidth, cardContentWidth), maxWidth)
     }
 }
-

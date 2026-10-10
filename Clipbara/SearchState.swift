@@ -45,6 +45,9 @@ final class SearchState {
     }
 
     func updateSearch(_ text: String) {
+        // The field writes its text back when it loses focus. Same text, same
+        // results: keep the selection (Tab out of the field relies on it).
+        guard text != searchText else { return }
         searchText = text
         selectedIndex = nil
         debounceTask?.cancel()
