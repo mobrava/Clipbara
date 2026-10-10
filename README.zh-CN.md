@@ -32,9 +32,7 @@
   <a href="https://github.com/mobrava/Clipbara/releases/latest"><strong>下载 DMG</strong></a>
 </p>
 
-<p align="center">
-  <img src="docs/assets/pasteclip-demo.gif" width="800" alt="Clipbara 演示：按 ⌘⇧V 打开面板，单击卡片即复制，随后 ⌘V 粘贴">
-</p>
+https://github.com/user-attachments/assets/60db2f4c-fbe4-41d0-9bda-416b791c5c46
 
 ## 简介
 

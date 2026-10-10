@@ -29,9 +29,7 @@
   <a href="https://github.com/mobrava/Clipbara/releases/latest"><strong>Download the DMG</strong></a>
 </p>
 
-<p align="center">
-  <img src="docs/assets/pasteclip-demo.gif" width="800" alt="Clipbara demo: press Cmd Shift V, click a clip once, and it is on your clipboard ready to paste">
-</p>
+https://github.com/user-attachments/assets/60db2f4c-fbe4-41d0-9bda-416b791c5c46
 
 Clipbara keeps a history of what you copy. Press `⌘ ⇧ V` and a panel slides up at the bottom of the screen without pulling focus from the app you are in. Click a clip once and it is back on your clipboard.
 
