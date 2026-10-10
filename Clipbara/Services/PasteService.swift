@@ -100,6 +100,67 @@ struct PasteService {
         }
     }
 
+    /// The same types and data `write(item:asPlainText:)` puts on the clipboard, in
+    /// the same order, for callers that hand the data out lazily (the Clip Queue).
+    func contents(for item: ClipboardItem, asPlainText: Bool) -> [(NSPasteboard.PasteboardType, Data)] {
+        func text(_ string: String) -> Data { Data(string.utf8) }
+
+        if asPlainText, Self.supportsPlainText(item) {
+            guard let string = item.textContent else { return [] }
+            return [(.string, text(string))]
+        }
+
+        switch item.contentType {
+        case .plainText, .html, .richText:
+            var result: [(NSPasteboard.PasteboardType, Data)] = []
+            if let string = item.textContent {
+                result.append((.string, text(string)))
+            }
+            if item.contentType == .richText {
+                result.append((.rtf, item.rawData))
+            } else if item.contentType == .html {
+                result.append((.html, item.rawData))
+            }
+            return result
+
+        case .image:
+            guard let image = NSImage(data: item.rawData),
+                  let tiffData = image.tiffRepresentation,
+                  let bitmap = NSBitmapImageRep(data: tiffData),
+                  let pngData = bitmap.representation(using: .png, properties: [:]) else {
+                return [(.tiff, item.rawData)]
+            }
+            var result: [(NSPasteboard.PasteboardType, Data)] = []
+            // File URL first, as in write(): Ghostty and other terminals take the path.
+            if let tempURL = Self.writeTempPNG(pngData, sourceApp: item.sourceAppName) {
+                result.append((.fileURL, text(tempURL.absoluteString)))
+            }
+            result.append((.png, pngData))
+            result.append((.tiff, tiffData))
+            return result
+
+        case .url:
+            guard let string = item.textContent else { return [] }
+            var result = [(NSPasteboard.PasteboardType.string, text(string))]
+            if let url = URL(string: string) {
+                result.append((.URL, text(url.absoluteString)))
+            }
+            return result
+
+        case .fileURL:
+            guard let string = item.textContent,
+                  let urlString = String(data: item.rawData, encoding: .utf8) else { return [] }
+            return [(.fileURL, text(urlString)), (.string, text(string))]
+
+        case .color:
+            guard let string = item.textContent else { return [] }
+            return [(.string, text(string))]
+
+        case .unknown:
+            return [(.string, item.rawData)]
+        }
+    }
+
     func pastePlainText(item: ClipboardItem) {
         guard let text = item.textContent else { return }
         let pasteboard = NSPasteboard.general

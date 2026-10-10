@@ -285,14 +285,12 @@ struct OnboardingView: View {
                 ) {
                     LocalKeyRecorderView()
                 }
-                if DirectPaste.isAvailable {
-                    shortcutRow(
-                        title: "Clip Queue",
-                        detail: "Copy several things, then paste them in order.",
-                        info: "Optional. While the queue is on, everything you copy joins it, and each \u{2318}V pastes the next item in order. Needs Accessibility permission."
-                    ) {
-                        KeyboardShortcuts.Recorder(for: .toggleClipQueue)
-                    }
+                shortcutRow(
+                    title: "Clip Queue",
+                    detail: "Copy several things, then paste them in order.",
+                    info: "Optional. While the queue is on, everything you copy joins it, and each \u{2318}V pastes the next item in order."
+                ) {
+                    KeyboardShortcuts.Recorder(for: .toggleClipQueue)
                 }
             }
             .padding(.top, 22)

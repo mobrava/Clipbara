@@ -3,16 +3,16 @@ import AppKit
 /// Clip Queue: while it is on, every copy joins the queue, and each ⌘V the
 /// user presses pastes the next one in order (#9).
 ///
-/// The item due next is always what sits on the clipboard. After the user's
-/// ⌘V is released, it is dropped and the following item takes its place.
-/// Seeing that ⌘V happen in other apps needs Accessibility permission, the
-/// same grant as pasting into the active app.
+/// The item due next is always what sits on the clipboard, put there with its
+/// data promised rather than written. When another app pastes, it asks for the
+/// data, and that request is the signal to line up the following item. This
+/// needs no permission, unlike watching the keyboard for ⌘V (App Review
+/// rejected that under guideline 2.4.5).
 @MainActor
 @Observable
 final class ClipQueue {
     private(set) var isActive = false
     private(set) var list = ClipQueueList<ClipboardItem>()
-    private(set) var hasPermission = false
 
     var pastesNewestFirst: Bool {
         get { list.pastesNewestFirst }
@@ -23,15 +23,16 @@ final class ClipQueue {
     }
 
     @ObservationIgnored private weak var appState: AppState?
-    @ObservationIgnored private var keyMonitor: Any?
-    @ObservationIgnored private var permissionTimer: Timer?
-    @ObservationIgnored private var pasteKeyCode = PasteKeyCode.qwertyV
-    /// Key code of a ⌘V that is down and not yet released.
-    @ObservationIgnored private var pendingPasteKey: UInt16?
+    @ObservationIgnored private let board = ClipQueuePasteboard()
+    @ObservationIgnored private var activationObserver: NSObjectProtocol?
+    /// What the clipboard promises right now, kept so stopping can write it for real.
+    @ObservationIgnored private var placed: ClipboardItem?
     @ObservationIgnored private let window = ClipQueueWindowController()
 
     func attach(to appState: AppState) {
         self.appState = appState
+        board.onPaste = { [weak self] in self?.userDidPaste() }
+        board.onReplace = { [weak self] in self?.lineUpNext() }
     }
 
     func toggle() {
@@ -42,21 +43,24 @@ final class ClipQueue {
         guard !isActive else { return }
         isActive = true
         list.removeAll()
-        pasteKeyCode = PasteKeyCode.current()
-        hasPermission = DirectPaste.hasPermission
-        installKeyMonitor()
-        startPermissionPolling()
+        observeActivations()
         window.show(queue: self)
     }
 
     func stop() {
         guard isActive else { return }
         isActive = false
+        if let placed, board.ownsClipboard {
+            // Leave real data behind, not a promise nobody will keep.
+            write(placed)
+        }
+        board.reset()
+        placed = nil
         list.removeAll()
-        removeKeyMonitor()
-        permissionTimer?.invalidate()
-        permissionTimer = nil
-        pendingPasteKey = nil
+        if let activationObserver {
+            NSWorkspace.shared.notificationCenter.removeObserver(activationObserver)
+        }
+        activationObserver = nil
         window.hide()
     }
 
@@ -65,9 +69,9 @@ final class ClipQueue {
         guard isActive else { return }
         // A snapshot, so pruning or deleting history can't pull the model out
         // from under the list.
-        let entry = list.append(item.detachedCopy())
-        // The clipboard already holds what was just copied.
-        guard list.next?.id != entry.id else { return }
+        list.append(item.detachedCopy())
+        // Even when the new copy is next, it has to go back on as a promise,
+        // or its paste would go unnoticed.
         lineUpNext()
     }
 
@@ -79,13 +83,21 @@ final class ClipQueue {
 
     // MARK: - Clipboard
 
+    private var asPlainText: Bool {
+        UserDefaults.standard.bool(forKey: PasteService.alwaysPlainTextDefaultsKey)
+    }
+
     private func lineUpNext() {
         guard isActive, let next = list.next, let appState else { return }
         appState.clipboardMonitor.skipNextChange()
-        appState.pasteService.write(
-            item: next.item,
-            asPlainText: UserDefaults.standard.bool(forKey: PasteService.alwaysPlainTextDefaultsKey)
-        )
+        board.place(appState.pasteService.contents(for: next.item, asPlainText: asPlainText))
+        placed = next.item
+    }
+
+    private func write(_ item: ClipboardItem) {
+        guard let appState else { return }
+        appState.clipboardMonitor.skipNextChange()
+        appState.pasteService.write(item: item, asPlainText: asPlainText)
     }
 
     private func userDidPaste() {
@@ -93,69 +105,14 @@ final class ClipQueue {
         lineUpNext()
     }
 
-    // MARK: - Watching for ⌘V
-
-    private func installKeyMonitor() {
-        removeKeyMonitor()
-        keyMonitor = NSEvent.addGlobalMonitorForEvents(matching: [.keyDown, .keyUp]) { [weak self] event in
+    private func observeActivations() {
+        activationObserver = NSWorkspace.shared.notificationCenter.addObserver(
+            forName: NSWorkspace.didActivateApplicationNotification, object: nil, queue: .main
+        ) { [weak self] _ in
             MainActor.assumeIsolated {
-                self?.handle(event)
+                self?.board.noteActivation()
             }
         }
-    }
-
-    private func removeKeyMonitor() {
-        if let keyMonitor {
-            NSEvent.removeMonitor(keyMonitor)
-        }
-        keyMonitor = nil
-    }
-
-    private func handle(_ event: NSEvent) {
-        // Clipbara's own "paste into the active app" is not the user pasting.
-        if event.cgEvent?.getIntegerValueField(.eventSourceUserData) == DirectPaste.syntheticEventMarker {
-            return
-        }
-        switch event.type {
-        case .keyDown:
-            if Self.isPasteChord(event, pasteKeyCode: pasteKeyCode) {
-                pendingPasteKey = event.keyCode
-            }
-        case .keyUp:
-            if let pending = pendingPasteKey, event.keyCode == pending {
-                pendingPasteKey = nil
-                userDidPaste()
-            }
-        default:
-            break
-        }
-    }
-
-    /// ⌘V, with or without ⇧ or ⌥ (Paste and Match Style in many apps).
-    private static func isPasteChord(_ event: NSEvent, pasteKeyCode: CGKeyCode) -> Bool {
-        let flags = event.modifierFlags.intersection([.command, .shift, .option, .control])
-        guard flags.contains(.command), !flags.contains(.control) else { return false }
-        return event.keyCode == pasteKeyCode
-            || event.charactersIgnoringModifiers?.lowercased() == "v"
-    }
-
-    // MARK: - Permission
-
-    private func startPermissionPolling() {
-        permissionTimer?.invalidate()
-        permissionTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
-            MainActor.assumeIsolated {
-                self?.refreshPermission()
-            }
-        }
-    }
-
-    private func refreshPermission() {
-        let granted = DirectPaste.hasPermission
-        guard granted != hasPermission else { return }
-        hasPermission = granted
-        // A monitor added before the grant never receives key events.
-        if granted { installKeyMonitor() }
     }
 }
 

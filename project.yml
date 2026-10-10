@@ -218,6 +218,7 @@ targets:
       - path: Clipbara/Panel/PanelContentContainer.swift
       - path: Clipbara/Utilities/PasteKeyCode.swift
       - path: Clipbara/Utilities/ClipQueueList.swift
+      - path: Clipbara/Services/ClipQueuePasteboard.swift
       - path: Clipbara/Utilities/URLCommand.swift
       - path: Clipbara/Services/ClipUndoStack.swift
       - path: Shared/Models/ClipboardItem.swift

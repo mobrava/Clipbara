@@ -13,10 +13,6 @@ struct ClipQueueView: View {
         VStack(alignment: .leading, spacing: 0) {
             header
             Divider().opacity(0.6)
-            if !queue.hasPermission {
-                permissionNotice
-                Divider().opacity(0.6)
-            }
             if queue.list.isEmpty {
                 emptyState
             } else {
@@ -83,21 +79,6 @@ struct ClipQueueView: View {
     }
 
     // MARK: - Content
-
-    private var permissionNotice: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            Label("Accessibility permission is needed to follow \u{2318}V.", systemImage: "exclamationmark.triangle.fill")
-                .font(.system(size: 11.5))
-                .foregroundStyle(.orange)
-                .fixedSize(horizontal: false, vertical: true)
-            Button("Open Accessibility Settings\u{2026}") {
-                DirectPaste.requestPermission()
-                DirectPaste.openAccessibilitySettings()
-            }
-            .controlSize(.small)
-        }
-        .padding(12)
-    }
 
     private var emptyState: some View {
         Text("Copy a few things. Each \u{2318}V then pastes the next one in order.")

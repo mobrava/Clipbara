@@ -10,20 +10,18 @@ struct ShortcutSettingsTab: View {
                 Spacer()
                 KeyboardShortcuts.Recorder(for: .toggleHistoryPanel)
             }
-            if DirectPaste.isAvailable {
-                HStack {
-                    VStack(alignment: .leading, spacing: 2) {
-                        HStack(spacing: 5) {
-                            Text("Start or End Clip Queue")
-                            InfoHoverButton(text: "While the queue is on, everything you copy joins it, and each \u{2318}V pastes the next item in order. Needs Accessibility permission.")
-                        }
-                        Text("Not set by default. Also available from the menu bar.")
-                            .font(.system(size: 11))
-                            .foregroundStyle(.secondary)
+            HStack {
+                VStack(alignment: .leading, spacing: 2) {
+                    HStack(spacing: 5) {
+                        Text("Start or End Clip Queue")
+                        InfoHoverButton(text: "While the queue is on, everything you copy joins it, and each \u{2318}V pastes the next item in order.")
                     }
-                    Spacer()
-                    KeyboardShortcuts.Recorder(for: .toggleClipQueue)
+                    Text("Not set by default. Also available from the menu bar.")
+                        .font(.system(size: 11))
+                        .foregroundStyle(.secondary)
                 }
+                Spacer()
+                KeyboardShortcuts.Recorder(for: .toggleClipQueue)
             }
             HStack {
                 Text("Clear All History")

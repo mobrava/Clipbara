@@ -9,14 +9,14 @@ import ApplicationServices
 enum DirectPaste {
     nonisolated static let enabledDefaultsKey = "pasteIntoActiveApp"
 
-    /// Stamped on the ⌘V events Clipbara posts, so the Clip Queue can tell
-    /// them apart from the user's own ⌘V.
+    /// Stamped on the ⌘V events Clipbara posts, so they can be told apart from
+    /// the user's own ⌘V.
     nonisolated static let syntheticEventMarker: Int64 = 0x436C_6970 // "Clip"
 
-    /// Whether this build offers the features that need Accessibility: pasting
-    /// into the active app and the Clip Queue. App Review rejected them in the
-    /// App Store build under guideline 2.4.5 (Accessibility used for something
-    /// other than accessibility), so only the DMG build has them.
+    /// Whether this build offers pasting into the active app. App Review rejected
+    /// it in the App Store build under guideline 2.4.5 (Accessibility used for
+    /// something other than accessibility), so only the DMG build has it. The
+    /// Clip Queue no longer needs Accessibility and is in both builds.
     #if APPSTORE
     nonisolated static let isAvailable = false
     #else
