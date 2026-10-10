@@ -42,6 +42,16 @@ final class ClipSync {
 
     private let log = Logger(subsystem: "com.minsang.Clipbara", category: "Sync")
 
+    /// The CloudKit environment this build talks to. Xcode signs Debug builds for
+    /// development; TestFlight and App Store builds use production.
+    static var environment: String {
+        #if DEBUG
+        "development"
+        #else
+        "production"
+        #endif
+    }
+
     static var containerIdentifier: String? {
         guard let id = Bundle.main.object(forInfoDictionaryKey: "ClipbaraCloudKitContainer") as? String,
               id.hasPrefix("iCloud.") else { return nil }
@@ -86,6 +96,21 @@ final class ClipSync {
         self.defaults = defaults
         lastSyncedAt = metadata.value.lastSyncedAt
         if isEnabled {
+            if let saved = metadata.value.environment, saved != Self.environment {
+                // A Debug build and an App Store build share this container on a test
+                // device, but not a CloudKit environment. Start over against this one
+                // instead of feeding the engine state from the other.
+                log.info("sync metadata is from the \(saved, privacy: .public) environment; starting over")
+                defaults.removeObject(forKey: Self.sharedPollTokenKey)
+                metadata.reset()
+                metadata.update { $0.environment = Self.environment }
+                startEngine(initialUpload: true)
+                syncOnOpen()
+                return
+            }
+            if metadata.value.environment == nil {
+                metadata.update { $0.environment = Self.environment }
+            }
             startEngine(initialUpload: false)
             // Pushes can be delayed or coalesced; catch up once at launch.
             syncOnOpen()
@@ -129,6 +154,7 @@ final class ClipSync {
         }
         defaults.set(true, forKey: Self.enabledKey)
         metadata.reset()
+        metadata.update { $0.environment = Self.environment }
         startEngine(initialUpload: true)
         await syncNow()
     }
@@ -459,11 +485,13 @@ final class ClipSync {
             }
         } catch let error as CKError where error.code == .zoneNotFound || error.code == .changeTokenExpired {
             metadata.update { $0.pollToken = nil }
-            if error.code == .zoneNotFound, metadata.value.zoneConfirmed == true, let engine {
-                // Deleted from another device while this one is open. Let the engine
-                // fetch the database changes, which reports the deletion and turns sync
-                // off, instead of waiting for a push or the next launch.
-                try? await engine.fetchChanges()
+            if error.code == .zoneNotFound, metadata.value.zoneConfirmed == true, engine != nil {
+                // Deleted from another device (or from iCloud settings) while this one is
+                // open. Turn sync off here, as the engine would once it fetched the
+                // database changes. Asking the engine to fetch from here crashed inside
+                // CloudKit on 1.5 (an assertion in fetchChanges), so it is left alone.
+                log.info("sync zone is gone on the server; turning sync off")
+                disable()
             }
             return
         }

@@ -17,6 +17,9 @@ struct SyncMetadata: Codable {
     /// records in it) since sync was turned on. A zone deletion reported before that is
     /// an old one, from an earlier "Delete iCloud Data", not a reason to turn sync off.
     var zoneConfirmed: Bool?
+    /// The CloudKit environment this was written against ("development" for Debug builds,
+    /// "production" otherwise). Nil in metadata written before 1.5.1.
+    var environment: String?
 }
 
 @MainActor
