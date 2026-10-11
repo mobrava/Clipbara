@@ -104,9 +104,6 @@ struct CardGridView: View {
         let updated = appState.searchState.filteredItems(from: sourceItems)
         filteredItems = updated
         appState.currentFilteredItems = updated
-        if !appState.searchState.isActive {
-            appState.panelController.resizeToContentItemCount(updated.count)
-        }
         appState.searchState.ensureSelection(itemCount: updated.count)
     }
 

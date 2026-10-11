@@ -10,11 +10,6 @@ final class PanelController {
     /// window itself never has to travel off screen to animate.
     private var contentHost: NSView?
     private var contentContainer: PanelContentContainer?
-    /// Where the running resize animation is heading. `panel.frame` still
-    /// reports the old size until the animation ends, so comparing against it
-    /// let a quick tab switch back be skipped and the panel settle at the
-    /// width of the tab the user had already left.
-    private var resizeTargetFrame: NSRect?
     /// The screen the panel was opened on. `panel.screen` is unreliable while
     /// the panel sits flush against a screen edge next to another display.
     private var presentedScreen: NSScreen?
@@ -97,7 +92,7 @@ final class PanelController {
         // the screen would hand it to a display stacked underneath before the
         // first hotkey press ever happens. It stays invisible via `alphaValue`.
         let screenFrame = activeScreen.visibleFrame
-        let frame = panelFrame(in: screenFrame, itemCount: 0, y: screenFrame.origin.y)
+        let frame = panelFrame(in: screenFrame, y: screenFrame.origin.y)
 
         let warm = ClipbaraPanel(contentRect: frame)
         warm.alphaValue = 0
@@ -121,8 +116,7 @@ final class PanelController {
 
         let screen = activeScreen
         let screenFrame = screen.visibleFrame
-        let itemCount = visibleItemCount(modelContainer: modelContainer, selectedTab: appState.selectedTab)
-        let endFrame = panelFrame(in: screenFrame, itemCount: itemCount, y: screenFrame.origin.y)
+        let endFrame = panelFrame(in: screenFrame, y: screenFrame.origin.y)
         presentedScreen = screen
 
         if panel == nil {
@@ -135,7 +129,6 @@ final class PanelController {
         } else {
             panel?.setFrame(endFrame, display: false)
         }
-        resizeTargetFrame = nil
         refitContent()
 
         // The panel frame stays put; the content starts one panel height below
@@ -193,42 +186,6 @@ final class PanelController {
                     self?.panel?.invalidateShadow()
                 }
             })
-        }
-    }
-
-    func resizeToContentItemCount(_ itemCount: Int, animated: Bool = true) {
-        guard isVisible, let panel else { return }
-
-        let screen = presentedScreen ?? panel.screen ?? activeScreen
-        let screenFrame = screen.visibleFrame
-        let targetFrame = panelFrame(in: screenFrame, itemCount: itemCount, y: panel.frame.origin.y)
-
-        let currentTarget = resizeTargetFrame ?? panel.frame
-        guard abs(currentTarget.width - targetFrame.width) > 1 ||
-              abs(currentTarget.origin.x - targetFrame.origin.x) > 1 else {
-            return
-        }
-
-        if animated, Self.animatesPanel {
-            resizeTargetFrame = targetFrame
-            NSAnimationContext.runAnimationGroup({ context in
-                context.duration = 0.18
-                context.timingFunction = CAMediaTimingFunction(name: .easeOut)
-                panel.animator().setFrame(targetFrame, display: true)
-            }, completionHandler: { [weak self] in
-                Task { @MainActor in
-                    guard let self else { return }
-                    // A newer resize may have started; only clear our own target.
-                    if self.resizeTargetFrame == targetFrame {
-                        self.resizeTargetFrame = nil
-                        self.refitContent()
-                    }
-                }
-            })
-        } else {
-            resizeTargetFrame = nil
-            panel.setFrame(targetFrame, display: true)
-            refitContent()
         }
     }
 
@@ -880,26 +837,6 @@ final class PanelController {
         }
     }
 
-    private func visibleItemCount(modelContainer: ModelContainer, selectedTab: PanelTab) -> Int {
-        let context = modelContainer.mainContext
-
-        switch selectedTab {
-        case .history:
-            let descriptor = FetchDescriptor<ClipboardItem>()
-            return (try? context.fetchCount(descriptor)) ?? 0
-
-        case .pinboard(let pinboardId):
-            var descriptor = FetchDescriptor<Pinboard>(
-                predicate: #Predicate { pinboard in
-                    pinboard.id == pinboardId
-                }
-            )
-            descriptor.fetchLimit = 1
-            guard let pinboard = try? context.fetch(descriptor).first else { return 0 }
-            return pinboard.entries.filter { !$0.isDeleted && $0.clipboardItem != nil }.count
-        }
-    }
-
     /// Wraps the SwiftUI content in a plain container so it can be offset
     /// inside the panel. Anything pushed outside the panel frame is clipped by
     /// the window surface, which is what makes the slide read as a reveal.
@@ -926,8 +863,8 @@ final class PanelController {
         return container
     }
 
-    private func panelFrame(in screenFrame: NSRect, itemCount: Int, y: CGFloat) -> NSRect {
-        let panelWidth = targetPanelWidth(for: itemCount, screenWidth: screenFrame.width)
+    private func panelFrame(in screenFrame: NSRect, y: CGFloat) -> NSRect {
+        let panelWidth = targetPanelWidth(screenWidth: screenFrame.width)
         let panelX = screenFrame.midX - panelWidth / 2
 
         return NSRect(
@@ -938,14 +875,18 @@ final class PanelController {
         )
     }
 
-    private func targetPanelWidth(for itemCount: Int, screenWidth: CGFloat) -> CGFloat {
+    /// The panel keeps one width no matter how many clips the current tab
+    /// holds. Sizing it to the card count made it shrink and grow while
+    /// switching between history and a small pinboard, and the centered tab
+    /// bar moved with it.
+    private func targetPanelWidth(screenWidth: CGFloat) -> CGFloat {
         let screenMaxWidth = max(360, screenWidth - 48)
         let maxWidth = min(screenMaxWidth, max(minimumPanelWidth, screenWidth * maximumScreenWidthRatio))
         let minWidth = min(minimumPanelWidth, maxWidth)
-        let visibleCardCount = min(max(itemCount, 1), maximumVisibleCardCount)
+        let visibleCardCount = maximumVisibleCardCount
         let cardContentWidth =
             CGFloat(visibleCardCount) * estimatedCardWidth +
-            CGFloat(max(visibleCardCount - 1, 0)) * estimatedCardSpacing +
+            CGFloat(visibleCardCount - 1) * estimatedCardSpacing +
             contentHorizontalPadding
 
         return min(max(minWidth, cardContentWidth), maxWidth)
