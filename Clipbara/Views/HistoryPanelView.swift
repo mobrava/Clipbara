@@ -153,7 +153,7 @@ private struct IPhoneAppBanner: View {
 
     #if APPSTORE
     private var detail: String {
-        String(localized: "Turn on iCloud sync to use your history and pinboards on iPhone. Your purchase covers both.")
+        String(localized: "Search for “Clipbara” in the App Store on your iPhone, then turn on sync. Your purchase covers both.")
     }
     private var primaryTitle: String { String(localized: "Sync Settings") }
     private func primaryAction() {

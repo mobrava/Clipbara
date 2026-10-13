@@ -3416,18 +3416,18 @@
         }
       }
     },
-    "Turn on iCloud sync to use your history and pinboards on iPhone. Your purchase covers both." : {
+    "Search for “Clipbara” in the App Store on your iPhone, then turn on sync. Your purchase covers both." : {
       "localizations" : {
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "iCloud 동기화를 켜면 Mac의 기록과 핀보드를 iPhone에서도 쓸 수 있습니다. 구입은 두 기기에 함께 적용됩니다."
+            "value" : "iPhone의 App Store에서 ‘Clipbara’를 검색해 설치하고 동기화를 켜십시오. 구입은 두 기기에 함께 적용됩니다."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "打开 iCloud 同步，即可在 iPhone 上使用历史记录和钉板。一次购买，两台设备通用。"
+            "value" : "在 iPhone 的 App Store 中搜索“Clipbara”并安装，然后打开同步。一次购买，两台设备通用。"
           }
         }
       }
