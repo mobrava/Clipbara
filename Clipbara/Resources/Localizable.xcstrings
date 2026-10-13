@@ -597,6 +597,22 @@
     "Clipbara" : {
       "shouldTranslate" : false
     },
+    "Clipbara for iPhone is here." : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iPhone용 Clipbara가 나왔습니다."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iPhone 版 Clipbara 已推出。"
+          }
+        }
+      }
+    },
     "Clipbara is unlocked" : {
       "localizations" : {
         "ko" : {
@@ -1057,6 +1073,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "已删除。按 ⌘Z 可撤销。"
+          }
+        }
+      }
+    },
+    "Don't show again" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다시 표시하지 않음"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不再显示"
           }
         }
       }
@@ -3016,6 +3048,38 @@
         }
       }
     },
+    "Sync Settings" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "동기화 설정"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "同步设置"
+          }
+        }
+      }
+    },
+    "Sync works with the Mac App Store edition, and one purchase covers Mac and iPhone. If you got that edition before Oct 6, it's already unlocked. To move your clips, export a backup in Settings > General." : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "동기화는 Mac App Store판에서 됩니다. 한 번 구입으로 Mac과 iPhone 모두 쓸 수 있고, 10월 6일 전에 App Store판을 받으셨다면 이미 열려 있습니다. 클립은 설정 > 일반에서 백업을 내보내 옮기십시오."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "同步需要 Mac App Store 版，一次购买即可在 Mac 和 iPhone 上使用。如果你在 10 月 6 日前获取了该版本，则已解锁。如需迁移剪贴内容，请先在“设置 > 通用”中导出备份。"
+          }
+        }
+      }
+    },
     "Syncing…" : {
       "localizations" : {
         "ko" : {
@@ -3352,6 +3416,22 @@
         }
       }
     },
+    "Turn on iCloud sync to use your history and pinboards on iPhone. Your purchase covers both." : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud 동기화를 켜면 Mac의 기록과 핀보드를 iPhone에서도 쓸 수 있습니다. 구입은 두 기기에 함께 적용됩니다."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "打开 iCloud 同步，即可在 iPhone 上使用历史记录和钉板。一次购买，两台设备通用。"
+          }
+        }
+      }
+    },
     "Turn On iCloud Sync?" : {
       "localizations" : {
         "ko" : {
@@ -3572,6 +3652,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "版本 %1$@（%2$@）"
+          }
+        }
+      }
+    },
+    "View in App Store" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App Store에서 보기"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在 App Store 中查看"
           }
         }
       }

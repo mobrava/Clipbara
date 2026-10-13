@@ -214,6 +214,7 @@ targets:
       - path: Clipbara/Utilities/PanelTabShortcut.swift
       - path: Clipbara/Utilities/WheelScrollTranslation.swift
       - path: Clipbara/Utilities/ReviewPromptPolicy.swift
+      - path: Clipbara/Utilities/IPhoneAppNotice.swift
       - path: Shared/Store/AccessPolicy.swift
       - path: Clipbara/Panel/PanelContentContainer.swift
       - path: Clipbara/Utilities/PasteKeyCode.swift

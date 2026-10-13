@@ -1,4 +1,5 @@
 import SwiftUI
+import AppKit
 import SwiftData
 
 struct HistoryPanelView: View {
@@ -6,6 +7,15 @@ struct HistoryPanelView: View {
     @Environment(\.colorScheme) private var colorScheme
     @Query(sort: \ClipboardItem.copiedAt, order: .reverse)
     private var items: [ClipboardItem]
+    @State private var showsIPhoneNotice = IPhoneAppNotice.shouldShow(syncEnabled: Self.syncEnabled)
+
+    private static var syncEnabled: Bool {
+        #if APPSTORE
+        ClipSync.shared.isEnabled
+        #else
+        false
+        #endif
+    }
 
     var body: some View {
         ZStack {
@@ -16,6 +26,16 @@ struct HistoryPanelView: View {
 
             VStack(spacing: 0) {
                 NavigationBarView()
+
+                if showsIPhoneNotice {
+                    IPhoneAppBanner {
+                        IPhoneAppNotice.dismiss()
+                        withAnimation(.easeOut(duration: 0.16)) {
+                            showsIPhoneNotice = false
+                        }
+                    }
+                    .transition(.opacity)
+                }
 
                 ZStack {
                     // Cards layer
@@ -56,6 +76,10 @@ struct HistoryPanelView: View {
             .onChange(of: appState.selectedTab) { _, _ in
                 appState.selectForPreview(nil)
             }
+            .onChange(of: appState.panelPresentationID) { _, _ in
+                // Sync may have been turned on in Settings since the panel last opened.
+                showsIPhoneNotice = IPhoneAppNotice.shouldShow(syncEnabled: Self.syncEnabled)
+            }
 
             if let toast = appState.panelToast {
                 PanelToastView(toast: toast)
@@ -65,6 +89,86 @@ struct HistoryPanelView: View {
         }
         .animation(.easeOut(duration: 0.16), value: appState.panelToast)
     }
+}
+
+private struct IPhoneAppBanner: View {
+    @Environment(AppState.self) private var appState
+    @Environment(\.colorScheme) private var colorScheme
+    let onDismiss: () -> Void
+
+    var body: some View {
+        HStack(spacing: 8) {
+            Image(systemName: "iphone")
+                .font(.system(size: 12, weight: .semibold))
+                .foregroundStyle(Color.accentColor)
+
+            Text("Clipbara for iPhone is here.")
+                .font(.system(size: 12, weight: .semibold))
+                .foregroundStyle(.primary.opacity(0.9))
+                .layoutPriority(1)
+
+            Text(detail)
+                .font(.system(size: 12))
+                .foregroundStyle(.secondary)
+                .truncationMode(.tail)
+                .help(detail)
+
+            Spacer(minLength: 8)
+
+            Button(action: primaryAction) {
+                Text(primaryTitle)
+                    .font(.system(size: 12, weight: .medium))
+                    .padding(.horizontal, 10)
+                    .frame(height: 22)
+                    .background(Capsule().fill(Color.accentColor.opacity(colorScheme == .dark ? 0.28 : 0.16)))
+            }
+            .buttonStyle(.plain)
+            .fixedSize()
+
+            Button(action: onDismiss) {
+                Image(systemName: "xmark")
+                    .font(.system(size: 10, weight: .semibold))
+                    .foregroundStyle(.secondary)
+                    .frame(width: 22, height: 22)
+                    .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+            .help("Don't show again")
+        }
+        .lineLimit(1)
+        .padding(.leading, 12)
+        .padding(.trailing, 6)
+        .frame(height: 32)
+        .background(
+            RoundedRectangle(cornerRadius: 8, style: .continuous)
+                .fill(Color.accentColor.opacity(colorScheme == .dark ? 0.14 : 0.08))
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 8, style: .continuous)
+                .strokeBorder(Color.accentColor.opacity(0.18), lineWidth: 0.75)
+        )
+        .padding(.horizontal, DesignTokens.Nav.horizontalPadding)
+        .padding(.bottom, 2)
+    }
+
+    #if APPSTORE
+    private var detail: String {
+        String(localized: "Turn on iCloud sync to use your history and pinboards on iPhone. Your purchase covers both.")
+    }
+    private var primaryTitle: String { String(localized: "Sync Settings") }
+    private func primaryAction() {
+        appState.openSettings()
+    }
+    #else
+    private var detail: String {
+        String(localized: "Sync works with the Mac App Store edition, and one purchase covers Mac and iPhone. If you got that edition before Oct 6, it's already unlocked. To move your clips, export a backup in Settings > General.")
+    }
+    private var primaryTitle: String { String(localized: "View in App Store") }
+    private func primaryAction() {
+        NSWorkspace.shared.open(IPhoneAppNotice.appStoreURL)
+        appState.hidePanel()
+    }
+    #endif
 }
 
 private struct PanelToastView: View {
