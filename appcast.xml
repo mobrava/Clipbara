@@ -6,6 +6,25 @@
     <description>Most recent changes with links to updates.</description>
     <language>en</language>
     <item>
+      <title>Version 1.5.1</title>
+      <sparkle:version>40</sparkle:version>
+      <sparkle:shortVersionString>1.5.1</sparkle:shortVersionString>
+      <description><![CDATA[
+        <ul>
+          <li><strong>Clip Queue without permission.</strong> It no longer needs Accessibility. Start it from the menu bar, copy a few things, and each Command-V pastes the next one in order.</li>
+          <li><strong>Type to search.</strong> Start typing as soon as the panel opens. Press Tab to move to the results, then Space to preview.</li>
+          <li><strong>Clipbara for iPhone is out.</strong> iCloud sync works with the Mac App Store edition. The panel shows a one-time note about it.</li>
+        </ul>
+      ]]></description>
+      <pubDate>Fri, 23 Oct 2026 09:39:32 +0000</pubDate>
+      <enclosure
+        url="https://github.com/mobrava/Clipbara/releases/download/v1.5.1/Clipbara-v1.5.1.dmg"
+        type="application/octet-stream"
+        sparkle:edSignature="3OrMCx/aGINJKuciWSIrUNrFnee7GCkTAPJZ04SN05mhVOBJVnatWVjxHqXO3y8kMHljl2d/Zw7yiEF6WedRAw=="
+        length="3348734"
+      />
+    </item>
+    <item>
       <title>Version 1.5</title>
       <sparkle:version>36</sparkle:version>
       <sparkle:shortVersionString>1.5</sparkle:shortVersionString>
