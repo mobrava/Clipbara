@@ -17,7 +17,7 @@ settings:
 packages:
   KeyboardShortcuts:
     url: https://github.com/sindresorhus/KeyboardShortcuts
-    from: "2.2.0"
+    from: "3.1.0"
   Sparkle:
     url: https://github.com/sparkle-project/Sparkle
     from: "2.7.0"
