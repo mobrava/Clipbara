@@ -385,7 +385,7 @@ struct OnboardingView: View {
                 .padding(.top, 9)
 
             VStack(spacing: 10) {
-                hintRow(symbol: "clipboard") {
+                hintRow(symbol: DesignTokens.MenuBar.symbolName) {
                     Text("Find Clipbara anytime via the \(Text("clipboard icon").bold().foregroundStyle(Color.primary)) in your menu bar. History, pinboards and settings live there.")
                 } action: { EmptyView() }
                 hintRow(symbol: "square.and.arrow.down") {

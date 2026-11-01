@@ -12,7 +12,7 @@
   ```
 - Debug 빌드는 `ClipbaraDev` (bundle ID `com.minsang.PasteClip.dev`, URL scheme `clipbara-dev`, Sparkle 비활성)로 빌드되어 설치된 릴리스 Clipbara와 데이터·설정·권한을 공유하지 않고 동시에 실행됨. `pkill -f Clipbara.app`은 릴리스 앱까지 종료하므로 쓰지 말 것
 - Debug 서명은 gitignore된 `Config/Local.xcconfig`(본인 팀 ID, Apple Development 인증서)에서 가져옴. 템플릿: `Config/Local.xcconfig.example`. 인증서로 서명해야 리빌드 후에도 손쉬운 사용 권한이 유지됨. 처음 빌드할 때는 `-allowProvisioningUpdates` 추가
-- Debug 빌드 아이콘은 `AppIcon-Dev`. AppIcon을 바꾸면 `bash scripts/make-dev-icon.sh`로 AppIcon-Dev 재생성
+- Debug 전용: 빌드 설정 `CLIPBARA_BUILD_BADGE`(메뉴 막대 아이콘 옆 배지)와 `CLIPBARA_BUILD_BANNER`(메뉴 상단 주황색 헤더 문구)가 Info.plist `ClipbaraBuildBadge`/`ClipbaraBuildBanner`로 들어가고 `Bundle+BuildInfo.swift`의 `buildBadge`/`buildBanner`가 읽음. 비어 있으면 표시 안 함. 코드에서 개발 빌드 여부를 판단하지 말 것. 아이콘은 `AppIcon-Dev`. AppIcon을 바꾸면 `bash scripts/make-dev-icon.sh`로 AppIcon-Dev 재생성
 
 ## 릴리스 & 배포
 

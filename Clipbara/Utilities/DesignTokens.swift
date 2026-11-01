@@ -159,6 +159,13 @@ enum DesignTokens {
         static let lightColor = Color.white
         static let darkColor = Color(white: 0.96) // #F5F5F5
     }
+
+    // MARK: - Menu Bar
+
+    enum MenuBar {
+        /// SF Symbol of the menu bar icon, also shown where the UI points to it.
+        static let symbolName = "clipboard"
+    }
 }
 
 // MARK: - Color hex init helper

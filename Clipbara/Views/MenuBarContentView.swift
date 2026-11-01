@@ -16,6 +16,16 @@ struct MenuBarContentView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
+            if let banner = Bundle.main.buildBanner {
+                // Header set by the build configuration, such as ClipbaraDev's.
+                Text(verbatim: banner)
+                    .font(.caption.bold())
+                    .foregroundStyle(.white)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 3)
+                    .background(.orange)
+            }
+
             if topItems.isEmpty {
                 Text("No clipboard history")
                     .foregroundStyle(.secondary)
