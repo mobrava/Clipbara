@@ -11,6 +11,7 @@
   open ~/Library/Developer/Xcode/DerivedData/Clipbara-*/Build/Products/Debug/ClipbaraDev.app
   ```
 - Debug 빌드는 `ClipbaraDev` (bundle ID `com.minsang.PasteClip.dev`, URL scheme `clipbara-dev`, Sparkle 비활성)로 빌드되어 설치된 릴리스 Clipbara와 데이터·설정·권한을 공유하지 않고 동시에 실행됨. `pkill -f Clipbara.app`은 릴리스 앱까지 종료하므로 쓰지 말 것
+- Debug 서명은 gitignore된 `Config/Local.xcconfig`(본인 팀 ID, Apple Development 인증서)에서 가져옴. 템플릿: `Config/Local.xcconfig.example`. 인증서로 서명해야 리빌드 후에도 손쉬운 사용 권한이 유지됨. 처음 빌드할 때는 `-allowProvisioningUpdates` 추가
 
 ## 릴리스 & 배포
 

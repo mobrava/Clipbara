@@ -1,0 +1,9 @@
+// Debug build (ClipbaraDev) of the Clipbara target.
+//
+// Signing comes from Config/Local.xcconfig, which is gitignored because every
+// developer has their own team. Copy Local.xcconfig.example to Local.xcconfig and
+// set your team ID (Xcode > Settings > Apple Accounts; a free Personal Team works).
+// Signed with Apple Development, the build keeps its Accessibility grant across
+// rebuilds. Without the file it is signed to run locally (ad-hoc), and macOS drops
+// the grant whenever the code changes.
+#include? "Local.xcconfig"

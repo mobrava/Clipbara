@@ -1,3 +1,6 @@
+# Local signing (each developer's own team)
+Config/Local.xcconfig
+
 # Build
 build/
 DerivedData/

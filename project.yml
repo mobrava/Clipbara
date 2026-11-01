@@ -52,6 +52,9 @@ targets:
           PRODUCT_NAME: ClipbaraDev
           PRODUCT_MODULE_NAME: Clipbara
           CLIPBARA_URL_SCHEME: clipbara-dev
+    # Debug signing (your own team) comes from the gitignored Config/Local.xcconfig.
+    configFiles:
+      Debug: Config/Debug.xcconfig
     dependencies:
       - package: KeyboardShortcuts
       - package: Sparkle
