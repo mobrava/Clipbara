@@ -12,8 +12,14 @@ final class CheckForUpdatesViewModel: ObservableObject {
     private var observation: NSKeyValueObservation?
 
     init() {
+        #if DEBUG
+        // The local dev build (ClipbaraDev) must not update itself to the release.
+        let startsUpdater = false
+        #else
+        let startsUpdater = true
+        #endif
         updaterController = SPUStandardUpdaterController(
-            startingUpdater: true,
+            startingUpdater: startsUpdater,
             updaterDelegate: nil,
             userDriverDelegate: nil
         )

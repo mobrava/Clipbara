@@ -6,10 +6,11 @@
 - 빌드: `DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer xcodebuild -project Clipbara.xcodeproj -scheme Clipbara -configuration Debug build`
 - **빌드 성공 후 항상 기존 앱 종료 → 재실행까지 자동으로 수행할 것:**
   ```
-  pkill -f Clipbara.app || true
+  pkill -f ClipbaraDev.app || true
   sleep 1
-  open ~/Library/Developer/Xcode/DerivedData/Clipbara-fkhylhcltueskmgbecvzvekxrevf/Build/Products/Debug/Clipbara.app
+  open ~/Library/Developer/Xcode/DerivedData/Clipbara-*/Build/Products/Debug/ClipbaraDev.app
   ```
+- Debug 빌드는 `ClipbaraDev` (bundle ID `com.minsang.PasteClip.dev`, URL scheme `clipbara-dev`, Sparkle 비활성)로 빌드되어 설치된 릴리스 Clipbara와 데이터·설정·권한을 공유하지 않고 동시에 실행됨. `pkill -f Clipbara.app`은 릴리스 앱까지 종료하므로 쓰지 말 것
 
 ## 릴리스 & 배포
 

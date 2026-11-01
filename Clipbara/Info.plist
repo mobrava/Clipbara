@@ -29,7 +29,7 @@
 			<string>com.minsang.Clipbara.commands</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>clipbara</string>
+				<string>$(CLIPBARA_URL_SCHEME)</string>
 			</array>
 		</dict>
 	</array>

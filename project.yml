@@ -43,6 +43,15 @@ targets:
         GENERATE_INFOPLIST_FILE: false
         ENABLE_HARDENED_RUNTIME: "YES"
         SWIFT_STRICT_CONCURRENCY: complete
+        CLIPBARA_URL_SCHEME: clipbara
+      configs:
+        # Local dev build: its own bundle ID, name and URL scheme, so it runs next to
+        # the installed release with separate data, settings and permissions.
+        Debug:
+          PRODUCT_BUNDLE_IDENTIFIER: com.minsang.PasteClip.dev
+          PRODUCT_NAME: ClipbaraDev
+          PRODUCT_MODULE_NAME: Clipbara
+          CLIPBARA_URL_SCHEME: clipbara-dev
     dependencies:
       - package: KeyboardShortcuts
       - package: Sparkle
@@ -221,6 +230,7 @@ targets:
       - path: Clipbara/Utilities/ClipQueueList.swift
       - path: Clipbara/Services/ClipQueuePasteboard.swift
       - path: Clipbara/Utilities/URLCommand.swift
+      - path: Clipbara/Utilities/Bundle+BuildInfo.swift
       - path: Clipbara/Services/ClipUndoStack.swift
       - path: Shared/Models/ClipboardItem.swift
       - path: Shared/Models/Pinboard.swift
