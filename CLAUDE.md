@@ -18,7 +18,7 @@
 3. DMG 빌드: `bash scripts/build-release.sh` (EdDSA 서명 + appcast.xml 자동 업데이트 포함)
 4. **`appcast.xml` 수정 (2가지 작업 필수)**:
    - **새 버전 item 추가**: 빌드 스크립트는 첫 번째 item의 서명/크기만 덮어쓸 뿐 새 항목을 생성하지 않음. 새 item을 기존 첫 번째 item 위에 추가하고 `sparkle:version`, `sparkle:shortVersionString`, URL, 릴리스 노트, EdDSA 서명, length를 정확히 기입할 것
-   - **appcast URL은 반드시 v-prefixed 파일명 사용**: `Clipbara-v{VERSION}.dmg` (v 접두사 있는 것). GitHub Releases에서 v 없는 파일명(`Clipbara-{VERSION}.dmg`)은 업로드 시 손상되는 문제가 있어 Sparkle 서명 검증이 실패함
+   - **appcast URL은 반드시 v-prefixed 파일명 사용**: `Clipbara-v{VERSION}.dmg` (v 접두사 있는 것). 기존 배포 URL과 Homebrew cask가 이 이름을 쓰고 있음. (예전에 v 없는 파일이 "손상"되던 원인은 GitHub가 아니라 `.github/workflows/release.yml`이었음: 태그 push 시 서명 없이 빌드한 DMG를 같은 이름으로 덮어쓰고 릴리스 노트도 교체했음. 이 워크플로는 삭제됨. 릴리스용 CI 워크플로를 다시 추가하지 말 것)
    - **이전 버전 item의 서명/크기 복원**: 빌드 스크립트가 첫 번째 item의 `sparkle:edSignature`와 `length`를 새 빌드 값으로 덮어쓰므로, `git show HEAD:appcast.xml`로 원래 값을 확인해서 복원할 것. 이걸 빠뜨리면 이전 버전의 Sparkle 업데이트가 깨짐
 5. appcast.xml 커밋 & 푸시
 6. GitHub 릴리스 생성 + DMG 업로드 + **업로드 검증**:
@@ -27,10 +27,10 @@
    cp build/Clipbara-{VERSION}.dmg /tmp/Clipbara-v{VERSION}.dmg
    gh release create v{VERSION} build/Clipbara-{VERSION}.dmg /tmp/Clipbara-v{VERSION}.dmg --title "v{VERSION}" --notes "..."
    ```
-   **반드시 업로드 후 v-prefixed DMG 검증할 것:**
+   **반드시 업로드 후 두 DMG 모두 검증할 것:**
    ```
-   gh release download v{VERSION} -p "Clipbara-v{VERSION}.dmg" -D /tmp/verify --clobber
-   shasum -a 256 /tmp/verify/Clipbara-v{VERSION}.dmg  # 빌드 스크립트 출력의 SHA256과 일치해야 함
+   gh release download v{VERSION} -p "Clipbara-*.dmg" -D /tmp/verify --clobber
+   shasum -a 256 /tmp/verify/Clipbara-*.dmg  # 두 파일 모두 빌드 스크립트 출력의 SHA256과 일치해야 함
    ```
 7. (선택) Homebrew tap 업데이트 (`mobrava/homebrew-tap`):
    - `Casks/pasteclip.rb`의 `version`과 `sha256` 변경 (sha256은 빌드 스크립트 출력에 나옴)
