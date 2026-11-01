@@ -151,7 +151,7 @@ struct MenuBarContentView: View {
             .padding(.horizontal, 12)
             .padding(.vertical, 4)
 
-            Button("Quit Clipbara") {
+            Button("Quit \(Bundle.main.appName)") {
                 NSApplication.shared.terminate(nil)
             }
             .keyboardShortcut("q", modifiers: .command)

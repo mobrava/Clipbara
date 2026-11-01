@@ -1605,18 +1605,18 @@
         }
       }
     },
-    "If Clipbara isn't in the list, add it with the + button." : {
+    "If %@ isn't in the list, add it with the + button." : {
       "localizations" : {
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "목록에 Clipbara가 없으면 + 버튼으로 추가하세요."
+            "value" : "목록에 %@ 앱이 없으면 + 버튼으로 추가하세요."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "如果列表中没有 Clipbara，请点按 + 按钮添加。"
+            "value" : "如果列表中没有 %@，请点按 + 按钮添加。"
           }
         }
       }
@@ -2501,18 +2501,18 @@
         }
       }
     },
-    "Quit Clipbara" : {
+    "Quit %@" : {
       "localizations" : {
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Clipbara 종료"
+            "value" : "%@ 종료"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "退出 Clipbara"
+            "value" : "退出 %@"
           }
         }
       }
