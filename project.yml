@@ -45,13 +45,15 @@ targets:
         SWIFT_STRICT_CONCURRENCY: complete
         CLIPBARA_URL_SCHEME: clipbara
       configs:
-        # Local dev build: its own bundle ID, name and URL scheme, so it runs next to
-        # the installed release with separate data, settings and permissions.
+        # Local dev build: its own bundle ID, name, URL scheme and icon, so it runs
+        # next to the installed release with separate data, settings and
+        # permissions. AppIcon-Dev comes from scripts/make-dev-icon.sh.
         Debug:
           PRODUCT_BUNDLE_IDENTIFIER: com.minsang.PasteClip.dev
           PRODUCT_NAME: ClipbaraDev
           PRODUCT_MODULE_NAME: Clipbara
           CLIPBARA_URL_SCHEME: clipbara-dev
+          ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon-Dev
     # Debug signing (your own team) comes from the gitignored Config/Local.xcconfig.
     configFiles:
       Debug: Config/Debug.xcconfig
