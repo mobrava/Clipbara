@@ -27,6 +27,12 @@ struct NavigationBarView: View {
     /// Where the dragged tab would land: a blue bar before or after a tab.
     @State private var tabDropIndicator: TabDropIndicator?
     @State private var renameText = ""
+    /// Width of the divider and action buttons on the right. The same width is
+    /// reserved on the left so the search field and tabs sit in the middle.
+    @State private var trailingGroupWidth: CGFloat = 0
+    /// Natural width of all tabs. The tab row is no wider than this, so a
+    /// short row stays centered instead of stretching to the right.
+    @State private var tabContentWidth: CGFloat = .infinity
     @State private var isShowingClearAlert = false
     @FocusState private var isSearchFocused: Bool
 
@@ -92,27 +98,48 @@ struct NavigationBarView: View {
     // MARK: - Navigation Bar (default state)
 
     private var navigationBar: some View {
-        HStack(spacing: 12) {
+        HStack(spacing: DesignTokens.Nav.itemSpacing) {
+            // Mirrors the trailing group so the middle group is centered on
+            // the panel, not on the space left of the action buttons.
+            Color.clear
+                .frame(width: trailingGroupWidth, height: 1)
+
+            Spacer(minLength: 0)
+
             searchField
 
             toolbarDivider
 
-            tabGroup
-                .frame(minWidth: 120)
-                .layoutPriority(1)
+            // The add button follows the last tab, where the new pinboard
+            // will appear. It sits outside the scrolling row so it stays in
+            // view however many pinboards there are.
+            HStack(spacing: 4) {
+                tabGroup
+                    .frame(
+                        minWidth: min(DesignTokens.Nav.tabGroupMinWidth, tabContentWidth),
+                        maxWidth: tabContentWidth
+                    )
+                    .layoutPriority(1)
 
-            Spacer(minLength: 8)
+                newPinboardButton
+            }
+            .layoutPriority(1)
 
-            toolbarDivider
+            Spacer(minLength: 0)
 
-            actionGroup
+            HStack(spacing: DesignTokens.Nav.itemSpacing) {
+                toolbarDivider
+
+                actionGroup
+            }
+            .onGeometryChange(for: CGFloat.self) { $0.size.width } action: { trailingGroupWidth = $0 }
         }
         .padding(.horizontal, DesignTokens.Nav.horizontalPadding)
     }
 
     private var tabGroup: some View {
         ScrollViewReader { proxy in
-            ScrollView(.horizontal, showsIndicators: false) {
+            EdgeFadingHorizontalScrollView(fadeWidth: DesignTokens.Nav.tabEdgeFadeWidth) {
                 HStack(spacing: 4) {
                     navTab(
                         label: String(localized: "History"),
@@ -188,6 +215,7 @@ struct NavigationBarView: View {
                         }
                     }
                 }
+                .onGeometryChange(for: CGFloat.self) { $0.size.width } action: { tabContentWidth = $0 }
             }
             .onChange(of: appState.selectedTab) { _, tab in
                 withAnimation(.easeOut(duration: 0.15)) {
@@ -197,34 +225,34 @@ struct NavigationBarView: View {
         }
     }
 
+    private var newPinboardButton: some View {
+        NavIconButton(
+            icon: "plus",
+            iconSize: 12,
+            colorScheme: colorScheme
+        ) {
+            newPinboardName = nextPinboardName()
+            isAddingPinboard = true
+        }
+        .help("New Pinboard")
+    }
+
     private var actionGroup: some View {
         HStack(spacing: 4) {
             optionsMenuButton
 
+            // Always present, only disabled outside History: hiding it would
+            // narrow this group and shift the centered search field and tabs.
             NavIconButton(
-                icon: "plus",
-                iconSize: 12,
+                icon: "trash",
+                iconSize: 13,
                 colorScheme: colorScheme
             ) {
-                newPinboardName = nextPinboardName()
-                isAddingPinboard = true
+                isShowingClearAlert = true
             }
-            .help("New Pinboard")
-
-            if appState.selectedTab == .history {
-                NavIconButton(
-                    icon: "trash",
-                    iconSize: 13,
-                    colorScheme: colorScheme
-                ) {
-                    isShowingClearAlert = true
-                }
-                .disabled(clearableHistoryCount == 0)
-                .opacity(clearableHistoryCount == 0 ? 0.45 : 1)
-                .help(clearableHistoryCount == 0
-                    ? String(localized: "No unpinned history to clear")
-                    : String(localized: "Clear Clipboard History"))
-            }
+            .disabled(!canClearHistory)
+            .opacity(canClearHistory ? 1 : 0.45)
+            .help(clearHistoryHelp)
         }
     }
 
@@ -258,8 +286,13 @@ struct NavigationBarView: View {
                 }
                 .buttonStyle(.plain)
             }
+
+            // Filters narrow the same list the search does, so they live in
+            // the field rather than in the options menu at the far right.
+            FilterMenuButton(searchState: appState.searchState)
         }
-        .padding(.horizontal, 10)
+        .padding(.leading, 10)
+        .padding(.trailing, 4)
         .frame(width: DesignTokens.Nav.searchWidth, height: DesignTokens.Nav.tabHeight)
         .background(DesignTokens.Nav.searchBackground(for: colorScheme))
         .clipShape(RoundedRectangle(cornerRadius: DesignTokens.Nav.tabCornerRadius, style: .continuous))
@@ -300,10 +333,7 @@ struct NavigationBarView: View {
     }
 
     private var optionsMenuButton: some View {
-        OptionsMenuButton(
-            colorScheme: colorScheme,
-            searchState: appState.searchState
-        )
+        OptionsMenuButton(colorScheme: colorScheme)
     }
 
     private var pinnedItemIDs: Set<UUID> {
@@ -317,6 +347,22 @@ struct NavigationBarView: View {
 
     private var clearableHistoryCount: Int {
         clearableHistoryItems.count
+    }
+
+    /// Whether the trash button clears anything: only on the History tab,
+    /// and only when there is unpinned history.
+    private var canClearHistory: Bool {
+        appState.selectedTab == .history && clearableHistoryCount > 0
+    }
+
+    /// Tooltip for the trash button, saying why it is disabled when it is.
+    private var clearHistoryHelp: String {
+        if appState.selectedTab != .history {
+            return String(localized: "Switch to History to clear it")
+        }
+        return clearableHistoryCount == 0
+            ? String(localized: "No unpinned history to clear")
+            : String(localized: "Clear Clipboard History")
     }
 
     /// A tab dragged leftward lands before the tab under the pointer, one
@@ -573,7 +619,6 @@ private struct NavIconButton: View {
 
 private struct OptionsMenuButton: View {
     let colorScheme: ColorScheme
-    let searchState: SearchState
 
     @State private var isHovered = false
 
@@ -590,50 +635,8 @@ private struct OptionsMenuButton: View {
     private func showMenu() {
         let menu = NSMenu()
 
-        // Filter by Type submenu
-        let typeMenu = NSMenu()
-        for type in ContentType.allCases {
-            let item = NSMenuItem(title: type.displayName, action: nil, keyEquivalent: "")
-            let isSelected = searchState.selectedContentTypes.contains(type)
-            if isSelected {
-                item.state = .on
-            }
-            item.target = MenuActionTarget.shared
-            item.representedObject = MenuAction.toggleContentType(type, searchState)
-            item.action = #selector(MenuActionTarget.performAction(_:))
-            typeMenu.addItem(item)
-        }
-        if !searchState.selectedContentTypes.isEmpty {
-            typeMenu.addItem(.separator())
-            let clearItem = NSMenuItem(title: String(localized: "Clear Filters"), action: nil, keyEquivalent: "")
-            clearItem.target = MenuActionTarget.shared
-            clearItem.representedObject = MenuAction.clearContentTypes(searchState)
-            clearItem.action = #selector(MenuActionTarget.performAction(_:))
-            typeMenu.addItem(clearItem)
-        }
-        let typeMenuItem = NSMenuItem(title: String(localized: "Filter by Type"), action: nil, keyEquivalent: "")
-        typeMenuItem.submenu = typeMenu
-        menu.addItem(typeMenuItem)
-
-        // Filter by Date submenu
-        let dateMenu = NSMenu()
-        for filter in SearchState.DateFilter.allCases {
-            let item = NSMenuItem(title: filter.displayName, action: nil, keyEquivalent: "")
-            if searchState.dateFilter == filter {
-                item.state = .on
-            }
-            item.target = MenuActionTarget.shared
-            item.representedObject = MenuAction.setDateFilter(filter, searchState)
-            item.action = #selector(MenuActionTarget.performAction(_:))
-            dateMenu.addItem(item)
-        }
-        let dateMenuItem = NSMenuItem(title: String(localized: "Filter by Date"), action: nil, keyEquivalent: "")
-        dateMenuItem.submenu = dateMenu
-        menu.addItem(dateMenuItem)
-
         // The same setting as Settings > General, surfaced where pasting
         // happens (#49), with the one-off Shift switch spelled out below it.
-        menu.addItem(.separator())
         let plainTextItem = NSMenuItem(title: String(localized: "Always Paste as Plain Text"), action: nil, keyEquivalent: "")
         plainTextItem.state = UserDefaults.standard.bool(forKey: PasteService.alwaysPlainTextDefaultsKey) ? .on : .off
         plainTextItem.target = MenuActionTarget.shared
@@ -658,11 +661,88 @@ private struct OptionsMenuButton: View {
     }
 }
 
+// MARK: - FilterMenuButton (type and date filters, inside the search field)
+
+private struct FilterMenuButton: View {
+    let searchState: SearchState
+
+    @State private var isHovered = false
+
+    var body: some View {
+        Button {
+            showMenu()
+        } label: {
+            Image(systemName: searchState.hasFilters
+                ? "line.3.horizontal.decrease.circle.fill"
+                : "line.3.horizontal.decrease.circle")
+                .font(.system(size: 14, weight: .medium))
+                // Accent while a filter is on, so a narrowed list never
+                // looks like missing history.
+                .foregroundStyle(searchState.hasFilters ? AnyShapeStyle(Color.accentColor) : AnyShapeStyle(.secondary))
+                .frame(width: 22, height: 22)
+                .background(
+                    isHovered ? Color.primary.opacity(0.08) : Color.clear,
+                    in: RoundedRectangle(cornerRadius: 6, style: .continuous)
+                )
+        }
+        .buttonStyle(.plain)
+        .onHover { isHovered = $0 }
+        .help(searchState.hasFilters ? String(localized: "Filters On") : String(localized: "Filter"))
+    }
+
+    private func showMenu() {
+        let menu = NSMenu()
+
+        // Filter by Type submenu
+        let typeMenu = NSMenu()
+        for type in ContentType.allCases {
+            let item = NSMenuItem(title: type.displayName, action: nil, keyEquivalent: "")
+            if searchState.selectedContentTypes.contains(type) {
+                item.state = .on
+            }
+            item.target = MenuActionTarget.shared
+            item.representedObject = MenuAction.toggleContentType(type, searchState)
+            item.action = #selector(MenuActionTarget.performAction(_:))
+            typeMenu.addItem(item)
+        }
+        let typeMenuItem = NSMenuItem(title: String(localized: "Filter by Type"), action: nil, keyEquivalent: "")
+        typeMenuItem.submenu = typeMenu
+        menu.addItem(typeMenuItem)
+
+        // Filter by Date submenu
+        let dateMenu = NSMenu()
+        for filter in SearchState.DateFilter.allCases {
+            let item = NSMenuItem(title: filter.displayName, action: nil, keyEquivalent: "")
+            if searchState.dateFilter == filter {
+                item.state = .on
+            }
+            item.target = MenuActionTarget.shared
+            item.representedObject = MenuAction.setDateFilter(filter, searchState)
+            item.action = #selector(MenuActionTarget.performAction(_:))
+            dateMenu.addItem(item)
+        }
+        let dateMenuItem = NSMenuItem(title: String(localized: "Filter by Date"), action: nil, keyEquivalent: "")
+        dateMenuItem.submenu = dateMenu
+        menu.addItem(dateMenuItem)
+
+        if searchState.hasFilters {
+            menu.addItem(.separator())
+            let clearItem = NSMenuItem(title: String(localized: "Clear Filters"), action: nil, keyEquivalent: "")
+            clearItem.target = MenuActionTarget.shared
+            clearItem.representedObject = MenuAction.clearFilters(searchState)
+            clearItem.action = #selector(MenuActionTarget.performAction(_:))
+            menu.addItem(clearItem)
+        }
+
+        menu.popUp(positioning: nil, at: NSEvent.mouseLocation, in: nil)
+    }
+}
+
 // MARK: - NSMenu action helpers
 
 private enum MenuAction {
     case toggleContentType(ContentType, SearchState)
-    case clearContentTypes(SearchState)
+    case clearFilters(SearchState)
     case setDateFilter(SearchState.DateFilter, SearchState)
     case toggleAlwaysPlainText
     case openSettings(AppState)
@@ -678,8 +758,8 @@ private final class MenuActionTarget: NSObject {
             switch action {
             case .toggleContentType(let type, let state):
                 state.toggleContentType(type)
-            case .clearContentTypes(let state):
-                state.selectedContentTypes = []
+            case .clearFilters(let state):
+                state.clearFilters()
             case .setDateFilter(let filter, let state):
                 state.dateFilter = filter
             case .toggleAlwaysPlainText:

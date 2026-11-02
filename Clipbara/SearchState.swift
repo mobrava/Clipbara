@@ -41,7 +41,12 @@ final class SearchState {
     }
 
     var isActive: Bool {
-        !searchText.isEmpty || !selectedContentTypes.isEmpty || dateFilter != .all
+        !searchText.isEmpty || hasFilters
+    }
+
+    /// Whether a type or date filter is narrowing the list.
+    var hasFilters: Bool {
+        !selectedContentTypes.isEmpty || dateFilter != .all
     }
 
     func updateSearch(_ text: String) {
@@ -72,6 +77,13 @@ final class SearchState {
         debouncedSearchText = ""
         selectedIndex = nil
         debounceTask?.cancel()
+    }
+
+    /// Drops the type and date filters, keeping the search text.
+    func clearFilters() {
+        selectedContentTypes = []
+        dateFilter = .all
+        selectedIndex = nil
     }
 
     func toggleContentType(_ type: ContentType) {
