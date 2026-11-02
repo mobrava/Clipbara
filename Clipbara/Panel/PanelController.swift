@@ -21,6 +21,9 @@ final class PanelController {
     private var wheelTranslator = WheelScrollTranslation.Translator()
     private var keyMonitor: Any?
     private var flagsMonitor: Any?
+    /// Watches Settings > Appearance > Panel Width and Card Size while the
+    /// panel is open, so a change resizes it right away.
+    private var layoutSettingsObserver: NSObjectProtocol?
     private var tabHintTask: Task<Void, Never>?
     /// Where the pointer was when the keyboard last took over: the panel
     /// opening, a tab switch, an arrow key. A card under a pointer that
@@ -41,14 +44,18 @@ final class PanelController {
     }
 
     /// Navigation bar (44) plus the card row. Cards fill the row, so this
-    /// also sets the card size: 320 gives 252pt tall cards.
-    private let baseHeight: CGFloat = 320
+    /// also sets the card size (Settings > Appearance > Card Size).
+    private var baseHeight: CGFloat { PanelCardSize.panelHeight }
     /// Radius of the panel's top corners. The bottom edge sits on the screen
     /// edge (or the Dock), so only the top two corners are rounded.
     private let topCornerRadius: CGFloat = 12
     /// Transparent band above the content that its shadow draws into. The
     /// window is this much taller than the visible panel.
     private let shadowInset: CGFloat = PanelSlideView.shadowReach
+    /// Transparent band on each side that the shadow draws into when the
+    /// panel is narrower than the screen. A full width panel runs past the
+    /// screen edges, so its sides need none.
+    private var sideInset: CGFloat { PanelWidth.isFull ? 0 : shadowInset }
 
     // MARK: - Screen Selection
 
@@ -68,10 +75,59 @@ final class PanelController {
     /// whichever display last held focus and the panel slides in on the wrong
     /// screen. The pointer location matches the user's intent, so prefer it and
     /// fall back to `NSScreen.main` only when the pointer is off screen.
+    ///
+    /// Settings > Appearance > Show Panel On can instead pick the display with
+    /// the frontmost app's window or the main display.
     private var activeScreen: NSScreen {
-        Self.screen(containing: NSEvent.mouseLocation, in: NSScreen.screens)
+        let screens = NSScreen.screens
+        // The display chosen by the setting; nil falls back to the pointer's.
+        let preferred: NSScreen? = switch PanelScreen.current {
+        case .pointer: nil
+        case .activeWindow: Self.frontWindowScreen(in: screens)
+        // The first screen is the one with the menu bar.
+        case .main: screens.first
+        }
+        return preferred
+            ?? Self.screen(containing: NSEvent.mouseLocation, in: screens)
             ?? NSScreen.main
-            ?? NSScreen.screens.first!
+            ?? screens.first!
+    }
+
+    /// The display holding most of the frontmost app's front window, if any.
+    ///
+    /// Window bounds are readable without Screen Recording permission; only
+    /// titles are not. Clipbara never owns the front window when the hotkey
+    /// fires, so the frontmost app is the one the user was working in.
+    /// - Parameter screens: The connected displays, menu bar display first.
+    private static func frontWindowScreen(in screens: [NSScreen]) -> NSScreen? {
+        guard let pid = NSWorkspace.shared.frontmostApplication?.processIdentifier,
+              let primary = screens.first,
+              let windows = CGWindowListCopyWindowInfo(
+                  [.optionOnScreenOnly, .excludeDesktopElements], kCGNullWindowID
+              ) as? [[String: Any]] else { return nil }
+
+        // The list runs front to back, so the first normal window of the app
+        // is its front window.
+        let front = windows.first { info in
+            (info[kCGWindowOwnerPID as String] as? pid_t) == pid
+                && (info[kCGWindowLayer as String] as? Int) == 0
+        }
+        guard let boundsInfo = front?[kCGWindowBounds as String] as? NSDictionary,
+              let cgBounds = CGRect(dictionaryRepresentation: boundsInfo) else { return nil }
+
+        // Window bounds have their origin at the top left of the main display;
+        // AppKit screen frames have theirs at its bottom left.
+        let bounds = NSRect(
+            x: cgBounds.minX,
+            y: primary.frame.maxY - cgBounds.maxY,
+            width: cgBounds.width,
+            height: cgBounds.height
+        )
+        return screens.max { lhs, rhs in
+            let lhsArea = lhs.frame.intersection(bounds)
+            let rhsArea = rhs.frame.intersection(bounds)
+            return lhsArea.width * lhsArea.height < rhsArea.width * rhsArea.height
+        }.flatMap { $0.frame.intersects(bounds) ? $0 : nil }
     }
 
     func toggle(modelContainer: ModelContainer, appState: AppState) {
@@ -93,10 +149,13 @@ final class PanelController {
         // first hotkey press ever happens. It stays invisible via `alphaValue`.
         let screenFrame = activeScreen.visibleFrame
         let frame = panelFrame(in: screenFrame, y: screenFrame.origin.y)
+        let inset = sideInset
 
         let warm = ClipbaraPanel(contentRect: frame)
         warm.alphaValue = 0
         warm.contentView = makeContentView(modelContainer: modelContainer, appState: appState, size: frame.size)
+        contentContainer?.sideInset = inset
+        refitContent()
         warm.orderFrontRegardless()
         warm.contentView?.layoutSubtreeIfNeeded()
         warm.displayIfNeeded()
@@ -116,6 +175,8 @@ final class PanelController {
 
         let screenFrame = activeScreen.visibleFrame
         let endFrame = panelFrame(in: screenFrame, y: screenFrame.origin.y)
+        // Read once so the frame and the content agree on the side bands.
+        let inset = sideInset
 
         if panel == nil {
             panel = ClipbaraPanel(contentRect: endFrame)
@@ -127,6 +188,7 @@ final class PanelController {
         } else {
             panel?.setFrame(endFrame, display: false)
         }
+        contentContainer?.sideInset = inset
         refitContent()
 
         // The panel frame stays put; the content starts one panel height below
@@ -162,6 +224,7 @@ final class PanelController {
         installMouseMonitor()
         installScrollMonitor()
         installKeyMonitor()
+        installLayoutSettingsObserver()
     }
 
     private func slideContentIn() {
@@ -172,7 +235,9 @@ final class PanelController {
                 context.timingFunction = CAMediaTimingFunction(name: .easeOut)
                 // Only the origin moves. Animating the whole frame would also
                 // carry a width captured before any resize that lands mid-slide.
-                contentHost.animator().setFrameOrigin(.zero)
+                contentHost.animator().setFrameOrigin(
+                    NSPoint(x: self.contentContainer?.sideInset ?? 0, y: 0)
+                )
             })
         }
     }
@@ -217,6 +282,7 @@ final class PanelController {
         removeMouseMonitor()
         removeScrollMonitor()
         removeKeyMonitor()
+        removeLayoutSettingsObserver()
 
         let finish: @MainActor () -> Void = { [weak self] in
             panel.orderOut(nil)
@@ -233,12 +299,55 @@ final class PanelController {
         NSAnimationContext.runAnimationGroup({ [contentHost] context in
             context.duration = 0.2
             context.timingFunction = CAMediaTimingFunction(name: .easeIn)
-            contentHost?.animator().setFrameOrigin(NSPoint(x: 0, y: -panelHeight))
+            contentHost?.animator().setFrameOrigin(
+                NSPoint(x: contentHost?.frame.minX ?? 0, y: -panelHeight)
+            )
         }, completionHandler: {
             Task { @MainActor in
                 finish()
             }
         })
+    }
+
+    // MARK: - Layout Settings (resize the open panel)
+
+    /// Only installed while the panel is open; a closed panel picks the
+    /// settings up the next time it opens.
+    private func installLayoutSettingsObserver() {
+        guard layoutSettingsObserver == nil else { return }
+        layoutSettingsObserver = NotificationCenter.default.addObserver(
+            forName: UserDefaults.didChangeNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            MainActor.assumeIsolated {
+                self?.applyLayoutSettings()
+            }
+        }
+    }
+
+    private func removeLayoutSettingsObserver() {
+        if let observer = layoutSettingsObserver {
+            NotificationCenter.default.removeObserver(observer)
+            layoutSettingsObserver = nil
+        }
+    }
+
+    /// Resizes the open panel to the current width and card size settings.
+    /// It stays on the screen it is on: the pointer is likely over the
+    /// Settings window, which may be on another display.
+    private func applyLayoutSettings() {
+        guard isVisible, let panel, let screen = panel.screen else { return }
+        // Any setting posts the notification; skip the ones that leave the
+        // panel as it is.
+        let screenFrame = screen.visibleFrame
+        let frame = panelFrame(in: screenFrame, y: screenFrame.origin.y)
+        let inset = sideInset
+        guard frame != panel.frame || inset != contentContainer?.sideInset else { return }
+
+        panel.setFrame(frame, display: true)
+        contentContainer?.sideInset = inset
+        refitContent()
     }
 
     // MARK: - Click Monitor (dismiss on outside click)
@@ -869,19 +978,31 @@ final class PanelController {
         guard let panel else { return nil }
         var frame = panel.frame
         frame.size.height -= shadowInset
+        // Leave out the side shadow bands as well.
+        frame = frame.insetBy(dx: contentContainer?.sideInset ?? 0, dy: 0)
         return frame
     }
 
-    /// Spans the screen's full usable width at the panel's fixed height, plus
-    /// the shadow band above it.
+    /// Spans the share of the screen's usable width set in Settings >
+    /// Appearance > Panel Width, centered, at the panel's height plus the
+    /// shadow band above it and, when narrower than the screen, beside it.
     /// - Parameters:
     ///   - screenFrame: The usable area (`visibleFrame`) of the target screen.
     ///   - y: The panel's bottom edge in screen coordinates.
     private func panelFrame(in screenFrame: NSRect, y: CGFloat) -> NSRect {
-        NSRect(
-            x: screenFrame.minX,
+        let inset = sideInset
+        // Width people see, in whole points so the centered panel doesn't land
+        // on half pixels, leaving room for both side bands on screen.
+        let visibleWidth = min(
+            (screenFrame.width * PanelWidth.fraction).rounded(),
+            screenFrame.width - inset * 2
+        )
+        // The window, side bands included.
+        let width = visibleWidth + inset * 2
+        return NSRect(
+            x: screenFrame.minX + ((screenFrame.width - width) / 2).rounded(),
             y: y,
-            width: screenFrame.width,
+            width: width,
             height: baseHeight + shadowInset
         )
     }

@@ -14,20 +14,23 @@ final class PanelContentContainer: NSView {
     /// Transparent band at the top of the window that the content's shadow
     /// draws into. The content is this much shorter than the container.
     var topInset: CGFloat = 0
+    /// Transparent band on each side for the shadow, when the panel is
+    /// narrower than the screen. The content is this much in from each side.
+    var sideInset: CGFloat = 0
 
     override func resizeSubviews(withOldSize oldSize: NSSize) {
         super.resizeSubviews(withOldSize: oldSize)
         fitHostedViewWidth()
     }
 
-    /// Snaps the hosted view to the container's width and to its height less
-    /// `topInset`, keeping its vertical offset.
+    /// Snaps the hosted view to the container's width less `sideInset` on
+    /// each side and to its height less `topInset`, keeping its vertical offset.
     func fitHostedViewWidth() {
         guard let hostedView else { return }
         let target = NSRect(
-            x: 0,
+            x: sideInset,
             y: hostedView.frame.minY,
-            width: bounds.width,
+            width: max(bounds.width - sideInset * 2, 0),
             height: max(bounds.height - topInset, 0)
         )
         if hostedView.frame != target {
