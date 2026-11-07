@@ -105,6 +105,7 @@ final class ClipboardMonitor {
         try? modelContext?.save()
         cleanupOldItems()
         refreshLatestItems()
+        SoundFeedback.playCopy()
         onCapture?(item)
     }
 

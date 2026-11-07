@@ -9,29 +9,13 @@ struct LinkCardContent: View {
         item.textContent ?? ""
     }
 
-    private var domain: String {
-        guard let url = URL(string: urlString) else { return urlString }
-        return url.host ?? urlString
-    }
-
     var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            HStack(spacing: 6) {
-                Image(systemName: "globe")
-                    .font(.system(size: 14, weight: .medium))
-                    .foregroundStyle(.blue.opacity(0.8))
-
-                Text(TextHighlighter.highlight(domain, query: searchText))
-                    .font(.system(size: 12, weight: .semibold))
-                    .lineLimit(1)
-                    .foregroundStyle(DesignTokens.Body.textColor(for: colorScheme).opacity(0.95))
-            }
-
-            Text(TextHighlighter.highlight(urlString, query: searchText))
-                .font(.system(size: 10))
-                .lineLimit(3)
-                .foregroundStyle(DesignTokens.Body.textColor(for: colorScheme).opacity(0.58))
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+        // The full address reads like text; the domain is in the footer.
+        Text(TextHighlighter.highlight(urlString, query: searchText))
+            .font(.system(size: DesignTokens.Body.fontSize))
+            .lineSpacing(DesignTokens.Body.lineSpacing)
+            .foregroundStyle(DesignTokens.Body.textColor(for: colorScheme))
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+            .cardBodyFade()
     }
 }

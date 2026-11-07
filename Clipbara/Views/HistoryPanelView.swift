@@ -8,6 +8,12 @@ struct HistoryPanelView: View {
     @Query(sort: \ClipboardItem.copiedAt, order: .reverse)
     private var items: [ClipboardItem]
     @State private var showsIPhoneNotice = IPhoneAppNotice.shouldShow(syncEnabled: Self.syncEnabled)
+    /// Settings > Appearance > Background Transparency, from the standard
+    /// blur (0) to clear (1).
+    @AppStorage(PanelBackgroundTransparency.defaultsKey)
+    private var backgroundTransparency: Double = PanelBackgroundTransparency.defaultValue
+    /// System Settings > Accessibility > Display > Reduce Transparency.
+    @Environment(\.accessibilityReduceTransparency) private var reducesTransparency
 
     private static var syncEnabled: Bool {
         #if APPSTORE
@@ -22,6 +28,10 @@ struct HistoryPanelView: View {
             VisualEffectBackground(
                 material: colorScheme == .dark ? .hudWindow : .popover
             )
+                .opacity(PanelBackgroundTransparency.blurOpacity(
+                    for: backgroundTransparency,
+                    reducesTransparency: reducesTransparency
+                ))
                 .ignoresSafeArea()
 
             VStack(spacing: 0) {

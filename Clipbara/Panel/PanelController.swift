@@ -6,18 +6,11 @@ import SwiftData
 @Observable
 final class PanelController {
     private var panel: ClipbaraPanel?
-    /// The panel's SwiftUI content. Slid inside the fixed panel frame so the
-    /// window itself never has to travel off screen to animate.
+    /// The panel's content with its shadow (`PanelSlideView`). Slid inside the
+    /// fixed panel frame so the window itself never has to travel off screen
+    /// to animate.
     private var contentHost: NSView?
     private var contentContainer: PanelContentContainer?
-    /// Where the running resize animation is heading. `panel.frame` still
-    /// reports the old size until the animation ends, so comparing against it
-    /// let a quick tab switch back be skipped and the panel settle at the
-    /// width of the tab the user had already left.
-    private var resizeTargetFrame: NSRect?
-    /// The screen the panel was opened on. `panel.screen` is unreliable while
-    /// the panel sits flush against a screen edge next to another display.
-    private var presentedScreen: NSScreen?
     private var quickLookPanel: ClipboardQuickLookPanel?
     private var quickLookItem: ClipboardItem?
     private var quickLookZoom: ImageZoomController?
@@ -28,6 +21,9 @@ final class PanelController {
     private var wheelTranslator = WheelScrollTranslation.Translator()
     private var keyMonitor: Any?
     private var flagsMonitor: Any?
+    /// Watches Settings > Appearance > Panel Width and Card Size while the
+    /// panel is open, so a change resizes it right away.
+    private var layoutSettingsObserver: NSObjectProtocol?
     private var tabHintTask: Task<Void, Never>?
     /// Where the pointer was when the keyboard last took over: the panel
     /// opening, a tab switch, an arrow key. A card under a pointer that
@@ -47,13 +43,19 @@ final class PanelController {
         return setting && !NSWorkspace.shared.accessibilityDisplayShouldReduceMotion
     }
 
-    private let baseHeight: CGFloat = 280
-    private let minimumPanelWidth: CGFloat = 720
-    private let maximumScreenWidthRatio: CGFloat = 0.90
-    private let estimatedCardWidth: CGFloat = 228
-    private let estimatedCardSpacing: CGFloat = 8
-    private let contentHorizontalPadding: CGFloat = 32
-    private let maximumVisibleCardCount = 6
+    /// Navigation bar (44) plus the card row. Cards fill the row, so this
+    /// also sets the card size (Settings > Appearance > Card Size).
+    private var baseHeight: CGFloat { PanelCardSize.panelHeight }
+    /// Radius of the panel's top corners. The bottom edge sits on the screen
+    /// edge (or the Dock), so only the top two corners are rounded.
+    private let topCornerRadius: CGFloat = 12
+    /// Transparent band above the content that its shadow draws into. The
+    /// window is this much taller than the visible panel.
+    private let shadowInset: CGFloat = PanelSlideView.shadowReach
+    /// Transparent band on each side that the shadow draws into when the
+    /// panel is narrower than the screen. A full width panel runs past the
+    /// screen edges, so its sides need none.
+    private var sideInset: CGFloat { PanelWidth.isFull ? 0 : shadowInset }
 
     // MARK: - Screen Selection
 
@@ -73,10 +75,59 @@ final class PanelController {
     /// whichever display last held focus and the panel slides in on the wrong
     /// screen. The pointer location matches the user's intent, so prefer it and
     /// fall back to `NSScreen.main` only when the pointer is off screen.
+    ///
+    /// Settings > Appearance > Show Panel On can instead pick the display with
+    /// the frontmost app's window or the main display.
     private var activeScreen: NSScreen {
-        Self.screen(containing: NSEvent.mouseLocation, in: NSScreen.screens)
+        let screens = NSScreen.screens
+        // The display chosen by the setting; nil falls back to the pointer's.
+        let preferred: NSScreen? = switch PanelScreen.current {
+        case .pointer: nil
+        case .activeWindow: Self.frontWindowScreen(in: screens)
+        // The first screen is the one with the menu bar.
+        case .main: screens.first
+        }
+        return preferred
+            ?? Self.screen(containing: NSEvent.mouseLocation, in: screens)
             ?? NSScreen.main
-            ?? NSScreen.screens.first!
+            ?? screens.first!
+    }
+
+    /// The display holding most of the frontmost app's front window, if any.
+    ///
+    /// Window bounds are readable without Screen Recording permission; only
+    /// titles are not. Clipbara never owns the front window when the hotkey
+    /// fires, so the frontmost app is the one the user was working in.
+    /// - Parameter screens: The connected displays, menu bar display first.
+    private static func frontWindowScreen(in screens: [NSScreen]) -> NSScreen? {
+        guard let pid = NSWorkspace.shared.frontmostApplication?.processIdentifier,
+              let primary = screens.first,
+              let windows = CGWindowListCopyWindowInfo(
+                  [.optionOnScreenOnly, .excludeDesktopElements], kCGNullWindowID
+              ) as? [[String: Any]] else { return nil }
+
+        // The list runs front to back, so the first normal window of the app
+        // is its front window.
+        let front = windows.first { info in
+            (info[kCGWindowOwnerPID as String] as? pid_t) == pid
+                && (info[kCGWindowLayer as String] as? Int) == 0
+        }
+        guard let boundsInfo = front?[kCGWindowBounds as String] as? NSDictionary,
+              let cgBounds = CGRect(dictionaryRepresentation: boundsInfo) else { return nil }
+
+        // Window bounds have their origin at the top left of the main display;
+        // AppKit screen frames have theirs at its bottom left.
+        let bounds = NSRect(
+            x: cgBounds.minX,
+            y: primary.frame.maxY - cgBounds.maxY,
+            width: cgBounds.width,
+            height: cgBounds.height
+        )
+        return screens.max { lhs, rhs in
+            let lhsArea = lhs.frame.intersection(bounds)
+            let rhsArea = rhs.frame.intersection(bounds)
+            return lhsArea.width * lhsArea.height < rhsArea.width * rhsArea.height
+        }.flatMap { $0.frame.intersects(bounds) ? $0 : nil }
     }
 
     func toggle(modelContainer: ModelContainer, appState: AppState) {
@@ -97,11 +148,14 @@ final class PanelController {
         // the screen would hand it to a display stacked underneath before the
         // first hotkey press ever happens. It stays invisible via `alphaValue`.
         let screenFrame = activeScreen.visibleFrame
-        let frame = panelFrame(in: screenFrame, itemCount: 0, y: screenFrame.origin.y)
+        let frame = panelFrame(in: screenFrame, y: screenFrame.origin.y)
+        let inset = sideInset
 
         let warm = ClipbaraPanel(contentRect: frame)
         warm.alphaValue = 0
         warm.contentView = makeContentView(modelContainer: modelContainer, appState: appState, size: frame.size)
+        contentContainer?.sideInset = inset
+        refitContent()
         warm.orderFrontRegardless()
         warm.contentView?.layoutSubtreeIfNeeded()
         warm.displayIfNeeded()
@@ -119,11 +173,10 @@ final class PanelController {
         anchorKeyboard()
         self.appState = appState
 
-        let screen = activeScreen
-        let screenFrame = screen.visibleFrame
-        let itemCount = visibleItemCount(modelContainer: modelContainer, selectedTab: appState.selectedTab)
-        let endFrame = panelFrame(in: screenFrame, itemCount: itemCount, y: screenFrame.origin.y)
-        presentedScreen = screen
+        let screenFrame = activeScreen.visibleFrame
+        let endFrame = panelFrame(in: screenFrame, y: screenFrame.origin.y)
+        // Read once so the frame and the content agree on the side bands.
+        let inset = sideInset
 
         if panel == nil {
             panel = ClipbaraPanel(contentRect: endFrame)
@@ -135,7 +188,7 @@ final class PanelController {
         } else {
             panel?.setFrame(endFrame, display: false)
         }
-        resizeTargetFrame = nil
+        contentContainer?.sideInset = inset
         refitContent()
 
         // The panel frame stays put; the content starts one panel height below
@@ -145,11 +198,6 @@ final class PanelController {
         let animates = Self.animatesPanel
         contentHost?.frame.origin.y = animates ? -endFrame.height : 0
         panel?.alphaValue = 1
-
-        // The window shadow is derived from the content alpha. While the
-        // content is only partly inside the frame the shadow would outline
-        // empty space, so drop it for the duration of the slide.
-        panel?.hasShadow = !animates
 
         panel?.orderFrontRegardless()
         panel?.makeKey()
@@ -176,6 +224,7 @@ final class PanelController {
         installMouseMonitor()
         installScrollMonitor()
         installKeyMonitor()
+        installLayoutSettingsObserver()
     }
 
     private func slideContentIn() {
@@ -186,49 +235,10 @@ final class PanelController {
                 context.timingFunction = CAMediaTimingFunction(name: .easeOut)
                 // Only the origin moves. Animating the whole frame would also
                 // carry a width captured before any resize that lands mid-slide.
-                contentHost.animator().setFrameOrigin(.zero)
-            }, completionHandler: {
-                Task { @MainActor [weak self] in
-                    self?.panel?.hasShadow = true
-                    self?.panel?.invalidateShadow()
-                }
+                contentHost.animator().setFrameOrigin(
+                    NSPoint(x: self.contentContainer?.sideInset ?? 0, y: 0)
+                )
             })
-        }
-    }
-
-    func resizeToContentItemCount(_ itemCount: Int, animated: Bool = true) {
-        guard isVisible, let panel else { return }
-
-        let screen = presentedScreen ?? panel.screen ?? activeScreen
-        let screenFrame = screen.visibleFrame
-        let targetFrame = panelFrame(in: screenFrame, itemCount: itemCount, y: panel.frame.origin.y)
-
-        let currentTarget = resizeTargetFrame ?? panel.frame
-        guard abs(currentTarget.width - targetFrame.width) > 1 ||
-              abs(currentTarget.origin.x - targetFrame.origin.x) > 1 else {
-            return
-        }
-
-        if animated, Self.animatesPanel {
-            resizeTargetFrame = targetFrame
-            NSAnimationContext.runAnimationGroup({ context in
-                context.duration = 0.18
-                context.timingFunction = CAMediaTimingFunction(name: .easeOut)
-                panel.animator().setFrame(targetFrame, display: true)
-            }, completionHandler: { [weak self] in
-                Task { @MainActor in
-                    guard let self else { return }
-                    // A newer resize may have started; only clear our own target.
-                    if self.resizeTargetFrame == targetFrame {
-                        self.resizeTargetFrame = nil
-                        self.refitContent()
-                    }
-                }
-            })
-        } else {
-            resizeTargetFrame = nil
-            panel.setFrame(targetFrame, display: true)
-            refitContent()
         }
     }
 
@@ -272,12 +282,11 @@ final class PanelController {
         removeMouseMonitor()
         removeScrollMonitor()
         removeKeyMonitor()
+        removeLayoutSettingsObserver()
 
         let finish: @MainActor () -> Void = { [weak self] in
             panel.orderOut(nil)
-            panel.hasShadow = true
             self?.contentHost?.frame.origin.y = 0
-            self?.presentedScreen = nil
             self?.isVisible = false
             completion?()
         }
@@ -287,17 +296,58 @@ final class PanelController {
             return
         }
 
-        panel.hasShadow = false
-
         NSAnimationContext.runAnimationGroup({ [contentHost] context in
             context.duration = 0.2
             context.timingFunction = CAMediaTimingFunction(name: .easeIn)
-            contentHost?.animator().setFrameOrigin(NSPoint(x: 0, y: -panelHeight))
+            contentHost?.animator().setFrameOrigin(
+                NSPoint(x: contentHost?.frame.minX ?? 0, y: -panelHeight)
+            )
         }, completionHandler: {
             Task { @MainActor in
                 finish()
             }
         })
+    }
+
+    // MARK: - Layout Settings (resize the open panel)
+
+    /// Only installed while the panel is open; a closed panel picks the
+    /// settings up the next time it opens.
+    private func installLayoutSettingsObserver() {
+        guard layoutSettingsObserver == nil else { return }
+        layoutSettingsObserver = NotificationCenter.default.addObserver(
+            forName: UserDefaults.didChangeNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            MainActor.assumeIsolated {
+                self?.applyLayoutSettings()
+            }
+        }
+    }
+
+    private func removeLayoutSettingsObserver() {
+        if let observer = layoutSettingsObserver {
+            NotificationCenter.default.removeObserver(observer)
+            layoutSettingsObserver = nil
+        }
+    }
+
+    /// Resizes the open panel to the current width and card size settings.
+    /// It stays on the screen it is on: the pointer is likely over the
+    /// Settings window, which may be on another display.
+    private func applyLayoutSettings() {
+        guard isVisible, let panel, let screen = panel.screen else { return }
+        // Any setting posts the notification; skip the ones that leave the
+        // panel as it is.
+        let screenFrame = screen.visibleFrame
+        let frame = panelFrame(in: screenFrame, y: screenFrame.origin.y)
+        let inset = sideInset
+        guard frame != panel.frame || inset != contentContainer?.sideInset else { return }
+
+        panel.setFrame(frame, display: true)
+        contentContainer?.sideInset = inset
+        refitContent()
     }
 
     // MARK: - Click Monitor (dismiss on outside click)
@@ -312,8 +362,8 @@ final class PanelController {
                     self.appState?.finishClipboardDrag()
                     return
                 }
-                if let panel = self.panel,
-                   !panel.frame.contains(NSEvent.mouseLocation) {
+                if let visibleFrame = self.visiblePanelFrame,
+                   !visibleFrame.contains(NSEvent.mouseLocation) {
                     self.hidePanel()
                 }
             }
@@ -337,6 +387,14 @@ final class PanelController {
                 guard let self else { return }
                 if event.type == .leftMouseUp, self.appState?.draggedClipboardItemID != nil {
                     self.appState?.finishClipboardDrag()
+                } else if event.type == .leftMouseDown || event.type == .rightMouseDown,
+                          event.window === self.panel,
+                          let visibleFrame = self.visiblePanelFrame,
+                          !visibleFrame.contains(NSEvent.mouseLocation) {
+                    // A click on the shadow band above the panel still lands
+                    // on the panel's window. It is outside what people see as
+                    // the panel, so treat it like any other outside click.
+                    self.hidePanel()
                 } else {
                     self.releaseTextFocusIfNeeded(for: event)
                 }
@@ -418,7 +476,7 @@ final class PanelController {
         guard isVisible, let panel else { return }
 
         let screenPoint = NSEvent.mouseLocation
-        guard panel.frame.contains(screenPoint) else { return }
+        guard visiblePanelFrame?.contains(screenPoint) == true else { return }
 
         if isTextInputFocused(in: panel),
            !eventHitsTextInput(event, in: panel) {
@@ -880,26 +938,6 @@ final class PanelController {
         }
     }
 
-    private func visibleItemCount(modelContainer: ModelContainer, selectedTab: PanelTab) -> Int {
-        let context = modelContainer.mainContext
-
-        switch selectedTab {
-        case .history:
-            let descriptor = FetchDescriptor<ClipboardItem>()
-            return (try? context.fetchCount(descriptor)) ?? 0
-
-        case .pinboard(let pinboardId):
-            var descriptor = FetchDescriptor<Pinboard>(
-                predicate: #Predicate { pinboard in
-                    pinboard.id == pinboardId
-                }
-            )
-            descriptor.fetchLimit = 1
-            guard let pinboard = try? context.fetch(descriptor).first else { return 0 }
-            return pinboard.entries.filter { !$0.isDeleted && $0.clipboardItem != nil }.count
-        }
-    }
-
     /// Wraps the SwiftUI content in a plain container so it can be offset
     /// inside the panel. Anything pushed outside the panel frame is clipped by
     /// the window surface, which is what makes the slide read as a reveal.
@@ -915,39 +953,57 @@ final class PanelController {
         )
         host.frame = NSRect(origin: .zero, size: size)
 
-        let container = PanelContentContainer(frame: NSRect(origin: .zero, size: size))
-        container.wantsLayer = true
-        container.layer?.masksToBounds = true
-        container.addSubview(host)
-        container.hostedView = host
+        // The slide view carries the rounded corners and the shadow, so the
+        // shadow moves with the content instead of popping in after the slide.
+        let slide = PanelSlideView(content: host, cornerRadius: topCornerRadius)
+        slide.frame = NSRect(x: 0, y: 0, width: size.width, height: size.height - shadowInset)
 
-        contentHost = host
+        let container = PanelContentContainer(frame: NSRect(origin: .zero, size: size))
+        container.topInset = shadowInset
+        container.wantsLayer = true
+        // The window clips whatever slides below its bottom edge; the container
+        // must not clip as well, or the shadow above the content is cut off.
+        container.layer?.masksToBounds = false
+        container.addSubview(slide)
+        container.hostedView = slide
+
+        contentHost = slide
         contentContainer = container
         return container
     }
 
-    private func panelFrame(in screenFrame: NSRect, itemCount: Int, y: CGFloat) -> NSRect {
-        let panelWidth = targetPanelWidth(for: itemCount, screenWidth: screenFrame.width)
-        let panelX = screenFrame.midX - panelWidth / 2
-
-        return NSRect(
-            x: panelX,
-            y: y,
-            width: panelWidth,
-            height: baseHeight
-        )
+    /// The part of the panel people see: the window minus the transparent
+    /// shadow band at its top. nil while there is no panel.
+    private var visiblePanelFrame: NSRect? {
+        guard let panel else { return nil }
+        var frame = panel.frame
+        frame.size.height -= shadowInset
+        // Leave out the side shadow bands as well.
+        frame = frame.insetBy(dx: contentContainer?.sideInset ?? 0, dy: 0)
+        return frame
     }
 
-    private func targetPanelWidth(for itemCount: Int, screenWidth: CGFloat) -> CGFloat {
-        let screenMaxWidth = max(360, screenWidth - 48)
-        let maxWidth = min(screenMaxWidth, max(minimumPanelWidth, screenWidth * maximumScreenWidthRatio))
-        let minWidth = min(minimumPanelWidth, maxWidth)
-        let visibleCardCount = min(max(itemCount, 1), maximumVisibleCardCount)
-        let cardContentWidth =
-            CGFloat(visibleCardCount) * estimatedCardWidth +
-            CGFloat(max(visibleCardCount - 1, 0)) * estimatedCardSpacing +
-            contentHorizontalPadding
-
-        return min(max(minWidth, cardContentWidth), maxWidth)
+    /// Spans the share of the screen's usable width set in Settings >
+    /// Appearance > Panel Width, centered, at the panel's height plus the
+    /// shadow band above it and, when narrower than the screen, beside it.
+    /// - Parameters:
+    ///   - screenFrame: The usable area (`visibleFrame`) of the target screen.
+    ///   - y: The panel's bottom edge in screen coordinates.
+    private func panelFrame(in screenFrame: NSRect, y: CGFloat) -> NSRect {
+        let inset = sideInset
+        // Width people see, in whole points so the centered panel doesn't land
+        // on half pixels, leaving room for both side bands on screen.
+        let visibleWidth = min(
+            (screenFrame.width * PanelWidth.fraction).rounded(),
+            screenFrame.width - inset * 2
+        )
+        // The window, side bands included.
+        let width = visibleWidth + inset * 2
+        return NSRect(
+            x: screenFrame.minX + ((screenFrame.width - width) / 2).rounded(),
+            y: y,
+            width: width,
+            height: baseHeight + shadowInset
+        )
     }
 }

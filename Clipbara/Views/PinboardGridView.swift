@@ -27,14 +27,22 @@ struct PinboardGridView: View {
                 )
             } else {
                 GeometryReader { geo in
-                    let cardH = min(max(geo.size.height - 26, 164), 188)
-                    let cardW = min(max(cardH * 1.16, 206), 228)
+                    // Card height: the whole row minus its top and bottom padding.
+                    let cardH = max(
+                        geo.size.height - DesignTokens.Grid.topPadding - DesignTokens.Grid.bottomPadding,
+                        DesignTokens.Grid.minCardHeight
+                    )
+                    // Card width, kept in proportion to the height.
+                    let cardW = max(cardH * DesignTokens.Grid.cardAspectRatio, DesignTokens.Grid.minCardWidth)
                     let rows = [GridItem(.fixed(cardH), spacing: 10)]
                     let pinboardItems = orderedEntries.compactMap(\.clipboardItem)
 
                     ScrollViewReader { proxy in
+                        // No edge fade: fading these colorful cards into the
+                        // panel's light background washed them out. A card cut
+                        // off at the panel edge shows there is more to scroll.
                         ScrollView(.horizontal, showsIndicators: false) {
-                            LazyHGrid(rows: rows, spacing: 8) {
+                            LazyHGrid(rows: rows, spacing: DesignTokens.Grid.cardSpacing) {
                                 ForEach(Array(orderedEntries.enumerated()), id: \.element.id) { index, entry in
                                     if let item = entry.clipboardItem {
                                         cardView(
@@ -48,9 +56,13 @@ struct PinboardGridView: View {
                                     }
                                 }
                             }
-                            .padding(.horizontal, 16)
-                            .padding(.vertical, 9)
+                            .padding(.horizontal, DesignTokens.Grid.horizontalPadding)
+                            .padding(.top, DesignTokens.Grid.topPadding)
+                            .padding(.bottom, DesignTokens.Grid.bottomPadding)
                         }
+                        // Let hover and selection shadows spill past the row
+                        // instead of being cut off under the navigation bar.
+                        .scrollClipDisabled()
                         .onChange(of: appState.searchState.selectedIndex) { _, newIndex in
                             if let idx = newIndex, idx < orderedEntries.count {
                                 withAnimation(.easeOut(duration: 0.15)) {
@@ -135,7 +147,6 @@ struct PinboardGridView: View {
             orderedEntries = current
         }
         syncNavigationItems(current.compactMap(\.clipboardItem))
-        appState.panelController.resizeToContentItemCount(current.count)
     }
 
     private func syncNavigationItems(_ items: [ClipboardItem]) {

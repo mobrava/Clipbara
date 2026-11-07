@@ -60,7 +60,9 @@ struct ClipboardCardView: View {
             Button("Cancel", role: .cancel) {}
             Button("Save") {
                 let trimmed = renameText.trimmingCharacters(in: .whitespaces)
-                item.userTitle = trimmed.isEmpty ? nil : trimmed
+                // Clearing the field, or leaving the type name that was
+                // filled in, goes back to showing the type.
+                item.userTitle = trimmed.isEmpty || trimmed == item.contentType.displayName ? nil : trimmed
                 try? modelContext.save()
             }
         }
@@ -82,7 +84,9 @@ struct ClipboardCardView: View {
         if showsManagementMenu || currentPinboardID != nil {
             Divider()
             Button("Rename") {
-                renameText = item.userTitle ?? ""
+                // Start from the name the header shows: the user's title, or
+                // the type name for a clip that was never renamed.
+                renameText = item.userTitle ?? item.contentType.displayName
                 isRenaming = true
             }
             if AppState.canEdit(item) {
@@ -128,17 +132,29 @@ struct ClipboardCardView: View {
         }
     }
 
+    /// No padding of its own: the header runs edge to edge, and the content
+    /// and footer each set their own insets.
+    /// How far the content runs under the header; see `cardSurface`.
+    private static let headerOverlap: CGFloat = 1
+
     private var cardSurface: some View {
-        VStack(spacing: DesignTokens.Card.contentSpacing) {
+        ZStack(alignment: .top) {
+            VStack(spacing: 0) {
+                // Room for the header, less the strip the content runs under it.
+                Color.clear
+                    .frame(height: DesignTokens.Card.headerHeight - Self.headerOverlap)
+
+                contentView
+
+                footerView
+            }
+
+            // On top of the content's first `headerOverlap` points. Two solid
+            // fills meeting edge to edge (header over an image or a color)
+            // flashed a hairline of the card background while the hover lift
+            // animated across fractional pixels; overlapping them leaves no seam.
             headerView
-
-            contentView
-
-            footerView
         }
-        .padding(.top, DesignTokens.Card.topPadding)
-        .padding(.horizontal, DesignTokens.Card.horizontalPadding)
-        .padding(.bottom, 8)
         .frame(width: cardWidth, height: cardHeight)
         .background(cardFillColor)
         .clipShape(RoundedRectangle(cornerRadius: DesignTokens.Card.cornerRadius, style: .continuous))
@@ -148,24 +164,23 @@ struct ClipboardCardView: View {
                     isSelected
                         ? DesignTokens.Selection.borderColor
                         : (isHovered
-                            ? DesignTokens.Selection.borderColor.opacity(0.45)
+                            ? DesignTokens.Card.hoverBorderColor(for: colorScheme)
                             : DesignTokens.Card.borderColor(for: colorScheme)),
                     lineWidth: isSelected
                         ? DesignTokens.Selection.borderWidth
-                        : (isHovered ? DesignTokens.Selection.hoverBorderWidth : DesignTokens.Selection.defaultBorderWidth)
+                        : DesignTokens.Selection.defaultBorderWidth
                 )
         )
         .shadow(
             color: cardShadowColor,
             radius: isSelected ? DesignTokens.Selection.selectedShadowRadius
                 : (isHovered ? DesignTokens.Selection.hoverShadowRadius : DesignTokens.Selection.defaultShadowRadius),
-            y: isSelected ? 6 : (isHovered ? 5 : 2)
+            y: isSelected ? DesignTokens.Selection.selectedShadowY
+                : (isHovered ? DesignTokens.Selection.hoverShadowY : DesignTokens.Selection.defaultShadowY)
         )
-        .scaleEffect(isSelected ? 1.01 : (isHovered ? DesignTokens.Selection.hoverScale : 1.0))
         .offset(y: isHovered && !isSelected ? DesignTokens.Selection.hoverLift : 0)
-        .brightness(isHovered && !isSelected ? 0.04 : 0)
         .zIndex(isHovered ? 1 : 0)
-        .animation(.spring(response: 0.28, dampingFraction: 0.75), value: isHovered)
+        .animation(DesignTokens.Selection.hoverAnimation, value: isHovered)
         .animation(.easeInOut(duration: 0.15), value: isSelected)
     }
 
@@ -182,86 +197,108 @@ struct ClipboardCardView: View {
 
     // MARK: - Header View
 
+    /// A band in the clip type's color with the type and time on the left
+    /// and the source app's icon, whole, on the right.
     private var headerView: some View {
-        HStack(alignment: .center, spacing: 8) {
-            typeBadge
+        let headerHeight = DesignTokens.Card.headerHeight
+        // The icon's visible rounded square.
+        let iconBodySize = DesignTokens.Header.appIconBodySize
+        // The image, transparent margin included.
+        let iconSize = iconBodySize / DesignTokens.Header.appIconBodyRatio
+        // Transparent margin on each side of the image.
+        let iconMargin = (iconSize - iconBodySize) / 2
+        // Spacing between items in the header row.
+        let itemSpacing: CGFloat = 6
+        // Room the icon takes at the header's right end, gap to the label included.
+        let iconReservedWidth = iconBodySize + DesignTokens.Header.appIconTrailingPadding + itemSpacing
 
-            Text(RelativeTimeFormatter.string(for: item.copiedAt))
-                .font(DesignTokens.Header.subtitleFont)
-                .foregroundStyle(DesignTokens.Body.textColor(for: colorScheme).opacity(0.62))
-                .lineLimit(1)
+        return ZStack(alignment: .trailing) {
+            DesignTokens.headerColor(for: item.contentType, itemColor: item.textContent)
 
-            Spacer(minLength: 4)
+            HStack(spacing: itemSpacing) {
+                typeLabel
+
+                Text(RelativeTimeFormatter.string(for: item.copiedAt))
+                    .font(DesignTokens.Header.subtitleFont)
+                    .foregroundStyle(headerTextColor.opacity(DesignTokens.Header.subtitleOpacity))
+                    .lineLimit(1)
+
+                Spacer(minLength: 4)
+            }
+            .padding(.leading, DesignTokens.Card.headerLeadingPadding)
+            // Keep the label clear of the icon.
+            .padding(.trailing, item.sourceAppBundleId == nil ? 0 : iconReservedWidth)
 
             if let bundleId = item.sourceAppBundleId {
-                Image(nsImage: AppIconProvider.icon(for: bundleId, size: 40))
+                Image(nsImage: AppIconProvider.icon(for: bundleId, size: iconSize * 2))
                     .resizable()
-                    .frame(
-                        width: DesignTokens.Header.appIconSize,
-                        height: DesignTokens.Header.appIconSize
-                    )
-                    .clipShape(RoundedRectangle(cornerRadius: DesignTokens.Header.appIconCornerRadius, style: .continuous))
-                    .overlay(
-                        RoundedRectangle(cornerRadius: DesignTokens.Header.appIconCornerRadius, style: .continuous)
-                            .strokeBorder(Color.white.opacity(colorScheme == .dark ? 0.08 : 0.6), lineWidth: 0.5)
-                    )
-                    .shadow(color: .black.opacity(0.14), radius: 3, y: 1)
+                    .frame(width: iconSize, height: iconSize)
+                    // The image's own transparent margin counts toward the gap.
+                    .padding(.trailing, DesignTokens.Header.appIconTrailingPadding - iconMargin)
             }
         }
+        .frame(height: headerHeight)
         .frame(maxWidth: .infinity)
+        .clipped()
     }
 
-    private var typeBadge: some View {
-        let tint = DesignTokens.typeTint(for: item.contentType, itemColor: item.textContent)
+    /// Text color on the header band.
+    private var headerTextColor: Color {
+        DesignTokens.headerTextColor(for: item.contentType, itemColor: item.textContent)
+    }
 
-        return HStack(spacing: 5) {
+    /// The clip's type (or the name the user gave it) as an icon and label.
+    private var typeLabel: some View {
+        HStack(spacing: 4) {
             Image(systemName: item.contentType.systemImage)
-                .font(.system(size: 10, weight: .semibold))
+                .font(DesignTokens.Header.typeIconFont)
 
             Text(item.userTitle ?? item.contentType.displayName)
                 .font(DesignTokens.Header.titleFont)
                 .lineLimit(1)
         }
-        .foregroundStyle(tint)
-        .padding(.vertical, DesignTokens.Header.badgeVerticalPadding)
-        .padding(.horizontal, DesignTokens.Header.badgeHorizontalPadding)
-        .background(tint.opacity(colorScheme == .dark ? 0.18 : 0.20))
-        .clipShape(RoundedRectangle(cornerRadius: DesignTokens.Header.badgeCornerRadius, style: .continuous))
+        .foregroundStyle(headerTextColor)
     }
 
-    // MARK: - Footer View (Badge Style)
+    // MARK: - Footer View
 
-    @ViewBuilder
+    /// The clip's size or length centered under the content, with the
+    /// actions menu at the right.
     private var footerView: some View {
-        HStack(spacing: 6) {
+        ZStack {
             Text(footerInfo)
-                .font(DesignTokens.Badge.font)
-                .foregroundStyle(DesignTokens.Badge.textColor(for: colorScheme))
-                .padding(.vertical, DesignTokens.Badge.verticalPadding)
-                .padding(.horizontal, DesignTokens.Badge.horizontalPadding)
-                .background(DesignTokens.Badge.backgroundColor(for: colorScheme))
-                .clipShape(RoundedRectangle(cornerRadius: DesignTokens.Badge.cornerRadius, style: .continuous))
+                .font(DesignTokens.Footer.font)
+                .foregroundStyle(DesignTokens.Footer.textColor(for: colorScheme))
+                .lineLimit(1)
+                .truncationMode(.middle)
+                // Room for the menu on both sides keeps the text centered on
+                // the card without running under the menu.
+                .padding(.horizontal, hasMenu ? 28 : 0)
 
-            Spacer()
+            HStack {
+                Spacer()
 
-            if hasMenu {
-                Menu {
-                    menuItems
-                } label: {
-                    Image(systemName: "ellipsis")
-                        .font(.system(size: 12, weight: .semibold))
-                        .foregroundStyle(DesignTokens.Badge.textColor(for: colorScheme))
-                        .opacity(isHovered || isSelected ? 0.72 : 0.34)
-                        .frame(width: 24, height: 18)
-                        .contentShape(Rectangle())
+                if hasMenu {
+                    Menu {
+                        menuItems
+                    } label: {
+                        Image(systemName: "ellipsis")
+                            .font(.system(size: 12, weight: .semibold))
+                            .foregroundStyle(DesignTokens.Footer.textColor(for: colorScheme))
+                            .opacity(isHovered || isSelected ? 0.72 : 0.34)
+                            .frame(width: 24, height: 18)
+                            .contentShape(Rectangle())
+                    }
+                    .menuStyle(.button)
+                    .buttonStyle(.plain)
+                    .menuIndicator(.hidden)
+                    .fixedSize()
+                    .help("More actions")
                 }
-                .menuStyle(.button)
-                .buttonStyle(.plain)
-                .menuIndicator(.hidden)
-                .fixedSize()
-                .help("More actions")
             }
         }
+        .padding(.horizontal, DesignTokens.Card.footerHorizontalPadding)
+        .frame(height: DesignTokens.Card.footerHeight)
     }
 
     private var footerInfo: String {
@@ -274,12 +311,26 @@ struct ClipboardCardView: View {
             }
             return String(localized: "\(count) chars")
         case .url:
-            return String(localized: "URL")
+            // The type is already in the header; the domain says where it goes.
+            guard let text = item.textContent, let host = URL(string: text)?.host() else {
+                return String(localized: "URL")
+            }
+            return host.hasPrefix("www.") ? String(host.dropFirst(4)) : host
         case .fileURL:
-            return String(localized: "File")
+            switch ClipMetadata.fileInfo(for: item) {
+            case .file(let byteCount):
+                return ByteCountFormatter.string(fromByteCount: byteCount, countStyle: .file)
+            case .folder:
+                return String(localized: "Folder")
+            case .missing:
+                return String(localized: "File Not Found")
+            }
         case .image:
-            let kb = item.rawData.count / 1024
-            return "\(kb) KB"
+            let size = ByteCountFormatter.string(fromByteCount: Int64(item.rawData.count), countStyle: .file)
+            guard let info = ClipMetadata.imageInfo(for: item) else { return size }
+            // Format, pixel size, then bytes: "PNG · 1920 × 1080 · 828 KB".
+            let dimensions = "\(info.pixelWidth) × \(info.pixelHeight)"
+            return [info.formatName, dimensions, size].compactMap { $0 }.joined(separator: " · ")
         case .color:
             return item.textContent ?? ""
         }
@@ -308,17 +359,15 @@ struct ClipboardCardView: View {
     private var contentView: some View {
         Group {
             if item.contentType == .image || item.contentType == .color {
+                // Edge to edge between the header and the footer.
                 cardContent
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .clipShape(RoundedRectangle(cornerRadius: 7, style: .continuous))
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 7, style: .continuous)
-                            .strokeBorder(DesignTokens.Card.borderColor(for: colorScheme), lineWidth: 0.5)
-                    )
             } else {
                 cardContent
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-                    .padding(.vertical, 2)
+                    .padding(.horizontal, DesignTokens.Body.padding)
+                    // The first `headerOverlap` points sit under the header.
+                    .padding(.top, DesignTokens.Body.padding + Self.headerOverlap)
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)

@@ -140,6 +140,7 @@ final class AppState {
         clipQueue.stop()
         clipboardMonitor.skipNextChange()
         pasteService.paste(item: item, asPlainText: asPlainText)
+        SoundFeedback.playPaste()
         // ⌘V has to reach the app behind the panel, so send it once the
         // panel is off screen and no longer the key window.
         if DirectPaste.isReady {

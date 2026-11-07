@@ -18,7 +18,13 @@ final class ClipbaraPanel: NSPanel {
         titleVisibility = .hidden
         titlebarAppearsTransparent = true
         isMovableByWindowBackground = false
-        hasShadow = true
+        // The content draws its own shadow (`PanelSlideView`) so it can slide
+        // with the content; the window shadow could only follow the window.
+        hasShadow = false
+        // Clipbara stays inactive while the panel is up (it's a non-activating
+        // panel), and AppKit hides tooltips for inactive apps by default, so
+        // every `.help` in the panel would never show.
+        allowsToolTipsWhenApplicationIsInactive = true
 
         minSize = NSSize(width: 100, height: 200)
         maxSize = NSSize(width: CGFloat.greatestFiniteMagnitude, height: 800)

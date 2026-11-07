@@ -8,6 +8,8 @@ struct GeneralSettingsTab: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(AppState.self) private var appState
     @AppStorage("historyLimit") private var historyLimit: Int = 500
+    /// Short sounds on copy and paste.
+    @AppStorage(SoundFeedback.defaultsKey) private var playsSounds: Bool = false
     @AppStorage(PasteService.alwaysPlainTextDefaultsKey) private var alwaysPastePlainText: Bool = false
     @AppStorage(DirectPaste.enabledDefaultsKey) private var pasteIntoActiveApp: Bool = false
     @State private var hasPastePermission = DirectPaste.hasPermission
@@ -29,6 +31,8 @@ struct GeneralSettingsTab: View {
                 Text("Unlimited").tag(0)
             }
             .pickerStyle(.menu)
+
+            Toggle("Play Sounds", isOn: $playsSounds)
 
             Toggle("Launch at Login", isOn: $launchAtLogin)
                 .onChange(of: launchAtLogin) { _, newValue in
