@@ -7,7 +7,8 @@ import AppKit
 /// data promised rather than written. When another app pastes, it asks for the
 /// data, and that request is the signal to line up the following item. This
 /// needs no permission, unlike watching the keyboard for ⌘V (App Review
-/// rejected that under guideline 2.4.5).
+/// rejected that under guideline 2.4.5). A request that didn't come with a
+/// paste shortcut puts the same item back instead (see `ClipQueuePasteboard`).
 @MainActor
 @Observable
 final class ClipQueue {
@@ -32,7 +33,12 @@ final class ClipQueue {
     func attach(to appState: AppState) {
         self.appState = appState
         board.onPaste = { [weak self] in self?.userDidPaste() }
-        board.onReplace = { [weak self] in self?.lineUpNext() }
+        board.onReplace = { [weak self] in
+            // Something copied since then wins; Clipbara records it and the
+            // queue lines up again from there.
+            guard let self, self.board.holdsQueueItem else { return }
+            self.lineUpNext()
+        }
     }
 
     func toggle() {
@@ -102,6 +108,8 @@ final class ClipQueue {
 
     private func userDidPaste() {
         guard isActive, list.consumeNext() != nil else { return }
+        // Don't write over something copied right after the paste.
+        guard board.holdsQueueItem else { return }
         lineUpNext()
     }
 

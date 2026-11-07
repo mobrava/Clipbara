@@ -1,7 +1,7 @@
 import AppKit
 
 /// Puts one queue item on the general pasteboard with its data promised, and
-/// reports the first time another app asks for it.
+/// reports when an app reads it to paste.
 ///
 /// Tested on macOS 26 (2026-10-10): Spotlight's clipboard history reads every
 /// change right away, which would look like a paste. It leaves items with the
@@ -9,8 +9,33 @@ import AppKit
 /// which otherwise read the clipboard when they come to the front. Universal
 /// Clipboard fetched the file URL of an image item at once until the item was
 /// marked as this Mac only.
+///
+/// Not every app honors the markers, and some read the clipboard's text on
+/// their own, such as a text selection toolbar deciding whether to offer Paste
+/// (#78). So a read counts as a paste only when a key went down after the item
+/// was placed and just before the read, with Command held. Both of those can
+/// be read without any permission (tested on macOS 26, 2026-11-07); which key
+/// it was can't.
 @MainActor
 final class ClipQueuePasteboard: NSObject, NSPasteboardItemDataProvider {
+    /// What the keyboard did, as far as an app without Accessibility or
+    /// Input Monitoring access can tell.
+    struct Keyboard {
+        var lastKeyDown: Date
+        var commandHeld: Bool
+
+        @MainActor
+        static func current() -> Keyboard {
+            // Combined state includes keys sent by other apps, such as an
+            // automation tool's ⌘V.
+            let seconds = CGEventSource.secondsSinceLastEventType(.combinedSessionState, eventType: .keyDown)
+            return Keyboard(
+                lastKeyDown: Date().addingTimeInterval(-seconds),
+                commandHeld: NSEvent.modifierFlags.contains(.command)
+            )
+        }
+    }
+
     nonisolated static let markerTypes: [NSPasteboard.PasteboardType] = [
         .init("org.nspasteboard.TransientType"),
         .init("org.nspasteboard.ConcealedType"),
@@ -22,9 +47,24 @@ final class ClipQueuePasteboard: NSObject, NSPasteboardItemDataProvider {
     /// A read this soon after an app comes to the front is that app looking,
     /// not pasting.
     static let activationWindow: TimeInterval = 0.3
+    /// A paste reads the clipboard while it handles the key press, well
+    /// within this.
+    static let pasteKeyWindow: TimeInterval = 1.0
+    /// A shortcut sent by another app may let go of Command before the read,
+    /// but the read still follows the key at once.
+    static let sentKeyWindow: TimeInterval = 0.1
+    /// After a read that wasn't a paste, the item goes back this soon, so a
+    /// paste right after it still counts.
+    static let firstReplaceDelay: Duration = .milliseconds(100)
+    /// A read this soon after the item went back comes from an app that reads
+    /// every change. Each one in a row doubles the wait, up to the longest, so
+    /// that app can't keep the clipboard churning.
+    static let churnWindow: TimeInterval = 0.15
+    static let longestReplaceDelay: Duration = .seconds(2)
 
     var onPaste: (() -> Void)?
     var onReplace: (() -> Void)?
+    var keyboard: @MainActor () -> Keyboard = Keyboard.current
 
     private let pasteboard: NSPasteboard
 
@@ -32,8 +72,14 @@ final class ClipQueuePasteboard: NSObject, NSPasteboardItemDataProvider {
     private var placement = 0
     private var handledPlacement = 0
     private var changeCount: Int?
+    private var placedAt = Date.distantPast
     private var lastActivation = Date.distantPast
     private var pending: Task<Void, Never>?
+    /// Set while `onReplace` runs, so the placement it makes is known to be the
+    /// same item going back.
+    private var replacing = false
+    private var placedAgain = false
+    private var replaceStreak = 0
 
     init(pasteboard: NSPasteboard = .general) {
         self.pasteboard = pasteboard
@@ -43,11 +89,22 @@ final class ClipQueuePasteboard: NSObject, NSPasteboardItemDataProvider {
         changeCount == pasteboard.changeCount
     }
 
+    /// Whether the clipboard still holds a queue item: the one placed, or a copy
+    /// of it that another app read and put back. Anything else is something new
+    /// that was copied, which the queue must not write over.
+    var holdsQueueItem: Bool {
+        if ownsClipboard { return true }
+        let types = Set(pasteboard.types ?? [])
+        return Self.markerTypes.allSatisfy(types.contains)
+    }
+
     func place(_ contents: [(NSPasteboard.PasteboardType, Data)]) {
         pending?.cancel()
         pending = nil
         placement += 1
         data = Dictionary(contents, uniquingKeysWith: { first, _ in first })
+        placedAgain = replacing
+        if !placedAgain { replaceStreak = 0 }
 
         let item = NSPasteboardItem()
         item.setDataProvider(self, forTypes: contents.map(\.0))
@@ -59,6 +116,7 @@ final class ClipQueuePasteboard: NSObject, NSPasteboardItemDataProvider {
         pasteboard.prepareForNewContents(with: .currentHostOnly)
         pasteboard.writeObjects([item])
         changeCount = pasteboard.changeCount
+        placedAt = Date()
     }
 
     func reset() {
@@ -67,10 +125,25 @@ final class ClipQueuePasteboard: NSObject, NSPasteboardItemDataProvider {
         data = [:]
         changeCount = nil
         handledPlacement = placement
+        replaceStreak = 0
     }
 
     func noteActivation(at date: Date = Date()) {
         lastActivation = date
+    }
+
+    /// Whether a read at `now` came with a paste shortcut: a key pressed after
+    /// the item was placed (not the ⌘C that copied it), just before the read,
+    /// with Command still held unless the read followed at once.
+    static func isPaste(keyboard: Keyboard, placedAt: Date, now: Date) -> Bool {
+        guard keyboard.lastKeyDown > placedAt else { return false }
+        let sinceKey = now.timeIntervalSince(keyboard.lastKeyDown)
+        guard sinceKey < pasteKeyWindow else { return false }
+        return keyboard.commandHeld || sinceKey < sentKeyWindow
+    }
+
+    static func replaceDelay(streak: Int) -> Duration {
+        min(firstReplaceDelay * (1 << min(streak, 5)), longestReplaceDelay)
     }
 
     nonisolated func pasteboard(
@@ -93,17 +166,31 @@ final class ClipQueuePasteboard: NSObject, NSPasteboardItemDataProvider {
         guard handledPlacement != placement else { return }
         handledPlacement = placement
 
-        let justActivated = Date().timeIntervalSince(lastActivation) < Self.activationWindow
+        let now = Date()
+        let justActivated = now.timeIntervalSince(lastActivation) < Self.activationWindow
+        let pasted = !justActivated && Self.isPaste(keyboard: keyboard(), placedAt: placedAt, now: now)
+        let delay: Duration
+        if pasted {
+            replaceStreak = 0
+            delay = Self.settleDelay
+        } else {
+            let readRightAway = placedAgain && now.timeIntervalSince(placedAt) < Self.churnWindow
+            replaceStreak = readRightAway ? replaceStreak + 1 : 0
+            delay = Self.replaceDelay(streak: replaceStreak)
+        }
+
         pending = Task { [weak self] in
-            try? await Task.sleep(for: Self.settleDelay)
+            try? await Task.sleep(for: delay)
             guard !Task.isCancelled, let self else { return }
             self.pending = nil
-            if justActivated {
+            if pasted {
+                self.onPaste?()
+            } else {
                 // The data is now cached on the pasteboard, so a real paste of
                 // this item would go unnoticed. Put the same item back instead.
+                self.replacing = true
                 self.onReplace?()
-            } else {
-                self.onPaste?()
+                self.replacing = false
             }
         }
     }
