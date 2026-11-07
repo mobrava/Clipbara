@@ -13,6 +13,9 @@ concurrency:
 jobs:
   build:
     runs-on: macos-15
+    env:
+      # KeyboardShortcuts 3 needs swift-tools-version 6.2; the image defaults to Xcode 16.4 (Swift 6.1).
+      DEVELOPER_DIR: /Applications/Xcode_26.3.app/Contents/Developer
     steps:
       - uses: actions/checkout@v4
 
