@@ -6,6 +6,25 @@
     <description>Most recent changes with links to updates.</description>
     <language>en</language>
     <item>
+      <title>Version 1.5.2</title>
+      <sparkle:version>43</sparkle:version>
+      <sparkle:shortVersionString>1.5.2</sparkle:shortVersionString>
+      <description><![CDATA[
+        <ul>
+          <li><strong>Clip Queue keeps its place.</strong> It no longer skips items when another app reads the clipboard in the background.</li>
+          <li><strong>One panel width.</strong> The panel keeps the same width when you switch between History and pinboards.</li>
+          <li><strong>Shortcut recording</strong> is updated for newer versions of macOS.</li>
+        </ul>
+      ]]></description>
+      <pubDate>Sun, 08 Nov 2026 01:45:46 +0000</pubDate>
+      <enclosure
+        url="https://github.com/mobrava/Clipbara/releases/download/v1.5.2/Clipbara-v1.5.2.dmg"
+        type="application/octet-stream"
+        sparkle:edSignature="yIS9poi6SFYi3v/TpfyjN3XsZrUkusFjCcOyjept/U97FdKuS8nVDsmrMknkC/O/Ie3ZjzEFLZEUpp47HwxEAw=="
+        length="3433378"
+      />
+    </item>
+    <item>
       <title>Version 1.5.1</title>
       <sparkle:version>40</sparkle:version>
       <sparkle:shortVersionString>1.5.1</sparkle:shortVersionString>
