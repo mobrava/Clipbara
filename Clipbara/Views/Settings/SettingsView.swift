@@ -1,35 +1,70 @@
 import SwiftUI
 import SwiftData
 
-struct SettingsView: View {
-    var body: some View {
-        TabView {
-            GeneralSettingsTab()
-                .tabItem {
-                    Label("General", systemImage: "gearshape")
-                }
+/// The panes of the Settings window, listed in its sidebar.
+enum SettingsPane: String, CaseIterable, Identifiable {
+    case general
+    case pasting
+    case privacy
+    case appearance
+    case shortcuts
+    case about
 
-            AppearanceSettingsTab()
-                .tabItem {
-                    Label("Appearance", systemImage: "paintbrush")
-                }
+    var id: Self { self }
 
-            ShortcutSettingsTab()
-                .tabItem {
-                    Label("Shortcuts", systemImage: "keyboard")
-                }
-
-            ExclusionSettingsTab()
-                .tabItem {
-                    Label("Exclusions", systemImage: "nosign")
-                }
-
-            AboutTab()
-                .tabItem {
-                    Label("About", systemImage: "info.circle")
-                }
+    var title: LocalizedStringKey {
+        switch self {
+        case .general: "General"
+        case .pasting: "Pasting"
+        case .privacy: "Privacy"
+        case .appearance: "Appearance"
+        case .shortcuts: "Shortcuts"
+        case .about: "About"
         }
-        .frame(width: 480, height: 360)
+    }
+
+    var systemImage: String {
+        switch self {
+        case .general: "gearshape"
+        case .pasting: "doc.on.clipboard"
+        case .privacy: "hand.raised"
+        case .appearance: "paintbrush"
+        case .shortcuts: "keyboard"
+        case .about: "info.circle"
+        }
+    }
+}
+
+/// A sidebar of panes and, for each, rows with a title and a line explaining
+/// it, in the layout of System Settings.
+struct SettingsView: View {
+    @State private var selection: SettingsPane? = .general
+
+    var body: some View {
+        NavigationSplitView {
+            List(SettingsPane.allCases, selection: $selection) { pane in
+                Label(pane.title, systemImage: pane.systemImage)
+            }
+            .navigationSplitViewColumnWidth(180)
+            .toolbar(removing: .sidebarToggle)
+        } detail: {
+            let pane = selection ?? .general
+            detail(for: pane)
+                .navigationTitle(pane.title)
+        }
+        .frame(width: 700, height: 520)
         .background(SettingsWindowReader())
+    }
+
+    @ViewBuilder
+    private func detail(for pane: SettingsPane) -> some View {
+        switch pane {
+        case .general: GeneralSettingsTab()
+        case .pasting: PastingSettingsTab()
+        case .privacy: PrivacySettingsTab()
+        case .appearance: AppearanceSettingsTab()
+        case .shortcuts: ShortcutSettingsTab()
+        case .about: AboutTab()
+        }
     }
 }

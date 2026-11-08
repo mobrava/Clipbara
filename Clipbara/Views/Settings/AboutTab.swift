@@ -2,6 +2,7 @@ import SwiftUI
 
 struct AboutTab: View {
     @EnvironmentObject private var updaterViewModel: CheckForUpdatesViewModel
+    @Environment(AppState.self) private var appState
 
     private var appVersion: String {
         Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "1.0"
@@ -15,9 +16,9 @@ struct AboutTab: View {
         VStack(spacing: 16) {
             Spacer()
 
-            Image(systemName: "clipboard")
-                .font(.system(size: 64))
-                .foregroundStyle(.tint)
+            Image(nsImage: NSApp.applicationIconImage)
+                .resizable()
+                .frame(width: 96, height: 96)
 
             Text(verbatim: "Clipbara")
                 .font(.title.bold())
@@ -30,12 +31,20 @@ struct AboutTab: View {
                 .font(.callout)
                 .foregroundStyle(.secondary)
 
-            #if !APPSTORE
-            Button("Check for Updates...") {
-                updaterViewModel.checkForUpdates()
+            HStack(spacing: 8) {
+                #if !APPSTORE
+                Button("Check for Updates…") {
+                    updaterViewModel.checkForUpdates()
+                }
+                .disabled(!updaterViewModel.canCheckForUpdates)
+                #endif
+
+                Button("Show Welcome Tour…") {
+                    guard let container = appState.modelContainer else { return }
+                    OnboardingWindowController.shared.show(appState: appState, modelContainer: container)
+                }
             }
-            .disabled(!updaterViewModel.canCheckForUpdates)
-            #endif
+            .padding(.top, 4)
 
             Spacer()
         }

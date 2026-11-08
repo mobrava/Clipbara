@@ -11,12 +11,21 @@ struct SyncSettingsSection: View {
     var body: some View {
         Section {
             Toggle(isOn: toggleBinding) {
+                // Rows in the Mac Settings carry no icons; iOS settings rows do.
+                #if os(macOS)
+                Text("iCloud Sync")
+                #else
                 Label("iCloud Sync", systemImage: "icloud")
+                #endif
             }
             .disabled(sync.phase == .starting)
 
             Toggle(isOn: imagesBinding) {
+                #if os(macOS)
+                Text("Sync Images")
+                #else
                 Label("Sync Images", systemImage: "photo")
+                #endif
             }
 
             if sync.isEnabled || sync.phase == .needsAccount || isFailure {

@@ -59,13 +59,13 @@ struct ClipbaraApp: App {
         // icon off got that stale `true` written back before the scene saw
         // `false`, and the toggle flipped back on (#25). The setting only
         // changes from Settings, so the write-back is ignored.
-        MenuBarExtra("Clipbara", systemImage: "clipboard", isInserted: Binding(get: { showsMenuBarIcon }, set: { _ in })) {
+        MenuBarExtra("Clipbara", image: "MenuBarIcon", isInserted: Binding(get: { showsMenuBarIcon }, set: { _ in })) {
             MenuBarContentView()
                 .environment(appState)
                 .environmentObject(updaterViewModel)
                 .modelContainer(sharedModelContainer)
         }
-        .menuBarExtraStyle(.window)
+        .menuBarExtraStyle(.menu)
 
         Settings {
             SettingsView()

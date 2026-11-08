@@ -646,7 +646,7 @@ private struct OptionsMenuButton: View {
 
         // A way to Settings that doesn't need the menu bar icon (#25).
         menu.addItem(.separator())
-        let settingsItem = NSMenuItem(title: String(localized: "Settings..."), action: nil, keyEquivalent: ",")
+        let settingsItem = NSMenuItem(title: String(localized: "Settings…"), action: nil, keyEquivalent: ",")
         settingsItem.keyEquivalentModifierMask = .command
         settingsItem.target = MenuActionTarget.shared
         settingsItem.representedObject = MenuAction.openSettings(AppState.shared)

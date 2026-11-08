@@ -32,25 +32,15 @@ struct AppearanceSettingsTab: View {
                 applyTheme(newValue)
             }
 
-            HStack {
-                VStack(alignment: .leading, spacing: 2) {
-                    Text("Animate Panel")
-                    Group {
-                        if reducesMotion {
-                            Text("Off while Reduce Motion is on in System Settings > Accessibility > Display.")
-                        } else {
-                            Text("Slide the history panel in and out. When off, it appears and closes at once.")
-                        }
-                    }
-                        .font(.system(size: 11))
-                        .foregroundStyle(.secondary)
-                        .fixedSize(horizontal: false, vertical: true)
+            Toggle(isOn: $animatesPanel) {
+                Text("Animate Panel")
+                if reducesMotion {
+                    Text("Off while Reduce Motion is on in System Settings > Accessibility > Display.")
+                } else {
+                    Text("Slide the history panel in and out. When off, it appears and closes at once.")
                 }
-                Spacer()
-                Toggle("", isOn: $animatesPanel)
-                    .labelsHidden()
-                    .disabled(reducesMotion)
             }
+            .disabled(reducesMotion)
             .onReceive(NSWorkspace.shared.notificationCenter.publisher(
                 for: NSWorkspace.accessibilityDisplayOptionsDidChangeNotification
             )) { _ in
@@ -58,7 +48,6 @@ struct AppearanceSettingsTab: View {
             }
         }
         .formStyle(.grouped)
-        .padding()
         .onAppear {
             applyTheme(appTheme)
         }

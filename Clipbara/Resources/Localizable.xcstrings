@@ -68,6 +68,22 @@
         }
       }
     },
+    "%lld clips older than %@ will be deleted. Clips on pinboards are kept. This can't be undone." : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%2$@보다 오래된 항목 %1$lld개가 지워집니다. 핀보드에 있는 항목은 지우지 않습니다. 되돌릴 수 없습니다."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "将删除 %1$lld 个早于 %2$@ 的项目。钉板中的项目会保留。此操作无法撤销。"
+          }
+        }
+      }
+    },
     "%lld clips, %lld images (about %@), and %lld pinboards on this device will be uploaded to your iCloud account." : {
       "localizations" : {
         "ko" : {
@@ -114,6 +130,70 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "剩余 %lld 天"
+          }
+        }
+      }
+    },
+    "1 Day" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1일"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 天"
+          }
+        }
+      }
+    },
+    "1 Month" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1개월"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 个月"
+          }
+        }
+      }
+    },
+    "1 Week" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1주"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 周"
+          }
+        }
+      }
+    },
+    "1 Year" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1년"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 年"
           }
         }
       }
@@ -238,6 +318,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "实际大小（连按图片）"
+          }
+        }
+      }
+    },
+    "Add App…" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "앱 추가…"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "添加应用…"
           }
         }
       }
@@ -450,18 +546,18 @@
         }
       }
     },
-    "Check for Updates..." : {
+    "Check for Updates…" : {
       "localizations" : {
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "업데이트 확인..."
+            "value" : "업데이트 확인…"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "检查更新..."
+            "value" : "检查更新…"
           }
         }
       }
@@ -542,6 +638,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "清除历史记录"
+          }
+        }
+      }
+    },
+    "Clear…" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "지우기…"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "清除…"
           }
         }
       }
@@ -705,6 +817,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "以卡片呈现的剪贴板历史"
+          }
+        }
+      }
+    },
+    "Clips older than this are deleted. Clips on pinboards are kept." : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 기간이 지난 항목은 지워집니다. 핀보드에 있는 항목은 지우지 않습니다."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "超过此期限的项目会被删除，钉板中的项目会保留。"
           }
         }
       }
@@ -981,6 +1109,38 @@
         }
       }
     },
+    "Delete Clips" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "지우기"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "删除"
+          }
+        }
+      }
+    },
+    "Delete Older Clips?" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "오래된 항목을 지우시겠습니까?"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要删除较早的项目吗？"
+          }
+        }
+      }
+    },
     "Delete Pinboard" : {
       "localizations" : {
         "ko" : {
@@ -1073,6 +1233,54 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "已删除。按 ⌘Z 可撤销。"
+          }
+        }
+      }
+    },
+    "Deletes every clip that isn't on a pinboard." : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "핀보드에 없는 항목을 모두 지웁니다."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "删除所有不在钉板中的项目。"
+          }
+        }
+      }
+    },
+    "Doesn't save data that other apps put on the clipboard only for a moment." : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다른 앱이 잠깐 쓰려고 클립보드에 올린 데이터는 저장하지 않습니다."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不保存其他应用临时放到剪贴板上的数据。"
+          }
+        }
+      }
+    },
+    "Doesn't save passwords and other content that apps mark as confidential." : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "비밀번호처럼 앱이 민감하다고 표시한 내용은 저장하지 않습니다."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "不保存密码等被应用标记为敏感的内容。"
           }
         }
       }
@@ -1237,6 +1445,22 @@
         }
       }
     },
+    "Excluded Apps" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "제외할 앱"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "排除的应用"
+          }
+        }
+      }
+    },
     "Excluded apps will not have their clipboard content saved." : {
       "localizations" : {
         "ko" : {
@@ -1265,6 +1489,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "排除"
+          }
+        }
+      }
+    },
+    "Export Backup" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "백업 내보내기"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "导出备份"
           }
         }
       }
@@ -1445,18 +1685,18 @@
         }
       }
     },
-    "Fixed shortcuts in tab order. Only active while the history panel is open, including while searching." : {
+    "Forever" : {
       "localizations" : {
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "탭 순서대로 고정된 단축키입니다. 검색 중을 포함해 기록 패널이 열려 있을 때만 동작합니다."
+            "value" : "영구"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "按标签顺序固定的快捷键。仅在历史记录面板打开时生效，搜索时也可用。"
+            "value" : "永久"
           }
         }
       }
@@ -1621,6 +1861,38 @@
         }
       }
     },
+    "Ignore Confidential Content" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "민감한 정보 무시"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "忽略敏感内容"
+          }
+        }
+      }
+    },
+    "Ignore Temporary Content" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "임시 데이터 무시"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "忽略临时内容"
+          }
+        }
+      }
+    },
     "Image" : {
       "localizations" : {
         "ko" : {
@@ -1749,6 +2021,22 @@
         }
       }
     },
+    "In the Panel" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "패널 안에서"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "面板内"
+          }
+        }
+      }
+    },
     "In your previous app, go to Settings > General > Backup > Export to save a JSON backup file. Then click Import and select that file. Existing clips are kept and duplicates are skipped." : {
       "localizations" : {
         "ko" : {
@@ -1777,6 +2065,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "试用将于 %@ 结束。你可以随时从菜单栏解锁 Clipbara。"
+          }
+        }
+      }
+    },
+    "Keep History" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "보관 기간"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保留时长"
           }
         }
       }
@@ -2005,6 +2309,22 @@
         }
       }
     },
+    "No apps are excluded." : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "제외한 앱이 없습니다."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "没有排除的应用。"
+          }
+        }
+      }
+    },
     "No clipboard history" : {
       "localizations" : {
         "ko" : {
@@ -2065,22 +2385,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "以后再说"
-          }
-        }
-      }
-    },
-    "Not set by default. Also available from the menu bar." : {
-      "localizations" : {
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "기본으로는 지정되어 있지 않습니다. 메뉴 막대에서도 시작할 수 있습니다."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "默认未设置。也可以从菜单栏开始。"
           }
         }
       }
@@ -2453,18 +2757,18 @@
         }
       }
     },
-    "Pressed inside the panel with a card selected." : {
+    "Pressed with a card selected. A single key, no modifiers." : {
       "localizations" : {
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "패널에서 카드를 선택한 상태로 누릅니다."
+            "value" : "카드를 선택한 상태에서 누릅니다. 보조 키 없이 키 하나만 씁니다."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "在面板中选中卡片后按下。"
+            "value" : "选中卡片时按下。只用一个键，不带修饰键。"
           }
         }
       }
@@ -2481,6 +2785,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "预览剪贴内容"
+          }
+        }
+      }
+    },
+    "Privacy" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "개인정보"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "隐私"
           }
         }
       }
@@ -2548,6 +2868,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "最近复制"
+          }
+        }
+      }
+    },
+    "Remove" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "제거"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移除"
           }
         }
       }
@@ -2644,22 +2980,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "重新命名钉板"
-          }
-        }
-      }
-    },
-    "Replay the first-run welcome tour." : {
-      "localizations" : {
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "처음 실행할 때 나온 환영 안내를 다시 봅니다."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "重新查看首次启动时的欢迎引导。"
           }
         }
       }
@@ -2792,34 +3112,34 @@
         }
       }
     },
-    "Send Feedback..." : {
+    "Send Feedback…" : {
       "localizations" : {
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "피드백 보내기..."
+            "value" : "피드백 보내기…"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "发送反馈..."
+            "value" : "发送反馈…"
           }
         }
       }
     },
-    "Settings..." : {
+    "Settings…" : {
       "localizations" : {
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "설정..."
+            "value" : "설정…"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "设置..."
+            "value" : "设置…"
           }
         }
       }
@@ -3124,22 +3444,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "文本"
-          }
-        }
-      }
-    },
-    "Tab Navigation" : {
-      "localizations" : {
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "탭 이동"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "标签切换"
           }
         }
       }

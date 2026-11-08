@@ -26,6 +26,7 @@ final class ClipboardMonitor {
         self.modelContext = modelContext
         lastChangeCount = NSPasteboard.general.changeCount
         loadExcludedApps()
+        HistoryRetention.deleteExpired(in: modelContext)
         isMonitoring = true
 
         timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [weak self] _ in
@@ -104,6 +105,9 @@ final class ClipboardMonitor {
         modelContext?.insert(item)
         try? modelContext?.save()
         cleanupOldItems()
+        if let modelContext {
+            HistoryRetention.deleteExpired(in: modelContext)
+        }
         refreshLatestItems()
         onCapture?(item)
     }
