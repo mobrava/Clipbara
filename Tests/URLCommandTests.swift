@@ -1,8 +1,9 @@
 import XCTest
 
 final class URLCommandTests: XCTestCase {
+    /// Unhosted tests have no Clipbara Info.plist, so pass the scheme it declares.
     private func command(_ string: String) -> URLCommand? {
-        URL(string: string).flatMap(URLCommand.init(url:))
+        URL(string: string).flatMap { URLCommand(url: $0, schemes: ["clipbara"]) }
     }
 
     func testKnownCommands() {

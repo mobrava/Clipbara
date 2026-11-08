@@ -68,7 +68,7 @@ struct GeneralSettingsTab: View {
             }
 
             if !showsMenuBarIcon {
-                Button("Quit Clipbara") {
+                Button("Quit \(Bundle.main.appName)") {
                     NSApplication.shared.terminate(nil)
                 }
             }
@@ -123,7 +123,7 @@ struct GeneralSettingsTab: View {
                                     .foregroundStyle(.orange)
                                 // App Store builds are sandboxed, and macOS neither prompts
                                 // for nor lists a sandboxed app, so the user adds it.
-                                Text("If Clipbara isn't in the list, add it with the + button.")
+                                Text("If \(Bundle.main.appName) isn't in the list, add it with the + button.")
                                     .font(.system(size: 11))
                                     .foregroundStyle(.secondary)
                             }

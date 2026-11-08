@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>ClipbaraBuildBadge</key>
+	<string>$(CLIPBARA_BUILD_BADGE)</string>
+	<key>ClipbaraBuildBanner</key>
+	<string>$(CLIPBARA_BUILD_BANNER)</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -29,7 +33,7 @@
 			<string>com.minsang.Clipbara.commands</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>clipbara</string>
+				<string>$(CLIPBARA_URL_SCHEME)</string>
 			</array>
 		</dict>
 	</array>

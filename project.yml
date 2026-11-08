@@ -43,6 +43,28 @@ targets:
         GENERATE_INFOPLIST_FILE: false
         ENABLE_HARDENED_RUNTIME: "YES"
         SWIFT_STRICT_CONCURRENCY: complete
+        CLIPBARA_URL_SCHEME: clipbara
+        # Badge next to the menu bar icon (Info.plist ClipbaraBuildBadge, read by
+        # Bundle+BuildInfo.swift). Empty: plain icon.
+        CLIPBARA_BUILD_BADGE: ""
+        # Text of the orange header at the top of the menu (Info.plist
+        # ClipbaraBuildBanner, read by Bundle+BuildInfo.swift). Empty: no header.
+        CLIPBARA_BUILD_BANNER: ""
+      configs:
+        # Local dev build: its own bundle ID, name, URL scheme, icon and badge, so it
+        # runs next to the installed release with separate data, settings and
+        # permissions. AppIcon-Dev comes from scripts/make-dev-icon.sh.
+        Debug:
+          PRODUCT_BUNDLE_IDENTIFIER: com.minsang.PasteClip.dev
+          PRODUCT_NAME: ClipbaraDev
+          PRODUCT_MODULE_NAME: Clipbara
+          CLIPBARA_URL_SCHEME: clipbara-dev
+          ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon-Dev
+          CLIPBARA_BUILD_BADGE: DEV
+          CLIPBARA_BUILD_BANNER: "ClipbaraDev · DEV"
+    # Debug signing (your own team) comes from the gitignored Config/Local.xcconfig.
+    configFiles:
+      Debug: Config/Debug.xcconfig
     dependencies:
       - package: KeyboardShortcuts
       - package: Sparkle
@@ -221,6 +243,7 @@ targets:
       - path: Clipbara/Utilities/ClipQueueList.swift
       - path: Clipbara/Services/ClipQueuePasteboard.swift
       - path: Clipbara/Utilities/URLCommand.swift
+      - path: Clipbara/Utilities/Bundle+BuildInfo.swift
       - path: Clipbara/Services/ClipUndoStack.swift
       - path: Shared/Models/ClipboardItem.swift
       - path: Shared/Models/Pinboard.swift

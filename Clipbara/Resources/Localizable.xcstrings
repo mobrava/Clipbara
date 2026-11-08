@@ -4,6 +4,9 @@
     "" : {
       "shouldTranslate" : false
     },
+    "·" : {
+      "shouldTranslate" : false
+    },
     "%@ chars · %@ words · %@ lines" : {
       "localizations" : {
         "ko" : {
@@ -19,6 +22,9 @@
           }
         }
       }
+    },
+    "%@ days left" : {
+
     },
     "%@K chars" : {
       "localizations" : {
@@ -121,6 +127,25 @@
     "1,000" : {
       "shouldTranslate" : false
     },
+    "5,000" : {
+      "shouldTranslate" : false
+    },
+    "7 days of full access" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "7일 동안 모든 기능 사용"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "7 天完整使用"
+          }
+        }
+      }
+    },
     "100" : {
       "shouldTranslate" : false
     },
@@ -140,27 +165,8 @@
         }
       }
     },
-    "5,000" : {
-      "shouldTranslate" : false
-    },
     "500" : {
       "shouldTranslate" : false
-    },
-    "7 days of full access" : {
-      "localizations" : {
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "7일 동안 모든 기능 사용"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "7 天完整使用"
-          }
-        }
-      }
     },
     "A simple clipboard manager for macOS." : {
       "localizations" : {
@@ -677,22 +683,6 @@
         }
       }
     },
-    "Clipboard Monitoring" : {
-      "localizations" : {
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "클립보드 모니터링"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "剪贴板监听"
-          }
-        }
-      }
-    },
     "Clipboard history as cards" : {
       "localizations" : {
         "ko" : {
@@ -705,6 +695,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "以卡片呈现的剪贴板历史"
+          }
+        }
+      }
+    },
+    "clipboard icon" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "클립보드 아이콘"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剪贴板图标"
+          }
+        }
+      }
+    },
+    "Clipboard Monitoring" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "클립보드 모니터링"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "剪贴板监听"
           }
         }
       }
@@ -981,38 +1003,6 @@
         }
       }
     },
-    "Delete Pinboard" : {
-      "localizations" : {
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "핀보드 삭제"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "删除钉板"
-          }
-        }
-      }
-    },
-    "Delete Pinboard?" : {
-      "localizations" : {
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "핀보드를 삭제하시겠습니까?"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "要删除钉板吗？"
-          }
-        }
-      }
-    },
     "Delete iCloud Data" : {
       "localizations" : {
         "ko" : {
@@ -1057,6 +1047,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "删除 iCloud 数据…"
+          }
+        }
+      }
+    },
+    "Delete Pinboard" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "핀보드 삭제"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "删除钉板"
+          }
+        }
+      }
+    },
+    "Delete Pinboard?" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "핀보드를 삭제하시겠습니까?"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要删除钉板吗？"
           }
         }
       }
@@ -1509,22 +1531,6 @@
         }
       }
     },
-    "HTML" : {
-      "localizations" : {
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "HTML"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "HTML"
-          }
-        }
-      }
-    },
     "History" : {
       "localizations" : {
         "ko" : {
@@ -1605,18 +1611,66 @@
         }
       }
     },
-    "If Clipbara isn't in the list, add it with the + button." : {
+    "HTML" : {
       "localizations" : {
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "목록에 Clipbara가 없으면 + 버튼으로 추가하세요."
+            "value" : "HTML"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "如果列表中没有 Clipbara，请点按 + 按钮添加。"
+            "value" : "HTML"
+          }
+        }
+      }
+    },
+    "iCloud is not set up for this build." : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 빌드에는 iCloud가 설정되어 있지 않습니다."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此版本未设置 iCloud。"
+          }
+        }
+      }
+    },
+    "iCloud Sync" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud 동기화"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud 同步"
+          }
+        }
+      }
+    },
+    "If %@ isn't in the list, add it with the + button." : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "목록에 %@ 앱이 없으면 + 버튼으로 추가하세요."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "如果列表中没有 %@，请点按 + 按钮添加。"
           }
         }
       }
@@ -1633,6 +1687,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "图片"
+          }
+        }
+      }
+    },
+    "Import a backup file. Existing clips are kept; duplicates are skipped." : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "백업 파일을 가져옵니다. 기존 클립은 유지되고 중복 항목은 건너뜁니다."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "导入备份文件。现有剪贴内容会保留，重复项会跳过。"
           }
         }
       }
@@ -1669,22 +1739,6 @@
         }
       }
     },
-    "Import a backup file. Existing clips are kept; duplicates are skipped." : {
-      "localizations" : {
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "백업 파일을 가져옵니다. 기존 클립은 유지되고 중복 항목은 건너뜁니다."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "导入备份文件。现有剪贴内容会保留，重复项会跳过。"
-          }
-        }
-      }
-    },
     "Import failed: %@" : {
       "localizations" : {
         "ko" : {
@@ -1697,6 +1751,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "导入失败：%@"
+          }
+        }
+      }
+    },
+    "Import…" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "가져오기…"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "导入…"
           }
         }
       }
@@ -1729,22 +1799,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "已导入 %lld 个钉板。"
-          }
-        }
-      }
-    },
-    "Import…" : {
-      "localizations" : {
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "가져오기…"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "导入…"
           }
         }
       }
@@ -1797,22 +1851,6 @@
         }
       }
     },
-    "LINK" : {
-      "localizations" : {
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "링크"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "链接"
-          }
-        }
-      }
-    },
     "Launch at Login" : {
       "localizations" : {
         "ko" : {
@@ -1857,6 +1895,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "链接"
+          }
+        }
+      }
+    },
+    "LINK" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "링크"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "链接"
+          }
+        }
+      }
+    },
+    "Local unless you choose" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "직접 켜기 전까지는 로컬"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "除非你选择，否则只在本地"
           }
         }
       }
@@ -1973,22 +2043,6 @@
         }
       }
     },
-    "No Results" : {
-      "localizations" : {
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "결과 없음"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "无结果"
-          }
-        }
-      }
-    },
     "No account, no cloud, no telemetry. Your data stays on this Mac." : {
       "localizations" : {
         "ko" : {
@@ -2005,6 +2059,22 @@
         }
       }
     },
+    "No account, no telemetry. Stays on this Mac until you turn on sync." : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "계정도, 원격 측정도 없습니다. 동기화를 켜기 전엔 이 Mac에만 남습니다."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无需账户，没有遥测。打开同步之前只留在这台 Mac 上。"
+          }
+        }
+      }
+    },
     "No clipboard history" : {
       "localizations" : {
         "ko" : {
@@ -2017,6 +2087,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "无剪贴板历史记录"
+          }
+        }
+      }
+    },
+    "No Results" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "결과 없음"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无结果"
           }
         }
       }
@@ -2085,22 +2171,6 @@
         }
       }
     },
-    "OK" : {
-      "localizations" : {
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "확인"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "好"
-          }
-        }
-      }
-    },
     "Off" : {
       "localizations" : {
         "ko" : {
@@ -2129,6 +2199,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "在“系统设置 > 辅助功能 > 显示”中开启“减弱动态效果”时，此项会关闭。"
+          }
+        }
+      }
+    },
+    "OK" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "확인"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "好"
           }
         }
       }
@@ -2501,24 +2587,21 @@
         }
       }
     },
-    "Quit Clipbara" : {
+    "Quit %@" : {
       "localizations" : {
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Clipbara 종료"
+            "value" : "%@ 종료"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "退出 Clipbara"
+            "value" : "退出 %@"
           }
         }
       }
-    },
-    "RGB(%lld, %lld, %lld)" : {
-      "shouldTranslate" : false
     },
     "Rate on App Store" : {
       "localizations" : {
@@ -2696,6 +2779,19 @@
         }
       }
     },
+    "RGB(%@, %@, %@)" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "RGB(%1$@, %2$@, %3$@)"
+          }
+        }
+      }
+    },
+    "RGB(%lld, %lld, %lld)" : {
+      "shouldTranslate" : false
+    },
     "Rich Text" : {
       "localizations" : {
         "ko" : {
@@ -2772,6 +2868,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "搜索剪贴板..."
+          }
+        }
+      }
+    },
+    "Search for “Clipbara” in the App Store on your iPhone, then turn on sync. Your purchase covers both." : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iPhone의 App Store에서 ‘Clipbara’를 검색해 설치하고 동기화를 켜십시오. 구입은 두 기기에 함께 적용됩니다."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在 iPhone 的 App Store 中搜索“Clipbara”并安装，然后打开同步。一次购买，两台设备通用。"
           }
         }
       }
@@ -2968,22 +3080,6 @@
         }
       }
     },
-    "Start Using Clipbara" : {
-      "localizations" : {
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Clipbara 사용 시작"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "开始使用 Clipbara"
-          }
-        }
-      }
-    },
     "Start or End Clip Queue" : {
       "localizations" : {
         "ko" : {
@@ -2996,6 +3092,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "开始或结束剪贴队列"
+          }
+        }
+      }
+    },
+    "Start Using Clipbara" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clipbara 사용 시작"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "开始使用 Clipbara"
           }
         }
       }
@@ -3112,22 +3224,6 @@
         }
       }
     },
-    "TEXT" : {
-      "localizations" : {
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "텍스트"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "文本"
-          }
-        }
-      }
-    },
     "Tab Navigation" : {
       "localizations" : {
         "ko" : {
@@ -3145,6 +3241,22 @@
       }
     },
     "Text" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "텍스트"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "文本"
+          }
+        }
+      }
+    },
+    "TEXT" : {
       "localizations" : {
         "ko" : {
           "stringUnit" : {
@@ -3224,37 +3336,8 @@
         }
       }
     },
-    "This Month" : {
-      "localizations" : {
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "이번 달"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "本月"
-          }
-        }
-      }
-    },
-    "This Week" : {
-      "localizations" : {
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "이번 주"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "本周"
-          }
-        }
-      }
+    "This deletes %@ unpinned clips from history. Pinboard items stay available." : {
+
     },
     "This deletes %lld unpinned clips from history. Pinboard items stay available." : {
       "localizations" : {
@@ -3272,6 +3355,22 @@
         }
       }
     },
+    "This Month" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이번 달"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本月"
+          }
+        }
+      }
+    },
     "This removes the pinboard only. The clips stay in clipboard history." : {
       "localizations" : {
         "ko" : {
@@ -3284,6 +3383,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "只会删除钉板本身，剪贴内容仍保留在剪贴板历史记录中。"
+          }
+        }
+      }
+    },
+    "This Week" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이번 주"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "本周"
           }
         }
       }
@@ -3352,6 +3467,22 @@
         }
       }
     },
+    "Try a different search or filter" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다른 검색어나 필터를 사용해 보십시오"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请尝试其他搜索词或筛选条件"
+          }
+        }
+      }
+    },
     "Try Again" : {
       "localizations" : {
         "ko" : {
@@ -3384,22 +3515,6 @@
         }
       }
     },
-    "Try a different search or filter" : {
-      "localizations" : {
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "다른 검색어나 필터를 사용해 보십시오"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "请尝试其他搜索词或筛选条件"
-          }
-        }
-      }
-    },
     "Turn On" : {
       "localizations" : {
         "ko" : {
@@ -3416,22 +3531,6 @@
         }
       }
     },
-    "Search for “Clipbara” in the App Store on your iPhone, then turn on sync. Your purchase covers both." : {
-      "localizations" : {
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "iPhone의 App Store에서 ‘Clipbara’를 검색해 설치하고 동기화를 켜십시오. 구입은 두 기기에 함께 적용됩니다."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "在 iPhone 的 App Store 中搜索“Clipbara”并安装，然后打开同步。一次购买，两台设备通用。"
-          }
-        }
-      }
-    },
     "Turn On iCloud Sync?" : {
       "localizations" : {
         "ko" : {
@@ -3444,22 +3543,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "打开 iCloud 同步？"
-          }
-        }
-      }
-    },
-    "URL" : {
-      "localizations" : {
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "URL"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "网址"
           }
         }
       }
@@ -3636,6 +3719,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "已是最新，%@同步"
+          }
+        }
+      }
+    },
+    "URL" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "URL"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "网址"
+          }
+        }
+      }
+    },
+    "Using Clipbara on iPhone too?\nSync your history and pinboards through iCloud." : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iPhone에서도 Clipbara를 쓰나요?\n기록과 핀보드를 iCloud로 동기화합니다."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "也在 iPhone 上使用 Clipbara？\n通过 iCloud 同步历史记录和钉板。"
           }
         }
       }
@@ -3908,105 +4023,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "缩小（⌘-）"
-          }
-        }
-      }
-    },
-    "clipboard icon" : {
-      "localizations" : {
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "클립보드 아이콘"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "剪贴板图标"
-          }
-        }
-      }
-    },
-    "iCloud Sync" : {
-      "localizations" : {
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "iCloud 동기화"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "iCloud 同步"
-          }
-        }
-      }
-    },
-    "iCloud is not set up for this build." : {
-      "localizations" : {
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "이 빌드에는 iCloud가 설정되어 있지 않습니다."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "此版本未设置 iCloud。"
-          }
-        }
-      }
-    },
-    "·" : {
-      "shouldTranslate" : false
-    },
-    "Local unless you choose" : {
-      "localizations" : {
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "직접 켜기 전까지는 로컬"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "除非你选择，否则只在本地"
-          }
-        }
-      }
-    },
-    "No account, no telemetry. Stays on this Mac until you turn on sync." : {
-      "localizations" : {
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "계정도, 원격 측정도 없습니다. 동기화를 켜기 전엔 이 Mac에만 남습니다."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "无需账户，没有遥测。打开同步之前只留在这台 Mac 上。"
-          }
-        }
-      }
-    },
-    "Using Clipbara on iPhone too?\nSync your history and pinboards through iCloud." : {
-      "localizations" : {
-        "ko" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "iPhone에서도 Clipbara를 쓰나요?\n기록과 핀보드를 iCloud로 동기화합니다."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "也在 iPhone 上使用 Clipbara？\n通过 iCloud 同步历史记录和钉板。"
           }
         }
       }

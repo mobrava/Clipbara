@@ -16,6 +16,16 @@ struct MenuBarContentView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
+            if let banner = Bundle.main.buildBanner {
+                // Header set by the build configuration, such as ClipbaraDev's.
+                Text(verbatim: banner)
+                    .font(.caption.bold())
+                    .foregroundStyle(.white)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 3)
+                    .background(.orange)
+            }
+
             if topItems.isEmpty {
                 Text("No clipboard history")
                     .foregroundStyle(.secondary)
@@ -141,7 +151,7 @@ struct MenuBarContentView: View {
             .padding(.horizontal, 12)
             .padding(.vertical, 4)
 
-            Button("Quit Clipbara") {
+            Button("Quit \(Bundle.main.appName)") {
                 NSApplication.shared.terminate(nil)
             }
             .keyboardShortcut("q", modifiers: .command)
