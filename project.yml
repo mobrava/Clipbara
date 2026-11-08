@@ -221,6 +221,7 @@ targets:
       - path: Clipbara/Utilities/ClipQueueList.swift
       - path: Clipbara/Services/ClipQueuePasteboard.swift
       - path: Clipbara/Utilities/URLCommand.swift
+      - path: Clipbara/Utilities/RepeatedPressFilter.swift
       - path: Clipbara/Services/ClipUndoStack.swift
       - path: Shared/Models/ClipboardItem.swift
       - path: Shared/Models/Pinboard.swift

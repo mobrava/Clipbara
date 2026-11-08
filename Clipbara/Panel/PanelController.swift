@@ -17,6 +17,15 @@ final class PanelController {
     private var quickLookItem: ClipboardItem?
     private var quickLookZoom: ImageZoomController?
     private(set) var isVisible: Bool = false
+    /// True while the panel slides away. `isVisible` stays true until the slide
+    /// ends, so a hotkey press in that window used to be read as a second close
+    /// and did nothing; it now reopens the panel once the slide ends.
+    private(set) var isHiding = false
+    private var reopenAfterHiding: (@MainActor () -> Void)?
+    private var hideCompletions: [@MainActor @Sendable () -> Void] = []
+    /// Menus open right now, such as the … menu and card and tab context menus.
+    private let trackingMenus = NSHashTable<NSMenu>.weakObjects()
+    private var menuObservers: [NSObjectProtocol] = []
     private var clickMonitor: Any?
     private var mouseMonitor: Any?
     private var scrollMonitor: Any?
@@ -75,7 +84,17 @@ final class PanelController {
     }
 
     func toggle(modelContainer: ModelContainer, appState: AppState) {
-        if isVisible {
+        if isHiding {
+            // Pressed again while the panel slides away: open it once the slide
+            // ends. A further press in the same slide takes that back.
+            if reopenAfterHiding == nil {
+                reopenAfterHiding = { [weak self] in
+                    self?.showPanel(modelContainer: modelContainer, appState: appState)
+                }
+            } else {
+                reopenAfterHiding = nil
+            }
+        } else if isVisible {
             hidePanel()
         } else {
             showPanel(modelContainer: modelContainer, appState: appState)
@@ -111,6 +130,7 @@ final class PanelController {
         ClipSync.shared.startLivePolling()
         #endif
         guard !isVisible else { return }
+        observeMenuTracking()
         anchorKeyboard()
         self.appState = appState
 
@@ -215,7 +235,24 @@ final class PanelController {
 
     /// - Parameter completion: Runs after the panel has left the screen.
     func hidePanel(then completion: (@MainActor @Sendable () -> Void)? = nil) {
+        if isHiding {
+            // Already on its way out: keep the work for when it has left, and
+            // drop a reopen asked for during the slide.
+            if let completion { hideCompletions.append(completion) }
+            reopenAfterHiding = nil
+            return
+        }
         guard isVisible, let panel else { return }
+        isHiding = true
+        if let completion { hideCompletions.append(completion) }
+        // A menu opened from the panel keeps tracking after the panel leaves the
+        // screen: the … menu stays up and Esc no longer reaches it, and a context
+        // menu that Esc closed still tracks until the next click. KeyboardShortcuts
+        // unregisters the global shortcuts while any menu tracks, so the hotkey did
+        // nothing until the user clicked somewhere.
+        for menu in trackingMenus.allObjects {
+            menu.cancelTrackingWithoutAnimation()
+        }
         #if APPSTORE
         ClipSync.shared.stopLivePolling()
         #endif
@@ -236,7 +273,7 @@ final class PanelController {
             self?.contentHost?.frame.origin.y = 0
             self?.presentedScreen = nil
             self?.isVisible = false
-            completion?()
+            self?.finishHiding()
         }
 
         guard Self.animatesPanel else {
@@ -255,6 +292,46 @@ final class PanelController {
                 finish()
             }
         })
+    }
+
+    private func finishHiding() {
+        isHiding = false
+        let completions = hideCompletions
+        hideCompletions = []
+        for completion in completions {
+            completion()
+        }
+        if let reopen = reopenAfterHiding {
+            reopenAfterHiding = nil
+            reopen()
+        }
+    }
+
+    private func observeMenuTracking() {
+        guard menuObservers.isEmpty else { return }
+        let center = NotificationCenter.default
+        menuObservers = [
+            center.addObserver(forName: NSMenu.didBeginTrackingNotification, object: nil, queue: nil) { [weak self] note in
+                // AppKit posts these on the main thread while the menu tracks.
+                guard Thread.isMainThread else { return }
+                let ref = MenuRef(menu: note.object as? NSMenu)
+                MainActor.assumeIsolated {
+                    if let menu = ref.menu { self?.trackingMenus.add(menu) }
+                }
+            },
+            center.addObserver(forName: NSMenu.didEndTrackingNotification, object: nil, queue: nil) { [weak self] note in
+                guard Thread.isMainThread else { return }
+                let ref = MenuRef(menu: note.object as? NSMenu)
+                MainActor.assumeIsolated {
+                    if let menu = ref.menu { self?.trackingMenus.remove(menu) }
+                }
+            },
+        ]
+    }
+
+    /// Carries a menu from a notification block that runs on the main thread.
+    private struct MenuRef: @unchecked Sendable {
+        weak var menu: NSMenu?
     }
 
     // MARK: - Click Monitor (dismiss on outside click)

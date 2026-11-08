@@ -256,16 +256,20 @@ final class AppState {
     }
 
     var clearHistoryRequested = false
+    @ObservationIgnored private var panelHotkeyFilter = RepeatedPressFilter()
+    @ObservationIgnored private var queueHotkeyFilter = RepeatedPressFilter()
 
     private func setupHotkey() {
         KeyboardShortcuts.onKeyDown(for: .toggleHistoryPanel) { [weak self] in
             Task { @MainActor in
-                self?.togglePanel()
+                guard let self, self.panelHotkeyFilter.accept() else { return }
+                self.togglePanel()
             }
         }
         KeyboardShortcuts.onKeyDown(for: .toggleClipQueue) { [weak self] in
             Task { @MainActor in
-                self?.toggleClipQueue()
+                guard let self, self.queueHotkeyFilter.accept() else { return }
+                self.toggleClipQueue()
             }
         }
         KeyboardShortcuts.onKeyDown(for: .clearHistory) { [weak self] in
