@@ -6,6 +6,27 @@
     <description>Most recent changes with links to updates.</description>
     <language>en</language>
     <item>
+      <title>Version 1.5.3</title>
+      <sparkle:version>45</sparkle:version>
+      <sparkle:shortVersionString>1.5.3</sparkle:shortVersionString>
+      <description><![CDATA[
+        <ul>
+          <li>A new menu bar menu with your latest clips, and a new menu bar icon.</li>
+          <li>Settings now has a sidebar: General, Pasting, Privacy, Appearance, Shortcuts, and About.</li>
+          <li>Choose how long to keep history: 1 day, 1 week, 1 month, 1 year, or forever. Clips on pinboards are always kept.</li>
+          <li>Clear History in Settings, and options to ignore confidential and temporary content.</li>
+          <li>Fixed the history shortcut sometimes doing nothing.</li>
+        </ul>
+      ]]></description>
+      <pubDate>Tue, 10 Nov 2026 03:32:23 +0000</pubDate>
+      <enclosure
+        url="https://github.com/mobrava/Clipbara/releases/download/v1.5.3/Clipbara-v1.5.3.dmg"
+        type="application/octet-stream"
+        sparkle:edSignature="E7ZnXTR0e0wbAUwp7urQjuuZlv/bSyZ6y2RpA6fEk1TBjoDo1CJTAfYvGwEGYBaq5+gcjkdLLhLqejMiL3FsAw=="
+        length="3465636"
+      />
+    </item>
+    <item>
       <title>Version 1.5.2</title>
       <sparkle:version>43</sparkle:version>
       <sparkle:shortVersionString>1.5.2</sparkle:shortVersionString>
