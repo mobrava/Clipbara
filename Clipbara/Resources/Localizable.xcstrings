@@ -6,6 +6,12 @@
     },
     "%@ chars · %@ words · %@ lines" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ caracteres · %@ palabras · %@ líneas"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -22,6 +28,12 @@
     },
     "%@K chars" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@K caracteres"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -51,6 +63,30 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "%lld chars"
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld carácter"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld caracteres"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld caracteres"
                 }
               }
             }
@@ -120,6 +156,66 @@
             }
           }
         },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se subirán a tu cuenta de iCloud %#@clips@ y %#@pinboards@ de este dispositivo."
+          },
+          "substitutions" : {
+            "clips" : {
+              "argNum" : 1,
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg clip"
+                    }
+                  },
+                  "many" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg clips"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg clips"
+                    }
+                  }
+                }
+              }
+            },
+            "pinboards" : {
+              "argNum" : 2,
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg tablero"
+                    }
+                  },
+                  "many" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg tableros"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg tableros"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -157,6 +253,40 @@
                     "stringUnit" : {
                       "state" : "translated",
                       "value" : "%arg clips"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%#@clips@ con más de %2$@ de antigüedad. Los clips de los tableros se conservan. No se puede deshacer."
+          },
+          "substitutions" : {
+            "clips" : {
+              "argNum" : 1,
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "Se eliminará %arg clip"
+                    }
+                  },
+                  "many" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "Se eliminarán %arg clips"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "Se eliminarán %arg clips"
                     }
                   }
                 }
@@ -248,6 +378,92 @@
             }
           }
         },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se subirán a tu cuenta de iCloud %#@clips@, %#@images@ (unos %3$@) y %#@pinboards@ de este dispositivo."
+          },
+          "substitutions" : {
+            "clips" : {
+              "argNum" : 1,
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg clip"
+                    }
+                  },
+                  "many" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg clips"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg clips"
+                    }
+                  }
+                }
+              }
+            },
+            "images" : {
+              "argNum" : 2,
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg imagen"
+                    }
+                  },
+                  "many" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg imágenes"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg imágenes"
+                    }
+                  }
+                }
+              }
+            },
+            "pinboards" : {
+              "argNum" : 4,
+              "formatSpecifier" : "lld",
+              "variations" : {
+                "plural" : {
+                  "one" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg tablero"
+                    }
+                  },
+                  "many" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg tableros"
+                    }
+                  },
+                  "other" : {
+                    "stringUnit" : {
+                      "state" : "translated",
+                      "value" : "%arg tableros"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -282,6 +498,30 @@
             }
           }
         },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld día restante"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld días restantes"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld días restantes"
+                }
+              }
+            }
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -298,6 +538,12 @@
     },
     "1 Day" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 día"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -314,6 +560,12 @@
     },
     "1 Month" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 mes"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -330,6 +582,12 @@
     },
     "1 Week" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 semana"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -346,6 +604,12 @@
     },
     "1 Year" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 año"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -368,6 +632,12 @@
     },
     "100% local & private" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "100% local y privado"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -390,6 +660,12 @@
     },
     "7 days of full access" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "7 días de acceso completo"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -406,6 +682,12 @@
     },
     "A simple clipboard manager for macOS." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Un gestor de portapapeles simple para macOS."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -422,6 +704,12 @@
     },
     "A single key with no modifiers. It only works while the Clipbara panel is open, so it won't clash with other apps." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Una sola tecla sin modificadores. Solo funciona mientras el panel de Clipbara está abierto, por lo que no entrará en conflicto con otras aplicaciones."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -438,6 +726,12 @@
     },
     "About" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acerca de"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -454,6 +748,12 @@
     },
     "Accessibility permission is off, so clips are only copied." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El permiso de accesibilidad está desactivado, por lo que los clips solo se copian."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -470,6 +770,12 @@
     },
     "Actual Size (double-click image)" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tamaño real (doble clic en la imagen)"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -486,6 +792,12 @@
     },
     "Add App…" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Añadir app…"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -502,6 +814,12 @@
     },
     "Add to Pinboard" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Añadir a un tablero"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -518,6 +836,12 @@
     },
     "Added to %@" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Añadido a %@"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -534,6 +858,12 @@
     },
     "After the panel closes, Clipbara presses ⌘V for you. This needs Accessibility permission, which is used for nothing else." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Después de que el panel se cierre, Clipbara presiona ⌘V por ti. Esto requiere permiso de Accesibilidad, que no se usa para nada más."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -550,6 +880,12 @@
     },
     "All" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todo"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -566,6 +902,12 @@
     },
     "Already in %@" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ya en %@"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -582,6 +924,12 @@
     },
     "Always Paste as Plain Text" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pegar siempre como texto sin formato"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -598,6 +946,12 @@
     },
     "Animate Panel" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Animar panel"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -614,6 +968,12 @@
     },
     "Appearance" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apariencia"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -630,6 +990,12 @@
     },
     "Back" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atrás"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -646,6 +1012,12 @@
     },
     "Backup" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copia de seguridad"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -662,6 +1034,12 @@
     },
     "Backup exported successfully." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copia de seguridad exportada con éxito."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -678,6 +1056,12 @@
     },
     "Cancel" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancelar"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -694,6 +1078,12 @@
     },
     "Card name" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nombre de la tarjeta"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -710,6 +1100,12 @@
     },
     "Check for Updates…" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buscar actualizaciones…"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -726,6 +1122,12 @@
     },
     "Clear All History" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Borrar todo el historial"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -742,6 +1144,12 @@
     },
     "Clear Clipboard History" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Borrar historial del portapapeles"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -758,6 +1166,12 @@
     },
     "Clear Clipboard History?" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Borrar historial del portapapeles?"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -774,6 +1188,12 @@
     },
     "Clear Filters" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Borrar filtros"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -790,6 +1210,12 @@
     },
     "Clear History" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Borrar historial"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -806,6 +1232,12 @@
     },
     "Clear…" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Borrar…"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -822,6 +1254,12 @@
     },
     "Click, then press a key to use for Quick Look preview" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Haz clic y luego presiona la tecla que quieras usar para Vista Rápida"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -838,6 +1276,12 @@
     },
     "Clicking a clip or pressing Return pastes it where you were typing. When off, the clip is only copied." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hacer clic en un clip o presionar Return lo pega donde estabas escribiendo. Cuando está desactivado, el clip solo se copia."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -854,6 +1298,12 @@
     },
     "Clip Queue" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cola de clips"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -873,6 +1323,12 @@
     },
     "Clipbara for iPhone is here." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clipbara para iPhone ya está aquí."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -889,6 +1345,12 @@
     },
     "Clipbara is unlocked" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clipbara está desbloqueado"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -905,6 +1367,12 @@
     },
     "Clipbara keeps running. To open Settings again, open Clipbara from Applications or Spotlight, or press ⌘, in the panel." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clipbara sigue funcionando. Para volver a abrir los Ajustes, abre Clipbara desde Aplicaciones o Spotlight, o presiona ⌘, en el panel."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -921,6 +1389,12 @@
     },
     "Clipbara kept recording what you copy. Settings, including backup export, stay available." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clipbara siguió registrando lo que copias. Los Ajustes, incluida la exportación de copias de seguridad, siguen disponibles."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -937,6 +1411,12 @@
     },
     "Clipbara's data in iCloud is deleted and sync turns off on every device. Clips already on each device stay there." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los datos de Clipbara en iCloud se eliminan y la sincronización se desactiva en todos los dispositivos. Los clips que ya están en cada dispositivo permanecen allí."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -953,6 +1433,12 @@
     },
     "Clipboard Monitoring" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Monitorización del portapapeles"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -969,6 +1455,12 @@
     },
     "Clipboard history as cards" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Historial del portapapeles como tarjetas"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -985,6 +1477,12 @@
     },
     "Clips older than this are deleted. Clips on pinboards are kept." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los clips más antiguos se eliminan. Los clips de los tableros se conservan."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1001,6 +1499,12 @@
     },
     "Close" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cerrar"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1017,6 +1521,12 @@
     },
     "Color" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Color"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1033,6 +1543,12 @@
     },
     "Combine at least one of ⌘, ⌥ or ⌃ with a key, like ⌥V or ⌃⇧P. Function keys (F1–F12) work on their own. Shift alone isn't supported by macOS." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Combina al menos una de ⌘, ⌥ o ⌃ con una tecla, como ⌥V o ⌃⇧P. Las teclas de función (F1–F12) funcionan por sí solas. macOS no admite Shift solo."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1049,6 +1565,12 @@
     },
     "Coming from %@ or another Mac?\nRestore your clips from a backup file." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Vienes de %@ o de otro Mac?\nRestaura tus clips desde un archivo de copia de seguridad."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1065,6 +1587,12 @@
     },
     "Connecting to iCloud…" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conectando a iCloud…"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1081,6 +1609,12 @@
     },
     "Continue" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continuar"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1097,6 +1631,12 @@
     },
     "Copy a few things. Each ⌘V then pastes the next one in order." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copia varias cosas. Luego, cada ⌘V pega la siguiente en orden."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1113,6 +1653,12 @@
     },
     "Copy anything" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copia cualquier cosa"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1129,6 +1675,12 @@
     },
     "Copy several things, then paste them in order." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copia varias cosas y luego pégalas en orden."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1145,6 +1697,12 @@
     },
     "Copy something, press %@, and it'll be there.\nClipbara runs quietly in your menu bar." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copia algo, presiona %@, y estará ahí.\nClipbara se ejecuta discretamente en tu barra de menú."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1161,6 +1719,12 @@
     },
     "Could not add clip" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se pudo agregar el clip"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1177,6 +1741,12 @@
     },
     "Couldn't connect to the App Store." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se pudo conectar a la App Store."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1193,6 +1763,12 @@
     },
     "Couldn't restore purchases. Check your connection and try again." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se pudieron restaurar las compras. Comprueba tu conexión e inténtalo de nuevo."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1209,6 +1785,12 @@
     },
     "Create" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Crear"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1225,6 +1807,12 @@
     },
     "Create Pinboard" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Crear tablero"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1241,6 +1829,12 @@
     },
     "Dark" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oscuro"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1257,6 +1851,12 @@
     },
     "Delete Clip" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminar clip"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1273,6 +1873,12 @@
     },
     "Delete Clips" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminar clips"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1289,6 +1895,12 @@
     },
     "Delete Older Clips?" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Eliminar clips antiguos?"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1305,6 +1917,12 @@
     },
     "Delete Pinboard" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminar tablero"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1321,6 +1939,12 @@
     },
     "Delete Pinboard?" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Eliminar tablero?"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1337,6 +1961,12 @@
     },
     "Delete iCloud Data" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminar datos de iCloud"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1353,6 +1983,12 @@
     },
     "Delete iCloud Data?" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Eliminar datos de iCloud?"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1369,6 +2005,12 @@
     },
     "Delete iCloud Data…" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminar datos de iCloud…"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1385,6 +2027,12 @@
     },
     "Deleted. Press ⌘Z to undo." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eliminado. Presiona ⌘Z para deshacer."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1401,6 +2049,12 @@
     },
     "Deletes every clip that isn't on a pinboard." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elimina cada clip que no esté en un tablero."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1417,6 +2071,12 @@
     },
     "Doesn't save data that other apps put on the clipboard only for a moment." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No guarda datos que otras aplicaciones ponen en el portapapeles solo por un momento."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1433,6 +2093,12 @@
     },
     "Doesn't save passwords and other content that apps mark as confidential." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No guarda contraseñas ni otro contenido que las aplicaciones marcan como confidencial."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1449,6 +2115,12 @@
     },
     "Don't show again" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No volver a mostrar"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1465,6 +2137,12 @@
     },
     "Done" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hecho"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1481,6 +2159,12 @@
     },
     "Drag clips here or use the card menu" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arrastra clips aquí o usa el menú de tarjetas"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1497,6 +2181,12 @@
     },
     "Drag frequently used clips to boards so they never expire." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arrastra clips de uso frecuente a tableros para que nunca expiren."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1513,6 +2203,12 @@
     },
     "Edit Text (⌘E)" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editar texto (⌘E)"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1529,6 +2225,12 @@
     },
     "Edit Text…" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editar texto…"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1545,6 +2247,12 @@
     },
     "Editing. ⌘S saves, Esc cancels. The change shows everywhere this clip is pinned." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editando. ⌘S guarda, Esc cancela. El cambio se muestra en todas partes donde este clip está fijado."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1561,6 +2269,12 @@
     },
     "Empty Pinboard" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tablero vacío"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1577,6 +2291,12 @@
     },
     "End Clip Queue" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finalizar cola de clips"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1593,6 +2313,12 @@
     },
     "Everything you copy, saved automatically.\nFind it and paste it again whenever you need." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todo lo que copias, guardado automáticamente.\nEncuéntralo y pégalo de nuevo cuando lo necesites."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1609,6 +2335,12 @@
     },
     "Excluded Apps" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aplicaciones excluidas"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1625,6 +2357,12 @@
     },
     "Excluded apps will not have their clipboard content saved." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Las aplicaciones excluidas no guardarán el contenido de su portapapeles."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1641,6 +2379,12 @@
     },
     "Exclusions" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exclusiones"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1657,6 +2401,12 @@
     },
     "Export Backup" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exportar copia de seguridad"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1673,6 +2423,12 @@
     },
     "Export Clipbara Backup" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exportar copia de seguridad de Clipbara"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1689,6 +2445,12 @@
     },
     "Export failed: %@" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Error al exportar: %@"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1705,6 +2467,12 @@
     },
     "Export history, pinboards, and settings to a JSON file." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exporta historial, tableros y configuraciones a un archivo JSON."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1721,6 +2489,12 @@
     },
     "Export…" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exportar…"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1737,6 +2511,12 @@
     },
     "File" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Archivo"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1753,6 +2533,12 @@
     },
     "Filter by Date" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filtrar por fecha"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1769,6 +2555,12 @@
     },
     "Filter by Type" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filtrar por tipo"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1785,6 +2577,12 @@
     },
     "Find Clipbara anytime via the %@ in your menu bar. History, pinboards and settings live there." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Encuentra Clipbara en cualquier momento a través del %@ en tu barra de menú. Allí están el historial, los tableros y la configuración."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1801,6 +2599,12 @@
     },
     "First 8 Pinboards" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los 8 primeros tableros"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1817,6 +2621,12 @@
     },
     "Fit" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajustar"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1833,6 +2643,12 @@
     },
     "Fit to Window (⌘0)" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajustar a la ventana (⌘0)"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1849,6 +2665,12 @@
     },
     "Forever" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Para siempre"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1865,6 +2687,12 @@
     },
     "Full access to everything. When the trial ends, keep using Clipbara with a one-time purchase." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acceso completo a todo. Cuando termine la prueba, sigue usando Clipbara con una compra única."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1881,6 +2709,12 @@
     },
     "Full-screen Quick Look for the selected card." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vista Rápida a pantalla completa de la tarjeta seleccionada."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1897,6 +2731,12 @@
     },
     "General" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "General"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1913,6 +2753,12 @@
     },
     "HTML" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "HTML"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1929,6 +2775,12 @@
     },
     "History" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Historial"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1945,6 +2797,12 @@
     },
     "History (⌘1)" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Historial (⌘1)"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1961,6 +2819,12 @@
     },
     "History Limit" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Límite de historial"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1977,6 +2841,12 @@
     },
     "History, pinboards, search and paste all work. The trial is free and never charges or renews on its own." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El historial, los tableros, la búsqueda y pegar funcionan. La prueba es gratuita y nunca cobra ni renueva automáticamente."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1993,6 +2863,12 @@
     },
     "Hold ⇧ while pasting to switch for a single paste." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mantén ⇧ al pegar para cambiarlo solo en ese pegado."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2009,6 +2885,12 @@
     },
     "If Clipbara isn't in the list, add it with the + button." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Si Clipbara no está en la lista, añádelo con el botón +."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2025,6 +2907,12 @@
     },
     "Ignore Confidential Content" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ignorar contenido confidencial"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2041,6 +2929,12 @@
     },
     "Ignore Temporary Content" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ignorar contenido temporal"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2057,6 +2951,12 @@
     },
     "Image" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Imagen"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2073,6 +2973,12 @@
     },
     "Import Backup" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importar copia de seguridad"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2089,6 +2995,12 @@
     },
     "Import Clipbara Backup" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importar copia de seguridad de Clipbara"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2105,6 +3017,12 @@
     },
     "Import a backup file. Existing clips are kept; duplicates are skipped." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importa un archivo de copia de seguridad. Los clips existentes se mantienen; se omiten duplicados."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2121,6 +3039,12 @@
     },
     "Import failed: %@" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Error al importar: %@"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2150,6 +3074,30 @@
                 "stringUnit" : {
                   "state" : "translated",
                   "value" : "Imported %lld clips."
+                }
+              }
+            }
+          }
+        },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Se importó %lld clip."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Se importaron %lld clips."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Se importaron %lld clips."
                 }
               }
             }
@@ -2189,6 +3137,30 @@
             }
           }
         },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Se importó %lld tablero."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Se importaron %lld tableros."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Se importaron %lld tableros."
+                }
+              }
+            }
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2205,6 +3177,12 @@
     },
     "Import…" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importar…"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2221,6 +3199,12 @@
     },
     "In the Panel" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En el panel"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2237,6 +3221,12 @@
     },
     "In your previous app, go to Settings > General > Backup > Export to save a JSON backup file. Then click Import and select that file. Existing clips are kept and duplicates are skipped." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En tu app anterior, ve a Configuración > General > Copia de seguridad > Exportar para guardar un archivo JSON. Luego haz clic en Importar y selecciona ese archivo. Los clips existentes se mantienen y se omiten los duplicados."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2253,6 +3243,12 @@
     },
     "It ends on %@. You can unlock Clipbara anytime from the menu bar." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Termina en %@. Puedes desbloquear Clipbara en cualquier momento desde la barra de menú."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2269,6 +3265,12 @@
     },
     "Keep History" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mantener historial"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2285,6 +3287,12 @@
     },
     "Key %lld" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tecla %lld"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2301,6 +3309,12 @@
     },
     "LINK" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ENLACE"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2317,6 +3331,12 @@
     },
     "Launch at Login" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir al iniciar sesión"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2333,6 +3353,12 @@
     },
     "Light" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Claro"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2349,6 +3375,12 @@
     },
     "Link" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enlace"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2365,6 +3397,12 @@
     },
     "Menu Bar Icon Hidden" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Icono de la barra de menú oculto"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2381,6 +3419,12 @@
     },
     "More actions" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Más acciones"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2397,6 +3441,12 @@
     },
     "More info" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Más información"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2413,6 +3463,12 @@
     },
     "Move to Pinboard" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mover a un tablero"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2429,6 +3485,12 @@
     },
     "Moved to %@. Press ⌘Z to undo." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Movido a %@. Presiona ⌘Z para deshacer."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2445,6 +3507,12 @@
     },
     "Name" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nombre"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2461,6 +3529,12 @@
     },
     "New Pinboard" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nuevo tablero"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2477,6 +3551,12 @@
     },
     "No Results" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No hay resultados"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2493,6 +3573,12 @@
     },
     "No account, no cloud, no telemetry. Your data stays on this Mac." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin cuenta, sin nube, sin telemetría. Tus datos permanecen en este Mac."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2509,6 +3595,12 @@
     },
     "No apps are excluded." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No hay aplicaciones excluidas."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2525,6 +3617,12 @@
     },
     "No clipboard history" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin historial de portapapeles"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2541,6 +3639,12 @@
     },
     "No unlock purchase was found for this Apple Account." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se encontró una compra de desbloqueo para esta cuenta de Apple."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2557,6 +3661,12 @@
     },
     "No unpinned history to clear" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No hay historial sin fijar que borrar"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2573,6 +3683,12 @@
     },
     "Not Now" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ahora no"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2589,6 +3705,12 @@
     },
     "OK" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2605,6 +3727,12 @@
     },
     "Off" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desactivado"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2621,6 +3749,12 @@
     },
     "Off while Reduce Motion is on in System Settings > Accessibility > Display." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desactivado mientras Reducir movimiento esté activado en Ajustes del Sistema > Accesibilidad > Pantalla."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2637,6 +3771,12 @@
     },
     "One shortcut away" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A un atajo de distancia"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2653,6 +3793,12 @@
     },
     "One-time purchase, no subscription" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compra única, sin suscripción"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2669,6 +3815,12 @@
     },
     "Only plain text clips can be edited." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo se pueden editar los clips de texto sin formato."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2685,6 +3837,12 @@
     },
     "Open Accessibility Settings…" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir los ajustes de Accesibilidad…"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2701,6 +3859,12 @@
     },
     "Open Clipbara" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir Clipbara"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2717,6 +3881,12 @@
     },
     "Open History" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir historial"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2733,6 +3903,12 @@
     },
     "Opening your clipboard history and pasting clips from Clipbara stop until you unlock. Copying is still recorded, and Settings, including backup export, stay available." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abrir el historial del portapapeles y pegar clips desde Clipbara se detienen hasta que desbloquees. Lo que copias se sigue registrando, y los Ajustes, incluida la exportación de copias de seguridad, siguen disponibles."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2749,6 +3925,12 @@
     },
     "Optional. While the queue is on, everything you copy joins it, and each ⌘V pastes the next item in order." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opcional. Mientras la cola está activada, todo lo que copies se une a ella y cada ⌘V pega el siguiente elemento en orden."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2765,6 +3947,12 @@
     },
     "Other" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otro"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2781,6 +3969,12 @@
     },
     "Paste" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pegar"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2797,6 +3991,12 @@
     },
     "Paste as Plain Text" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pegar como texto sin formato"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2813,6 +4013,12 @@
     },
     "Paste into the Active App" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pegar en la app activa"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2829,6 +4035,12 @@
     },
     "Paste with Formatting" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pegar con formato"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2845,6 +4057,12 @@
     },
     "Pasting" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pegando"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2861,6 +4079,12 @@
     },
     "Pasting newest first. Click to paste oldest first." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pegando los más nuevos primero. Haz clic para pegar los más antiguos primero."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2877,6 +4101,12 @@
     },
     "Pasting oldest first. Click to paste newest first." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pegando los más antiguos primero. Haz clic para pegar los más nuevos primero."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2893,6 +4123,12 @@
     },
     "Pinboard" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tablero"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2909,6 +4145,12 @@
     },
     "Pinboards for keepers" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tableros para lo importante"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2925,6 +4167,12 @@
     },
     "Press a key…" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Presiona una tecla…"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2941,6 +4189,12 @@
     },
     "Press this anywhere, in any app,\nto open your clipboard history." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Presiona esto en cualquier lugar, en cualquier app,\npara abrir tu historial del portapapeles."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2957,6 +4211,12 @@
     },
     "Pressed with a card selected. A single key, no modifiers." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Presionado con una tarjeta seleccionada. Una sola tecla, sin modificadores."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2973,6 +4233,12 @@
     },
     "Preview a clip" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Previsualizar un clip"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2989,6 +4255,12 @@
     },
     "Privacy" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Privacidad"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3005,6 +4277,12 @@
     },
     "Quick Look Preview" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vista Rápida"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3021,6 +4299,12 @@
     },
     "Quit Clipbara" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salir de Clipbara"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3040,6 +4324,12 @@
     },
     "Rate on App Store" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Valorar en la App Store"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3056,6 +4346,12 @@
     },
     "Recent Copies" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copias recientes"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3072,6 +4368,12 @@
     },
     "Remove" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quitar"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3088,6 +4390,12 @@
     },
     "Remove from Pinboard" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quitar del tablero"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3104,6 +4412,12 @@
     },
     "Remove from Queue" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quitar de la cola"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3120,6 +4434,12 @@
     },
     "Removed from pinboard. Press ⌘Z to undo." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quitado del tablero. Presiona ⌘Z para deshacer."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3136,6 +4456,12 @@
     },
     "Removes fonts, colors, and links from rich text and HTML clips, pasting only the text." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elimina fuentes, colores y enlaces de clips de texto enriquecido y HTML, pegando solo el texto."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3152,6 +4478,12 @@
     },
     "Rename" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Renombrar"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3168,6 +4500,12 @@
     },
     "Rename Pinboard" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Renombrar tablero"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3184,6 +4522,12 @@
     },
     "Restore Purchases" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restaurar compras"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3200,6 +4544,12 @@
     },
     "Restored" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restaurado"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3216,6 +4566,12 @@
     },
     "Rich Text" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Texto enriquecido"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3232,6 +4588,12 @@
     },
     "Save" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guardar"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3248,6 +4610,12 @@
     },
     "Save (⌘S)" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guardar (⌘S)"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3264,6 +4632,12 @@
     },
     "Saved. Press ⌘Z to undo." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guardado. Presiona ⌘Z para deshacer."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3280,6 +4654,12 @@
     },
     "Search clipboard..." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buscar en portapapeles..."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3296,6 +4676,12 @@
     },
     "Select App to Exclude" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seleccionar app para excluir"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3312,6 +4698,12 @@
     },
     "Send Feedback…" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enviar comentarios…"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3328,6 +4720,12 @@
     },
     "Settings…" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajustes…"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3344,6 +4742,12 @@
     },
     "Shortcuts" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atajos"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3360,6 +4764,12 @@
     },
     "Show Icon in Menu Bar" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar icono en la barra de menú"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3376,6 +4786,12 @@
     },
     "Show Welcome Tour…" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ver el recorrido de bienvenida…"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3392,6 +4808,12 @@
     },
     "Sign in to iCloud to sync." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inicia sesión en iCloud para sincronizar."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3426,6 +4848,30 @@
             }
           }
         },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Se omitió %lld duplicado."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Se omitieron %lld duplicados."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Se omitieron %lld duplicados."
+                }
+              }
+            }
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3442,6 +4888,12 @@
     },
     "Slide the history panel in and out. When off, it appears and closes at once." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desliza el panel de historial hacia adentro y hacia afuera. Cuando está desactivado, aparece y se cierra de inmediato."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3458,6 +4910,12 @@
     },
     "Space" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Espacio"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3474,6 +4932,12 @@
     },
     "Start 7-Day Free Trial" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Iniciar prueba gratuita de 7 días"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3490,6 +4954,12 @@
     },
     "Start Clip Queue" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Iniciar cola de clips"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3506,6 +4976,12 @@
     },
     "Start Using Clipbara" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comenzar a usar Clipbara"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3522,6 +4998,12 @@
     },
     "Start or End Clip Queue" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Iniciar o finalizar cola de clips"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3538,6 +5020,12 @@
     },
     "Sync" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sincronizar"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3554,6 +5042,12 @@
     },
     "Sync Images" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sincronizar imágenes"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3570,6 +5064,12 @@
     },
     "Sync Now" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sincronizar ahora"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3586,6 +5086,12 @@
     },
     "Sync Settings" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajustes de sincronización"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3602,6 +5108,12 @@
     },
     "Sync works with the Mac App Store edition, and one purchase covers Mac and iPhone. If you got that edition before Oct 6, it's already unlocked. To move your clips, export a backup in Settings > General." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La sincronización funciona con la edición de la Mac App Store, y una sola compra cubre el Mac y el iPhone. Si conseguiste esa edición antes del 6 de octubre, ya está desbloqueada. Para mover tus clips, exporta una copia de seguridad en Ajustes > General."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3618,6 +5130,12 @@
     },
     "Syncing…" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sincronizando…"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3634,6 +5152,12 @@
     },
     "System" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sistema"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3650,6 +5174,12 @@
     },
     "TEXT" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TEXTO"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3666,6 +5196,12 @@
     },
     "Text" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Texto"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3682,6 +5218,12 @@
     },
     "Text, links, images, files & colors. One click to copy back." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Texto, enlaces, imágenes, archivos y colores. Un clic para volver a copiarlo."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3698,6 +5240,12 @@
     },
     "Thank you for supporting Clipbara." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¡Gracias por apoyar a Clipbara!"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3714,6 +5262,12 @@
     },
     "The purchase couldn't be completed. Please try again." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se pudo completar la compra. Inténtalo de nuevo."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3730,6 +5284,12 @@
     },
     "Theme" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tema"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3746,6 +5306,12 @@
     },
     "This Month" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este mes"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3762,6 +5328,12 @@
     },
     "This Week" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esta semana"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3796,6 +5368,30 @@
             }
           }
         },
+        "es" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Esto elimina %lld clip sin fijar del historial. Los elementos de los tableros siguen disponibles."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Esto elimina %lld clips sin fijar del historial. Los elementos de los tableros siguen disponibles."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Esto elimina %lld clips sin fijar del historial. Los elementos de los tableros siguen disponibles."
+                }
+              }
+            }
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3812,6 +5408,12 @@
     },
     "This removes the pinboard only. The clips stay in clipboard history." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esto solo elimina el tablero. Los clips permanecen en el historial del portapapeles."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3828,6 +5430,12 @@
     },
     "To open Settings, open Clipbara again or press ⌘, in the panel." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Para abrir los Ajustes, vuelve a abrir Clipbara o presiona ⌘, en el panel."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3844,6 +5452,12 @@
     },
     "Today" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hoy"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3860,6 +5474,12 @@
     },
     "Toggle History Panel" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar/ocultar panel de historial"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3876,6 +5496,12 @@
     },
     "Trial ended" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prueba finalizada"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3892,6 +5518,12 @@
     },
     "Try Again" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Intentar de nuevo"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3908,6 +5540,12 @@
     },
     "Try Clipbara free for 7 days" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prueba Clipbara gratis durante 7 días"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3924,6 +5562,12 @@
     },
     "Try a different search or filter" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Intenta una búsqueda o filtro diferente"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3940,6 +5584,12 @@
     },
     "Turn On" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Activar"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3956,6 +5606,12 @@
     },
     "Search for “Clipbara” in the App Store on your iPhone, then turn on sync. Your purchase covers both." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Busca “Clipbara” en la App Store de tu iPhone y luego activa la sincronización. Tu compra sirve para los dos."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3972,6 +5628,12 @@
     },
     "Turn On iCloud Sync?" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Activar sincronización de iCloud?"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3988,6 +5650,12 @@
     },
     "URL" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "URL"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4004,6 +5672,12 @@
     },
     "Unable to load image" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se puede cargar la imagen"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4020,6 +5694,12 @@
     },
     "Unknown" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desconocido"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4036,6 +5716,12 @@
     },
     "Unlimited" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ilimitado"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4052,6 +5738,12 @@
     },
     "Unlock Clipbara" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desbloquear Clipbara"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4068,6 +5760,12 @@
     },
     "Unlock Clipbara for %@ and keep full access." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desbloquea Clipbara para %@ y mantén acceso completo."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4084,6 +5782,12 @@
     },
     "Unlock Clipbara to open your clipboard history again. Everything you copied in the meantime has been kept." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desbloquea Clipbara para volver a abrir tu historial del portapapeles. Todo lo que copiaste mientras tanto se ha guardado."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4100,6 +5804,12 @@
     },
     "Unlock Clipbara with a single purchase and keep full access." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desbloquea Clipbara con una sola compra y mantén acceso completo."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4116,6 +5826,12 @@
     },
     "Unlock Clipbara…" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desbloquear Clipbara…"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4132,6 +5848,12 @@
     },
     "Unlock for %@" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desbloquear para %@"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4148,6 +5870,12 @@
     },
     "Up to date" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actualizado"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4164,6 +5892,12 @@
     },
     "Up to date, synced %@" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actualizado, sincronizado %@"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4180,6 +5914,12 @@
     },
     "Version %@ (%@)" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versión %@ (%@)"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4196,6 +5936,12 @@
     },
     "View in App Store" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ver en la App Store"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4212,6 +5958,12 @@
     },
     "Welcome to %@" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Te damos la bienvenida a %@"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4228,6 +5980,12 @@
     },
     "When the trial ends" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cuando termine la prueba"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4244,6 +6002,12 @@
     },
     "While the queue is on, everything you copy joins it, and each ⌘V pastes the next item in order." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mientras la cola está activa, todo lo que copies se une a ella, y cada ⌘V pega el siguiente elemento en orden."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4260,6 +6024,12 @@
     },
     "Works globally, in any app." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Funciona globalmente, en cualquier aplicación."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4276,6 +6046,12 @@
     },
     "You're all set" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todo listo"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4292,6 +6068,12 @@
     },
     "Your clipboard history will appear here" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tu historial del portapapeles aparecerá aquí"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4308,6 +6090,12 @@
     },
     "Your free trial ends on %@." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tu prueba gratuita termina el %@."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4324,6 +6112,12 @@
     },
     "Your free trial has ended" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tu prueba gratuita ha terminado"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4340,6 +6134,12 @@
     },
     "Your free trial has started" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tu prueba gratuita ha comenzado"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4356,6 +6156,12 @@
     },
     "Your history and pinboards sync between your Mac and iPhone through your private iCloud database, and use your iCloud storage. Clip contents are encrypted. Images over 10 MB and copied files stay on the device where you copied them." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tu historial y tus tableros se sincronizan entre tu Mac y tu iPhone a través de tu base de datos privada de iCloud, y usan tu almacenamiento de iCloud. El contenido de los clips está cifrado. Las imágenes de más de 10 MB y los archivos copiados se quedan en el dispositivo donde los copiaste."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4372,6 +6178,12 @@
     },
     "Your history is safe" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tu historial está seguro"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4388,6 +6200,12 @@
     },
     "Your purchase is waiting for approval. Clipbara unlocks as soon as it goes through." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tu compra está esperando aprobación. Clipbara se desbloqueará tan pronto como sea aprobada."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4404,6 +6222,12 @@
     },
     "Your purchases were restored." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tus compras se han restaurado."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4420,6 +6244,12 @@
     },
     "Zoom In (⌘+)" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aumentar zoom (⌘+)"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4436,6 +6266,12 @@
     },
     "Zoom Out (⌘-)" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disminuir zoom (⌘-)"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4452,6 +6288,12 @@
     },
     "clipboard icon" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "icono de portapapeles"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4468,6 +6310,12 @@
     },
     "iCloud Sync" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sincronización con iCloud"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4484,6 +6332,12 @@
     },
     "iCloud is not set up for this build." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud no está configurado para esta compilación."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4503,6 +6357,12 @@
     },
     "Local unless you choose" : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Local salvo que tú decidas"
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4519,6 +6379,12 @@
     },
     "No account, no telemetry. Stays on this Mac until you turn on sync." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin cuenta, sin telemetría. Permanece en este Mac hasta que actives la sincronización."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4535,6 +6401,12 @@
     },
     "Using Clipbara on iPhone too?\nSync your history and pinboards through iCloud." : {
       "localizations" : {
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Usas Clipbara también en el iPhone?\nSincroniza tu historial y tus tableros a través de iCloud."
+          }
+        },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
