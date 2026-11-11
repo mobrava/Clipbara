@@ -27,6 +27,8 @@
   <a href="https://apps.apple.com/app/apple-store/id6803537696?pt=129317403&amp;ct=github_readme&amp;mt=8"><strong>Get it on the Mac App Store</strong></a>
   &nbsp;·&nbsp;
   <a href="https://github.com/mobrava/Clipbara/releases/latest"><strong>Download the DMG</strong></a>
+  &nbsp;·&nbsp;
+  <a href="https://clipbara.app/"><strong>Official website</strong></a>
 </p>
 
 https://github.com/user-attachments/assets/60db2f4c-fbe4-41d0-9bda-416b791c5c46
