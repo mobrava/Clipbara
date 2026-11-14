@@ -4457,7 +4457,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "空格"
+            "value" : "空白鍵"
           }
         }
       }
@@ -4897,7 +4897,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "這將從歷史紀錄中刪除 %lld 條未固定的剪貼內容。釘選板中的項目會保留。"
+            "value" : "這將從歷史紀錄中刪除 %lld 條未釘選的剪貼內容。釘選板中的項目會保留。"
           }
         }
       }
@@ -5711,7 +5711,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "你的購買正在等待批准。批准後 Clipbara 會立即解鎖。"
+            "value" : "你的購買正在等待核准。核准後 Clipbara 會立即解鎖。"
           }
         }
       }
@@ -5868,7 +5868,7 @@
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "除非你選擇，否則只在本地"
+            "value" : "預設僅儲存在這台 Mac"
           }
         }
       }
