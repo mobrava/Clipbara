@@ -3,7 +3,9 @@ import AppKit
 
 struct ClipboardQuickLookView: View {
     let item: ClipboardItem
-    let shelfHeight: CGFloat
+    /// Keep the preview above the shelf as its card size changes.
+    @AppStorage(PanelCardSize.defaultsKey) private var storedHeight = PanelCardSize.defaultHeight
+    private var shelfHeight: CGFloat { PanelCardSize.clampedHeight(storedHeight) }
     let onClose: () -> Void
     let onPaste: () -> Void
     @ObservedObject var zoom: ImageZoomController
@@ -20,13 +22,11 @@ struct ClipboardQuickLookView: View {
 
     init(
         item: ClipboardItem,
-        shelfHeight: CGFloat,
         zoom: ImageZoomController,
         onClose: @escaping () -> Void,
         onPaste: @escaping () -> Void
     ) {
         self.item = item
-        self.shelfHeight = shelfHeight
         self.zoom = zoom
         self.onClose = onClose
         self.onPaste = onPaste
@@ -78,8 +78,10 @@ struct ClipboardQuickLookView: View {
     /// like the image at its fitted size, so there is no dead checkerboard around it.
     private func bubbleSize(in size: CGSize) -> CGSize {
         let maxWidth = min(size.width * 0.72, 1080)
-        let availableHeight = max(size.height - shelfHeight - 68, 360)
-        let maxHeight = min(max(availableHeight * 0.86, 360), 720)
+        // Leave enough room for the shelf, bubble pointer, and outer margins on shorter displays.
+        let availableHeight = max(0, size.height - shelfHeight - 68)
+        // Shrink below the usual preview minimum when the selected card size needs the space.
+        let maxHeight = min(availableHeight, max(availableHeight * 0.86, 360), 720)
 
         guard item.contentType == .image,
               let image = cachedImage,
