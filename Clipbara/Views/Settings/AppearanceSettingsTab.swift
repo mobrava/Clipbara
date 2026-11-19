@@ -15,7 +15,10 @@ enum AppTheme: String, CaseIterable {
     }
 }
 
+@MainActor
 struct AppearanceSettingsTab: View {
+    @AppStorage(PanelCardSize.defaultsKey) private var panelHeight = PanelCardSize.defaultHeight
+    @AppStorage(PanelScreen.defaultsKey) private var panelScreen = PanelScreen.pointer
     @AppStorage("appTheme") private var appTheme: String = AppTheme.system.rawValue
     @AppStorage(PanelController.animatesPanelDefaultsKey) private var animatesPanel: Bool = true
     @State private var reducesMotion = NSWorkspace.shared.accessibilityDisplayShouldReduceMotion
@@ -31,6 +34,31 @@ struct AppearanceSettingsTab: View {
             .onChange(of: appTheme) { _, newValue in
                 applyTheme(newValue)
             }
+
+            LabeledContent("Card Size") {
+                // Use the same validated height for the slider, its label, and the panel.
+                let height = Binding(get: { PanelCardSize.clampedHeight(panelHeight) }, set: { panelHeight = $0 })
+                // Use a localized percentage for both the visible and spoken value.
+                let scale = (height.wrappedValue / PanelCardSize.defaultHeight)
+                    .formatted(.percent.precision(.fractionLength(0)))
+                HStack {
+                    Slider(value: height, in: PanelCardSize.range, step: PanelCardSize.step) {
+                        Text("Card Size")
+                    }
+                    .labelsHidden()
+                    .accessibilityValue(scale)
+
+                    Text(verbatim: scale)
+                        .monospacedDigit()
+                }
+            }
+
+            Picker("Show Panel On", selection: $panelScreen) {
+                ForEach(PanelScreen.allCases, id: \.self) { screen in
+                    Text(screen.displayName).tag(screen)
+                }
+            }
+            .pickerStyle(.menu)
 
             Toggle(isOn: $animatesPanel) {
                 Text("Animate Panel")

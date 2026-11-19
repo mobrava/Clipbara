@@ -738,6 +738,28 @@
         }
       }
     },
+    "Card Size" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "카드 크기"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "卡片尺寸"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "卡片大小"
+          }
+        }
+      }
+    },
     "Check for Updates…" : {
       "localizations" : {
         "ko" : {
@@ -2963,6 +2985,28 @@
         }
       }
     },
+    "Main Screen" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "주 화면"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "主屏幕"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "主螢幕"
+          }
+        }
+      }
+    },
     "Menu Bar Icon Hidden" : {
       "localizations" : {
         "ko" : {
@@ -4220,6 +4264,50 @@
         }
       }
     },
+    "Screen with Active Window" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "활성 윈도우가 있는 화면"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "当前窗口所在屏幕"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "目前視窗所在螢幕"
+          }
+        }
+      }
+    },
+    "Screen with Pointer" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "포인터가 있는 화면"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "鼠标所在屏幕"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "指標所在螢幕"
+          }
+        }
+      }
+    },
     "Search clipboard..." : {
       "localizations" : {
         "ko" : {
@@ -4348,6 +4436,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "在選單列顯示圖示"
+          }
+        }
+      }
+    },
+    "Show Panel On" : {
+      "localizations" : {
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "패널 표시 화면"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "面板显示位置"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "面板顯示位置"
           }
         }
       }

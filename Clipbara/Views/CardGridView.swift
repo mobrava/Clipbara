@@ -8,6 +8,9 @@ struct CardGridView: View {
     @Query(sort: \Pinboard.displayOrder)
     private var pinboards: [Pinboard]
 
+    /// The panel height selected in Appearance settings.
+    let panelHeight: Double
+
     @State private var filteredItems: [ClipboardItem] = []
 
     var body: some View {
@@ -22,9 +25,10 @@ struct CardGridView: View {
                 )
             } else {
                 GeometryReader { geo in
-                    let cardH = min(max(geo.size.height - 26, 164), 188)
-                    let cardW = min(max(cardH * 1.16, 206), 228)
-                    let rows = [GridItem(.fixed(cardH), spacing: 10)]
+                    // History and pinboards use the same dimensions at every slider stop.
+                    let cardSize = PanelCardSize.cardSize(rowHeight: geo.size.height, panelHeight: panelHeight)
+                    // The single horizontal row is exactly one card tall.
+                    let rows = [GridItem(.fixed(cardSize.height), spacing: 10)]
 
                     ScrollViewReader { proxy in
                         ScrollView(.horizontal, showsIndicators: false) {
@@ -35,8 +39,8 @@ struct CardGridView: View {
                                         item: item,
                                         isSelected: appState.searchState.selectedIndex == index,
                                         searchText: appState.searchState.debouncedSearchText,
-                                        cardWidth: cardW,
-                                        cardHeight: cardH,
+                                        cardWidth: cardSize.width,
+                                        cardHeight: cardSize.height,
                                         pinboards: pinboards,
                                         onSelect: { _ in
                                             appState.searchState.selectedIndex = index

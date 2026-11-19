@@ -7,6 +7,7 @@ struct HistoryPanelView: View {
     @Environment(\.colorScheme) private var colorScheme
     @Query(sort: \ClipboardItem.copiedAt, order: .reverse)
     private var items: [ClipboardItem]
+    @AppStorage(PanelCardSize.defaultsKey) private var panelHeight = PanelCardSize.defaultHeight
     @State private var showsIPhoneNotice = IPhoneAppNotice.shouldShow(syncEnabled: Self.syncEnabled)
 
     private static var syncEnabled: Bool {
@@ -40,12 +41,12 @@ struct HistoryPanelView: View {
                 ZStack {
                     // Cards layer
                     Group {
-                        CardGridView()
+                        CardGridView(panelHeight: panelHeight)
                             .opacity(appState.selectedTab == .history ? 1 : 0)
                             .allowsHitTesting(appState.selectedTab == .history)
 
                         if case .pinboard(let id) = appState.selectedTab {
-                            PinboardGridView(pinboardId: id)
+                            PinboardGridView(pinboardId: id, panelHeight: panelHeight)
                                 .id(id)
                         }
                     }
@@ -87,6 +88,7 @@ struct HistoryPanelView: View {
                     .zIndex(10)
             }
         }
+        .onChange(of: panelHeight) { _, _ in appState.panelController.resizeForCardSize() }
         .animation(.easeOut(duration: 0.16), value: appState.panelToast)
     }
 }

@@ -8,6 +8,9 @@ struct PinboardGridView: View {
 
     let pinboardId: UUID
 
+    /// The panel height selected in Appearance settings.
+    let panelHeight: Double
+
     @Query(sort: \Pinboard.displayOrder) private var allPinboards: [Pinboard]
 
     @State private var orderedEntries: [PinboardEntry] = []
@@ -27,9 +30,10 @@ struct PinboardGridView: View {
                 )
             } else {
                 GeometryReader { geo in
-                    let cardH = min(max(geo.size.height - 26, 164), 188)
-                    let cardW = min(max(cardH * 1.16, 206), 228)
-                    let rows = [GridItem(.fixed(cardH), spacing: 10)]
+                    // History and pinboards use the same dimensions at every slider stop.
+                    let cardSize = PanelCardSize.cardSize(rowHeight: geo.size.height, panelHeight: panelHeight)
+                    // The single horizontal row is exactly one card tall.
+                    let rows = [GridItem(.fixed(cardSize.height), spacing: 10)]
                     let pinboardItems = orderedEntries.compactMap(\.clipboardItem)
 
                     ScrollViewReader { proxy in
@@ -41,8 +45,8 @@ struct PinboardGridView: View {
                                             entry: entry,
                                             item: item,
                                             index: index,
-                                            cardWidth: cardW,
-                                            cardHeight: cardH
+                                            cardWidth: cardSize.width,
+                                            cardHeight: cardSize.height
                                         )
                                         .id(entry.id)
                                     }

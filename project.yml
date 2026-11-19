@@ -217,6 +217,7 @@ targets:
       - path: Clipbara/Utilities/IPhoneAppNotice.swift
       - path: Shared/Store/AccessPolicy.swift
       - path: Clipbara/Panel/PanelContentContainer.swift
+      - path: Clipbara/Utilities/PanelLayoutSettings.swift
       - path: Clipbara/Utilities/PasteKeyCode.swift
       - path: Clipbara/Utilities/ClipQueueList.swift
       - path: Clipbara/Utilities/HistoryRetention.swift

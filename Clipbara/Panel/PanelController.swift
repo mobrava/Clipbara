@@ -51,7 +51,6 @@ final class PanelController {
         return setting && !NSWorkspace.shared.accessibilityDisplayShouldReduceMotion
     }
 
-    private let baseHeight: CGFloat = 280
     private let minimumPanelWidth: CGFloat = 720
     private let maximumScreenWidthRatio: CGFloat = 0.90
     private let estimatedCardWidth: CGFloat = 228
@@ -69,18 +68,17 @@ final class PanelController {
         screens.first { NSMouseInRect(point, $0.frame, false) }
     }
 
-    /// The display the user is actually working on.
-    ///
-    /// `NSScreen.main` resolves to the screen owning the key window, not the
-    /// screen the user is looking at. Clipbara is a menu bar app and is never
-    /// the active app when the hotkey fires, so `NSScreen.main` can point at
-    /// whichever display last held focus and the panel slides in on the wrong
-    /// screen. The pointer location matches the user's intent, so prefer it and
-    /// fall back to `NSScreen.main` only when the pointer is off screen.
-    private var activeScreen: NSScreen {
-        Self.screen(containing: NSEvent.mouseLocation, in: NSScreen.screens)
-            ?? NSScreen.main
-            ?? NSScreen.screens.first!
+    /// Resolves the display on each presentation, falling back to the pointer when no window is available.
+    private var activeScreen: NSScreen? {
+        // The first screen is the primary display, even when another display has keyboard focus.
+        let screens = NSScreen.screens
+        switch PanelScreen.current {
+        case .main: return screens.first
+        case .activeWindow:
+            if let screen = PanelScreen.frontWindowScreen(in: screens) { return screen }
+        case .pointer: break
+        }
+        return Self.screen(containing: NSEvent.mouseLocation, in: screens) ?? NSScreen.main ?? screens.first
     }
 
     func toggle(modelContainer: ModelContainer, appState: AppState) {
@@ -110,7 +108,7 @@ final class PanelController {
         // Build the warm panel at its real on screen position. Parking it below
         // the screen would hand it to a display stacked underneath before the
         // first hotkey press ever happens. It stays invisible via `alphaValue`.
-        let screenFrame = activeScreen.visibleFrame
+        guard let screenFrame = activeScreen?.visibleFrame else { return }
         let frame = panelFrame(in: screenFrame, y: screenFrame.origin.y)
 
         let warm = ClipbaraPanel(contentRect: frame)
@@ -125,16 +123,15 @@ final class PanelController {
     }
 
     func showPanel(modelContainer: ModelContainer, appState: AppState) {
+        guard !isVisible, let screen = activeScreen else { return }
         #if APPSTORE
         ClipSync.shared.syncOnOpen()
         ClipSync.shared.startLivePolling()
         #endif
-        guard !isVisible else { return }
         observeMenuTracking()
         anchorKeyboard()
         self.appState = appState
 
-        let screen = activeScreen
         let screenFrame = screen.visibleFrame
         let endFrame = panelFrame(in: screenFrame, y: screenFrame.origin.y)
         presentedScreen = screen
@@ -221,6 +218,16 @@ final class PanelController {
             container.frame = NSRect(origin: .zero, size: size)
         }
         container.fitHostedViewWidth()
+    }
+
+    /// Resizes the visible panel on its current display as the Card Size slider moves.
+    func resizeForCardSize() {
+        guard isVisible, !isHiding, let panel else { return }
+        // Preserve the bottom edge and width while the pointer is over Settings.
+        var frame = panel.frame
+        frame.size.height = PanelCardSize.currentHeight
+        panel.setFrame(frame, display: true)
+        refitContent()
     }
 
     func restoreKeyboardNavigationFocus(activateApp: Bool = false) {
@@ -838,7 +845,7 @@ final class PanelController {
         appState.selectForPreview(nil)
         quickLookItem = item
 
-        let screen = self.panel?.screen ?? activeScreen
+        guard let screen = self.panel?.screen ?? activeScreen else { return }
         let screenFrame = screen.visibleFrame
 
         let panel: ClipboardQuickLookPanel
@@ -856,7 +863,6 @@ final class PanelController {
         panel.contentView = NSHostingView(
             rootView: ClipboardQuickLookView(
                 item: item,
-                shelfHeight: baseHeight,
                 zoom: zoom,
                 onClose: { [weak self] in
                     self?.hideQuickLook()
@@ -948,7 +954,7 @@ final class PanelController {
             x: panelX,
             y: y,
             width: panelWidth,
-            height: baseHeight
+            height: PanelCardSize.currentHeight
         )
     }
 
