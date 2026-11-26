@@ -53,6 +53,14 @@ enum PanelScreen: String, CaseIterable {
     /// UserDefaults key shared by Settings and the panel.
     static let defaultsKey = "panelScreen"
 
+    /// Size of a standard title bar with window controls and no title or content.
+    @MainActor private static let emptyTitleBarSize: CGSize = {
+        // Use AppKit's metrics so the cutoff follows the current window decorations.
+        let style: NSWindow.StyleMask = [.titled, .closable, .miniaturizable, .resizable]
+        return CGSize(width: NSWindow.minFrameWidth(withTitle: "", styleMask: style),
+                      height: NSWindow.frameRect(forContentRect: .zero, styleMask: style).height)
+    }()
+
     /// The original pointer-based placement also handles unrecognized preferences.
     static var current: Self {
         UserDefaults.standard.string(forKey: defaultsKey).flatMap(Self.init(rawValue:)) ?? .pointer
@@ -77,14 +85,33 @@ enum PanelScreen: String, CaseIterable {
         guard let pid = NSWorkspace.shared.frontmostApplication?.processIdentifier,
               let windows = CGWindowListCopyWindowInfo([.optionOnScreenOnly, .excludeDesktopElements],
                                                        kCGNullWindowID) as? [[String: Any]],
-              let front = windows.first(where: {
-                  ($0[kCGWindowOwnerPID as String] as? pid_t) == pid
-                      && ($0[kCGWindowLayer as String] as? Int) == NSWindow.Level.normal.rawValue
-              }),
-              let bounds = front[kCGWindowBounds as String] as? NSDictionary,
-              let window = CGRect(dictionaryRepresentation: bounds),
-              let index = screenIndex(forWindow: window, in: screens.map(\.frame)) else { return nil }
+              let index = screenIndex(forWindows: windows, ownerPID: pid, in: screens.map(\.frame)) else { return nil }
         return screens[index]
+    }
+
+    /// Prefers the first normal window larger than a bare title bar on either axis.
+    /// - Parameters:
+    ///   - windows: Onscreen WindowServer entries in front-to-back order.
+    ///   - ownerPID: Process identifier of the frontmost application.
+    ///   - frames: AppKit display frames, primary display first.
+    @MainActor
+    static func screenIndex(forWindows windows: [[String: Any]], ownerPID: pid_t, in frames: [CGRect]) -> Int? {
+        // A compact utility can itself be the active window when no larger window follows it.
+        var compactScreen: Int?
+        for info in windows {
+            // Ignore entries from other apps, floating layers, and windows with no visible area.
+            guard (info[kCGWindowOwnerPID as String] as? pid_t) == ownerPID,
+                  (info[kCGWindowLayer as String] as? Int) == NSWindow.Level.normal.rawValue,
+                  (info[kCGWindowAlpha as String] as? CGFloat ?? 1) > 0,
+                  let bounds = info[kCGWindowBounds as String] as? NSDictionary,
+                  let window = CGRect(dictionaryRepresentation: bounds), !window.isEmpty,
+                  let index = screenIndex(forWindow: window, in: frames) else { continue }
+
+            // A title-bar-sized overlay can precede the actual document at the same window level.
+            if window.width > emptyTitleBarSize.width || window.height > emptyTitleBarSize.height { return index }
+            if compactScreen == nil { compactScreen = index }
+        }
+        return compactScreen
     }
 
     /// - Parameters:
