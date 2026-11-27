@@ -114,7 +114,7 @@ Both global shortcuts and the Quick Look key can be changed in **Settings > Shor
 - Clip Queue: copy several things, then paste them back in order with <kbd>⌘</kbd> <kbd>V</kbd>
 - `clipbara://open`, `clipbara://toggle`, and `clipbara://queue` links for launchers such as Raycast, Alfred, or Shortcuts
 - A hideable menu bar icon, and a panel that can open without animation
-- English, Korean, and Simplified Chinese
+- English, Korean, Simplified Chinese, and Spanish
 - Excluded apps, so a password manager never reaches the history
 - History limit by count or age, appearance, and launch at login
 - JSON export and import for moving between machines or builds
